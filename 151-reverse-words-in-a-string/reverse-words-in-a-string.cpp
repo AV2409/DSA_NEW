@@ -26,13 +26,13 @@ public:
 
             while(j<n&&validchar(s[j])==1) j++;
 
-            // vector<char>temp;
-            // for(int x=i;x<j;x++){
-            //     temp.push_back(s[x]);
-            // }
-            // words.push_back(temp);
+            string temp;
+            for(int x=i;x<j;x++){
+                temp.push_back(s[x]);
+            }
+            words.push_back(temp);
 
-            words.push_back(s.substr(i, j - i));
+            // words.push_back(s.substr(i, j - i));
 
 
             i=j+1;
