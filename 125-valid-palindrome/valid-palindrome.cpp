@@ -6,8 +6,6 @@ private:
         if (ch >= 'A' && ch <= 'Z') {
             ch = ch - 'A' + 'a';
             return 1;
-
-            
         }
         if (ch >= '0' && ch <= '9')
                 return 1;
@@ -31,15 +29,14 @@ public:
             }
 
             if (st < end && s[st] != s[end]) {
-
                 return false;
-
             }
 
             else {
-
+                
                 st++;
                 end--;
+                
             }
         }
         return true;
