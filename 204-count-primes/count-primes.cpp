@@ -6,8 +6,7 @@ public:
 
         int count = 0;
         int i = 2;
-        int prime[n];
-        fill_n(prime, n, 1);
+        vector<int> prime(n,1);
         prime[0] = 0;
         prime[1] = 0;
         for (int i = 2; i * i < n; i++) {
