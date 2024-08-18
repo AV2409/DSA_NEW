@@ -18,7 +18,7 @@ ListNode* reverse(ListNode* &head,ListNode* curr,ListNode* prev)
     curr->next=prev;
     prev=curr;
     curr=next;
-    return reverse(next,curr,prev);
+    return reverse(head,curr,prev);
 
 }
 public:
