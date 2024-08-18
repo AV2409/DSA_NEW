@@ -10,16 +10,30 @@
  */
 class Solution {
 private: 
-ListNode* reverse(ListNode* &head,ListNode* curr,ListNode* prev)
-{  
-    if(curr==NULL) return prev;
+// ListNode* reverse(ListNode* &head,ListNode* curr,ListNode* prev)
+// {  
+//     if(curr==NULL) return prev;
 
-    ListNode* next=curr->next;
-    curr->next=prev;
-    prev=curr;
-    curr=next;
-    return reverse(next,curr,prev);
+//     ListNode* next=curr->next;
+//     curr->next=prev;
+//     prev=curr;
+//     curr=next;
+//     return reverse(next,curr,prev);
 
+// }
+
+void reverse1(ListNode* &head, ListNode* curr, ListNode* prev) {
+    if (curr == nullptr) {
+        head = prev; // Update the head pointer
+        return;
+    }
+
+    ListNode* next = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+    head=prev;
+    reverse1(head, curr, prev);
 }
 public:
     ListNode* reverseList(ListNode* head) 
@@ -36,10 +50,15 @@ public:
         }
         return prev;
         */
-
+/*
         ListNode* curr = head;
         ListNode* prev = NULL;
         return reverse(head,curr,prev);
+*/
 
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        reverse1(head,curr,prev);
+        return head;
     }
 };
