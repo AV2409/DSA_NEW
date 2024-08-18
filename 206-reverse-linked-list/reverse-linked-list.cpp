@@ -9,8 +9,22 @@
  * };
  */
 class Solution {
+private: 
+ListNode* reverse(ListNode* &head,ListNode* curr,ListNode* prev)
+{  
+    if(curr==NULL) return prev;
+
+    ListNode* next=curr->next;
+    curr->next=prev;
+    prev=curr;
+    curr=next;
+    return reverse(next,curr,prev);
+
+}
 public:
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverseList(ListNode* head) 
+    {
+        /*
         ListNode* curr = head;
         ListNode* prev = NULL;
         ListNode* next= NULL;
@@ -21,6 +35,11 @@ public:
             curr=next;
         }
         return prev;
-        
+        */
+
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        return reverse(head,curr,prev);
+
     }
 };
