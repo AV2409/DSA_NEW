@@ -11,15 +11,16 @@
 class Solution {
 private:
     // Function to check if there are at least k nodes left in the list
-    bool isPossible(ListNode* head, int k) {
-        int count = 0;
-        ListNode* temp = head;
-        while (temp && count < k) {
-            count++;
-            temp = temp->next;
-        }
-        return count == k;
+    bool isPossible(ListNode* head, int k){
+    int i=1;
+    ListNode* temp=head;
+    while(temp){
+        if(i==k) return true;
+        i++;
+        temp=temp->next;
     }
+    return false;
+}
 
     int getlength(ListNode* head, int k) {
         int c = 0;
