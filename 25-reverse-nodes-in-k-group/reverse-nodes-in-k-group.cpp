@@ -22,13 +22,14 @@ private:
     return false;
 }
 
-    int getlength(ListNode* head, int k) {
-        int c = 0;
+    bool getlength(ListNode* head, int k) {
+        int c = 1;
         while (head != NULL) {
+            if(c==k) return true;
             c++;
             head = head->next;
         }
-        return c;
+        return false;
     }
 
 public:
@@ -57,7 +58,7 @@ public:
         //
         if (forward != NULL) {
             // head->next=kreverse(forwars,k);
-            if (getlength(forward, k) >= k) {
+            if (getlength(forward, k)) {
                 head->next = reverseKGroup(forward, k);
 
             } else {
