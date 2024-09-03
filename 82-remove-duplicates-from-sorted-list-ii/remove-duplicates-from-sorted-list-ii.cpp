@@ -10,45 +10,40 @@
  */
 class Solution {
 private:
-    void insert_at_tail(ListNode*& head, int x) {
-        if (head == NULL) {
-            head = new ListNode(x);
-            return;
-        }
-
-        ListNode* temp = head;
-        while (temp->next) {
-            temp = temp->next;
-        }
-        ListNode* newnode = new ListNode(x);
-        temp->next = newnode;
-    }
-
 public:
     ListNode* deleteDuplicates(ListNode* head) {
 
+        if (!head)
+            return nullptr;
+        ListNode* prev = NULL; // Previous node starts at dummy
+        ListNode* curr = head; // Current node starts at head
 
-        ListNode* temp = head;
-        map<int, int> mp;
-        if (head == NULL)
-            return head;
-        while (temp) {
-            if (mp.find(temp->val) == mp.end()) {
-                mp.insert({temp->val, 1});
+        while (curr) {
+            bool isDuplicate = false;
+
+            // Check if current node is a duplicate
+            while (curr->next && curr->val == curr->next->val) {
+                curr = curr->next;
+                isDuplicate = true;
             }
 
-            else {
-                mp[temp->val]++;
+            // If duplicates were found, skip them
+            if (isDuplicate) {
+                if (prev == NULL) {
+                    head = curr->next;
+                } else
+                    prev->next = curr->next;
+            } else {
+                if (prev == NULL) {
+                    prev = head;
+                } else
+
+                    prev = prev->next;
             }
-            temp = temp->next;
+
+            curr = curr->next;
         }
-        ListNode* head1 = NULL;
-        for (auto it : mp) {
-            if (it.second == 1) {
-                insert_at_tail(head1, it.first);
-            }
 
-        }
-        return head1;
+        return head;
     }
 };
