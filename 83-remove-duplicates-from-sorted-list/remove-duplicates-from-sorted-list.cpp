@@ -9,41 +9,27 @@
  * };
  */
 class Solution {
-private:
-    void insert_at_tail(ListNode*& head, int x) {
-        if (head == NULL) {
-            head = new ListNode(x);
-            return;
-        }
-
-        ListNode* temp = head;
-        while (temp->next) {
-            temp = temp->next;
-        }
-        ListNode* newnode = new ListNode(x);
-        temp->next = newnode;
-    }
-
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode* head1 = NULL;
+        ListNode* u = head;
 
-        ListNode* temp = head;
-        if(head==NULL) return head;
-        if (head1 == NULL) {
-            insert_at_tail(head1, temp->val);
-            temp = temp->next;
-        }
+        while (u) {
+            ListNode* temp = u->next;
 
-        ListNode* temp1 = head1;
+            while (temp) {
+                if (temp->val == u->val) {
+                    ListNode* duplicate = temp;
+                    temp = temp->next;
+                    u->next = temp;
+                    delete duplicate; // Free memory of the duplicate node
+                }
 
-        while (temp) {
-            if (temp1->val != temp->val) {
-                insert_at_tail(head1, temp->val);
-                temp1 = temp1->next;
+                else {
+                    temp = temp->next;
+                }
             }
-            temp = temp->next;
+            u = u->next;
         }
-        return head1;
+        return head;
     }
 };
