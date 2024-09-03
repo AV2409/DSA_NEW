@@ -26,24 +26,7 @@ private:
 
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        // ListNode* head1 = NULL;
 
-        // ListNode* temp = head;
-        // if(head==NULL) return head;
-        // if (head1 == NULL) {
-        //     insert_at_tail(head1, temp->val);
-        //     temp = temp->next;
-        // }
-
-        // ListNode* temp1 = head1;
-
-        // while (temp) {
-        //     if (temp1->val != temp->val) {
-        //         insert_at_tail(head1, temp->val);
-        //         temp1 = temp1->next;
-        //     }
-        //     temp = temp->next;
-        // }
 
         ListNode* temp = head;
         map<int, int> mp;
