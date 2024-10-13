@@ -92,7 +92,6 @@ public:
                     temp[i][j] += temp[i - 1][j];
                 }
             }
-            cout << area << endl;
             area = max(area, find_area(temp[i]));
         }
         return area;
