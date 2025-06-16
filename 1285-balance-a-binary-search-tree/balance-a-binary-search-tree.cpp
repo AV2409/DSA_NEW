@@ -21,7 +21,7 @@ public:
 
     }
 
-    TreeNode* buildBST(int s,int e,vector<int>arr){
+    TreeNode* buildBST(int s,int e,vector<int>&arr){
         if(s>e){
             return NULL;
         }
