@@ -1,11 +1,11 @@
 class Solution {
 public:
-    void dfs_traversal(vector<vector<int>> isConnected, int node,
-                       vector<int>& visited,int n) {
+    void dfs_traversal(vector<vector<int>> &isConnected, int node,
+                       vector<int>& visited, int n) {
         visited[node] = 1;
-        for (int i =0;i<n;i++) {
+        for (int i = 0; i < n; i++) {
             if ((isConnected[node][i] == 1) && (!visited[i]))
-                dfs_traversal(isConnected, i, visited,n);
+                dfs_traversal(isConnected, i, visited, n);
         }
     }
     int findCircleNum(vector<vector<int>>& isConnected) {
@@ -14,7 +14,7 @@ public:
         int cnt = 0;
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
-                dfs_traversal(isConnected, i, visited,n);
+                dfs_traversal(isConnected, i, visited, n);
                 cnt++;
             }
         }
