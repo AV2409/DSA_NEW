@@ -7,12 +7,12 @@ public:
         for (int i = 0; i < m; i++) {
             int u = prerequisites[i][0];
             int v = prerequisites[i][1];
-            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
 
         vector<int> indeg(numCourses, 0);
         for (int i = 0; i < m; i++) {
-            int v = prerequisites[i][1];
+            int v = prerequisites[i][0];
             indeg[v]++;
         }
 
@@ -34,6 +34,9 @@ public:
                     q.push(it);
                 }
             }
+        }
+        for (int i : ans) {
+            cout << i << " ";
         }
         return (ans.size() == numCourses);
     }
