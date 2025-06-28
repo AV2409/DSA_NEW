@@ -22,11 +22,11 @@ public:
                 q.push(i);
             }
         }
-        vector<int> ans;
+        int cnt=0;
         while (!q.empty()) {
             int ele = q.front();
             q.pop();
-            ans.push_back(ele);
+            cnt++;
 
             for (int it : adj[ele]) {
                 indeg[it]--;
@@ -35,9 +35,6 @@ public:
                 }
             }
         }
-        for (int i : ans) {
-            cout << i << " ";
-        }
-        return (ans.size() == numCourses);
+        return (cnt == numCourses);
     }
 };
