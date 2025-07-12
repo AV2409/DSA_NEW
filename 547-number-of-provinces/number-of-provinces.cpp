@@ -67,9 +67,7 @@ public:
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (isConnected[i][j]) {
-                    if (ds.findUParent(i) != ds.findUParent(j)) {
-                        ds.unionByRank(i, j);
-                    }
+                    ds.unionByRank(i, j);
                 }
             }
         }
