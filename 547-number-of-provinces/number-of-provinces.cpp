@@ -1,12 +1,12 @@
 class DisjointSet {
 public:
     vector<int> parent;
-    vector<int> size;
+    // vector<int> size;
     vector<int> rank;
 
     DisjointSet(int n) {
         rank.resize(n + 1, 0);
-        size.resize(n + 1, 1);
+        // size.resize(n + 1, 1);
         parent.resize(n + 1);
         for (int i = 0; i <= n; i++) {
             parent[i] = i;
@@ -39,22 +39,22 @@ public:
         }
     }
 
-    void unionBySize(int u, int v) {
-        int ulp_u = findUParent(u);
-        int ulp_v = findUParent(v);
+    // void unionBySize(int u, int v) {
+    //     int ulp_u = findUParent(u);
+    //     int ulp_v = findUParent(v);
 
-        if (ulp_u == ulp_v) {
-            return;
-        }
+    //     if (ulp_u == ulp_v) {
+    //         return;
+    //     }
 
-        if (size[ulp_u] < size[ulp_v]) {
-            parent[ulp_u] = ulp_v;
-            size[ulp_v] += size[ulp_u];
-        } else {
-            parent[ulp_v] = ulp_u;
-            size[ulp_u] += size[ulp_v];
-        }
-    }
+    //     if (size[ulp_u] < size[ulp_v]) {
+    //         parent[ulp_u] = ulp_v;
+    //         size[ulp_v] += size[ulp_u];
+    //     } else {
+    //         parent[ulp_v] = ulp_u;
+    //         size[ulp_u] += size[ulp_v];
+    //     }
+    // }
 };
 
 class Solution {
