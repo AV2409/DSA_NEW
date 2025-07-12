@@ -52,7 +52,7 @@ public:
     int maximalRectangle(vector<vector<char>>& matrix) {
         int n = matrix.size();
         int m = matrix[0].size();
-        vector<int> arr(m + 1, 0);
+        vector<int> arr(m, 0);
 
         int maxRec = 0;
         for (int i = 0; i < n; i++) {
