@@ -14,8 +14,9 @@ public:
                     sq += curr[j];
                 }
             }
+
             prev = curr;
-            curr = vector<int>(m + 1, 0);
+            curr = vector<int>(m+1,0);
         }
 
         return sq;
