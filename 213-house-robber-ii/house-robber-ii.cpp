@@ -2,21 +2,23 @@ class Solution {
 public:
     int findMaxSum(vector<int>& arr) {
         int n = arr.size();
-        vector<int> dp(n + 1); // dp[i] represents max sum for first i elements
-        dp[0] = 0;             // Base case: no elements
-        dp[1] = arr[0];        // Base case: only first element
+        int p2 = 0;      // Base case: no elements
+        int p1 = arr[0]; // Base case: only first element
+        int curr = 0;
 
         for (int i = 2; i <= n; i++) {
-            int np = dp[i - 1];             // Not pick current element
-            int p = arr[i - 1] + dp[i - 2]; // Pick current element
-            dp[i] = max(p, np);             // Store max in dp[i]
+            int np = p1;             // Not pick current element
+            int p = arr[i - 1] + p2; // Pick current element
+            curr = max(p, np);       // Store max in dp[i]
+            p2 = p1;
+            p1 = curr;
         }
 
-        return dp[n]; // Final answer
+        return p1; // Final answer
     }
 
     int rob(vector<int>& nums) {
-        int n=nums.size();
+        int n = nums.size();
         if (n == 0)
             return 0;
         if (n == 1)
