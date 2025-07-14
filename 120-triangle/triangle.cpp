@@ -5,7 +5,7 @@ public:
         int m = triangle[n - 1].size();
         vector<int> next(m, 0);
         for (int i = n - 1; i >= 0; i--) {
-            vector<int> curr(i+1, 0);
+            vector<int> curr(m, 0);
             for (int j = 0; j <= i; j++) {
                 if (i == n - 1)
                     curr[j] = triangle[i][j];
