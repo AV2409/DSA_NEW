@@ -1,25 +1,21 @@
 class Solution {
 public:
-    int f(int i, int j, vector<vector<int>>& triangle, int n,
-          vector<vector<int>>& dp) {
-        if (i == n - 1)
-            return dp[i][j] = triangle[i][j];
-
-        if (i > n - 1)
-            return 1e9;
-
-        if (dp[i][j] != -1)
-            return dp[i][j];
-        int down = f(i + 1, j, triangle, n, dp);
-        int diag = f(i + 1, j + 1, triangle, n, dp);
-
-        return dp[i][j] = triangle[i][j] + min(down, diag);
-    }
-
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
         int m = triangle[0].size();
-        vector<vector<int>> dp(n, vector<int>(n, -1));
-        return f(0, 0, triangle, n, dp);
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                if (i == n - 1)
+                    dp[i][j] = triangle[i][j];
+                else {
+                    int down = dp[i + 1][j];
+                    int diag = dp[i + 1][j + 1];
+
+                    dp[i][j] = triangle[i][j] + min(down, diag);
+                }
+            }
+        }
+        return dp[0][0];
     }
 };
