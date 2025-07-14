@@ -2,10 +2,9 @@ class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
-        int m = triangle[n - 1].size();
-        vector<int> next(m, 0);
+        vector<int> next(n, 0);
         for (int i = n - 1; i >= 0; i--) {
-            vector<int> curr(m, 0);
+            vector<int> curr(n, 0);
             for (int j = 0; j <= i; j++) {
                 if (i == n - 1)
                     curr[j] = triangle[i][j];
