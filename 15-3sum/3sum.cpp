@@ -12,20 +12,22 @@ public:
                 if(sum==0){
                     vector<int>temp={nums[i],nums[l],nums[r]};
                     st.insert(temp);
-                    while (l < r && nums[l] == nums[l + 1]) l++;
-                    while (l < r && nums[r] == nums[r - 1]) r--;
                     l++;
                     r--;
                 }
                 else if(sum<0){
                     l++;
                 }
-                else if(sum>0){
+                else{
                     r--;
                 }
             }
         }
-        vector<vector<int>>ans(st.begin(),st.end());
-        return ans;
+        vector<vector<int>>result;
+        for (auto& triplet : st) {
+            result.push_back(triplet);
+        }
+
+        return result;
     }
 };
