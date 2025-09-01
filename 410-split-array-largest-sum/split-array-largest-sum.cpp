@@ -20,10 +20,10 @@ public:
     int splitArray(vector<int>& nums, int k) {
         int low=*max_element(nums.begin(),nums.end());
         int high=accumulate(nums.begin(),nums.end(),0);
-        int ans;
-
+        int ans=high;
+        int mid=(low+high)/2;
         while(low<=high){
-            int mid=(low+high)/2;
+            
             if(isPossible(mid,nums,k)){
                 ans=mid;
                 high=mid-1;
@@ -31,6 +31,7 @@ public:
             else{
                 low=mid+1;
             }
+            mid=(low+high)/2;
         }
         return ans;
     }
