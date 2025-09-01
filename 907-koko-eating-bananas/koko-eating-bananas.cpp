@@ -1,51 +1,41 @@
-bool ispossible(vector<int>& piles, int h,int mid){
-
-        int hours=0;
-        for(int i=0;i<piles.size();i++){
-            hours=hours+(piles[i]/mid);
-
-            if(piles[i]%mid!=0) {
-                hours++;
-            }
-
-            if(hours>h) return 0;
-            
-        }
-
-        return 1;
-
-    }
-
 class Solution {
 public:
+    bool isPossible(int mid,vector<int>& piles, int h){
+        int n=piles.size();
+        int hours=0;
 
+        for(int i=0;i<n;i++){
+            int x=piles[i]/mid;
+            int y=1;
+            if(x!=0) y=piles[i]%mid;
+
+            if(y!=0) y=1;
+            hours=hours+x+y;
+
+            if(hours>h) return false;
+        }
+
+        if(hours<=h) return true;
+        return false;
+    }
     int minEatingSpeed(vector<int>& piles, int h) {
-
-        sort(piles.begin(),piles.end());
-
-        int s=1;
-        int e=piles[piles.size()-1];
-
-        int mid=s+(e-s)/2;
-        int k;
-
-        while(s<=e){
-
-        if(ispossible(piles,h,mid)){
-            k=mid;
-            e=mid-1;
+        int n=piles.size();
+        int low=1;
+        int high=-1;
+        for(int i=0;i<n;i++){
+            high=max(high,piles[i]);
         }
-
-        else{
-            s=mid+1;
+        int ans=0;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(isPossible(mid,piles,h)){
+                ans=mid;
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
+            }
         }
-
-        mid=s+(e-s)/2;
-
-        }
-        return k;
-
-
-        
+        return ans;
     }
 };
