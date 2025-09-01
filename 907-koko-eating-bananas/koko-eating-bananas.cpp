@@ -5,13 +5,9 @@ public:
         int hours=0;
 
         for(int i=0;i<n;i++){
-            int x=piles[i]/mid;
-            int y=1;
-            if(x!=0) y=piles[i]%mid;
 
-            if(y!=0) y=1;
-            hours=hours+x+y;
-
+            int temp=ceil(double(piles[i])/mid);
+            hours=hours+temp;
             if(hours>h) return false;
         }
 
