@@ -5,7 +5,6 @@ public:
         int hours=0;
 
         for(int i=0;i<n;i++){
-
             int temp=ceil(double(piles[i])/mid);
             hours=hours+temp;
             if(hours>h) return false;
