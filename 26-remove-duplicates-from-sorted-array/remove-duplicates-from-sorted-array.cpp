@@ -2,19 +2,16 @@ class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
         int n = nums.size();
-        int idx = 0;
-        int j = 1;
-        int i=0;
-        while(i<n) {
-            int j = i + 1;
-            while (j < n && nums[j] == nums[j - 1])
-                j++;
-            if (j < n)
-                nums[idx+1]=nums[j];
-            idx++;
-            i=j;
+        if (n == 0) return 0;
+
+        int idx = 0; // last unique element position
+        for (int i = 1; i < n; i++) {
+            if (nums[i] != nums[idx]) { 
+                idx++;
+                nums[idx] = nums[i]; // place the new unique element
+            }
         }
 
-        return idx;
+        return idx + 1; // length of unique portion
     }
 };
