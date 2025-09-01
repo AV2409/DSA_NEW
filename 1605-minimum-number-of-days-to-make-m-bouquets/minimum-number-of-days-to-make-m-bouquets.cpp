@@ -5,21 +5,20 @@ public:
         int n=arr.size();
         int cnt=0;
 
-        int i=0;
-        while(i+k<=n){
-            int valid=true;
-            for(int j=0;j<k;j++){
-                if(arr[i+j]>mid){
-                    valid=false;
-                    i+=j+1;
-                    break;
+        int flowers=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]<=mid){
+                flowers++;
+                if(flowers==k) {
+                    cnt++;
+                    flowers=0;
                 }
+
+                if(cnt==m) return true;
             }
-            if(valid) {
-                cnt++;
-                i+=k;
+            else{
+                flowers=0;
             }
-            if(cnt>=m) return true;
         }
         return false;
     }
