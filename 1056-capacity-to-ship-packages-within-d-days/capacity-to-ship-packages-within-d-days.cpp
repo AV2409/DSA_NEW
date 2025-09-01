@@ -4,12 +4,12 @@ public:
     bool isPossible(int mid,vector<int>& weights, int days){
         int d=1;
         int sum=0;
-        int n=weights.size();
-        for(int i=0;i<n;i++){
-            sum+=weights[i];
+        
+        for(auto i:weights){
+            sum+=i;
             if(sum>mid){
                 d++;
-                sum=weights[i];
+                sum=i;
             }
             if(d>days) return false;
         }
