@@ -15,8 +15,7 @@ public:
             if(hours>h) return false;
         }
 
-        if(hours<=h) return true;
-        return false;
+        return true;
     }
     int minEatingSpeed(vector<int>& piles, int h) {
         int n=piles.size();
