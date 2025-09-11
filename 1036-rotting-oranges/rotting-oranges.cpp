@@ -19,9 +19,9 @@ public:
             }
         }
 
-        while (!q.empty()) {
+        while (!q.empty()&&f>0) {
             int s = q.size();
-            bool flag = false;
+            t++;
             for (int i = 0; i < s; i++) {
                 pair<int, int> p = q.front();
                 q.pop();
@@ -39,12 +39,9 @@ public:
                         visited[nx][ny] = 1;
                         grid[nx][ny] = 2;
                         f--;
-                        flag = true;
                     }
                 }
             }
-            if (flag)
-                t++;
         }
         if (f == 0) {
             return t;
