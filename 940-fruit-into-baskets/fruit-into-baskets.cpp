@@ -13,13 +13,13 @@ public:
             if(mp[fruits[r]]==0) unq_cnt++;
             mp[fruits[r]]++;
 
-            while(unq_cnt>2){
+            if(unq_cnt>2){
                 mp[fruits[l]]--;
                 if(mp[fruits[l]]==0) unq_cnt--;
                 l++;
             }
 
-            res=max(res,r-l+1);
+            if(unq_cnt<=2) res=max(res,r-l+1);
             r++;
         }
         return res;
