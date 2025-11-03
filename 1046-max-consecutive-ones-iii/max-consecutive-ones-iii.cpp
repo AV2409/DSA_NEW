@@ -5,22 +5,19 @@ public:
         int r = 0;
         int res = 0;
         int n = nums.size();
-        while (r < n && l<n) {
-            if (nums[r] == 0) {
-                if (k > 0) {
-                    k--;
-                    r++;
-                } else {
-                    if (nums[l] == 0) {
-                        k++;
-                    }
-                    l++;
-                }
-            }
-            else
-                r++;
+        while (r < n) {
+            if (nums[r] == 0)
+                k--;
 
-            res = max(res, r - l);
+            if(k < 0) {
+                if (nums[l] == 0) {
+                    k++;
+                }
+                l++;
+            }
+
+            if(k>=0) res = max(res, r - l+1);
+            r++;
         }
         return res;
     }
