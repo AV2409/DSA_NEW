@@ -8,14 +8,12 @@ public:
             st.insert(str);
         }
 
-        priority_queue<pair<int, string>, vector<pair<int, string>>,
-                       greater<pair<int, string>>>
-            q;
+        queue<pair<int, string>> q;
 
         q.push({1, beginWord});
 
         while (!q.empty()) {
-            auto tt = q.top();
+            auto tt = q.front();
             q.pop();
 
             string word = tt.second;
