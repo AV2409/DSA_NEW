@@ -14,7 +14,7 @@ public:
         }
 
         if(cnt==0) return nums;
-
+        k %= cnt;
         while(k--){
             int temp=q.front();
             q.pop();
