@@ -4,17 +4,15 @@ public:
         vector<vector<int>> ans;
 
         priority_queue<pair<int, pair<int, int>>> pq;
-        for (auto &point : points) {
+        for (auto& point : points) {
             int x = point[0];
             int y = point[1];
             int dist = x * x + y * y;
-            if (pq.size() == k) {
-                if (pq.top().first > dist) {
-                    pq.pop();
-                    pq.push({dist, {x, y}});
-                }
-            } else {
-                pq.push({dist, {x, y}});
+
+            pq.push({dist, {x, y}});
+
+            if (pq.size() > k) {
+                pq.pop();
             }
         }
 
