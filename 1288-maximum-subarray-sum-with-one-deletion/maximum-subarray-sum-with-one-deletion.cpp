@@ -14,12 +14,12 @@ public:
             nodelete = max(nodelete + arr[i], arr[i]);
             int temp;
             if(pod==-1e9) {
-                temp=arr[i];
+                pod=arr[i];
             }
             else{
-                temp=pod+arr[i];
+                pod=pod+arr[i];
             }
-            onedelete = max(pnd, temp);
+            onedelete = max(pnd, pod);
 
             ans = max({ans, nodelete, onedelete});
         }
