@@ -2,7 +2,7 @@ class Solution {
 public:
 
     bool valid(vector<int>have,vector<int>needed){
-        for(int i=0;i<255;i++){
+        for(int i=0;i<256;i++){
             if(have[i]<needed[i]) return false;
         }
         return true;
@@ -19,16 +19,18 @@ public:
             needed[c]++;
         }
         int l=0;
+        int cnt=0;
         for(int r=0;r<n1;r++){
-            have[s[r]]++;
+            if(needed[s[r]]>0) cnt++;
+            needed[s[r]]--;
 
-            while(valid(have,needed)){
-
+            while(cnt==t.size()){
                 if(len>r-l+1){
                     len=min(len,r-l+1);
                     start=l;
                 }
-                have[s[l]]--;
+                needed[s[l]]++;
+                if(needed[s[l]]>0) cnt--;
                 l++;
             }
         }
