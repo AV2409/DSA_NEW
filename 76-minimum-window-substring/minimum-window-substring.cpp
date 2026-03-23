@@ -1,44 +1,40 @@
 class Solution {
 public:
+
+    bool valid(vector<int>have,vector<int>needed){
+        for(int i=0;i<255;i++){
+            if(have[i]<needed[i]) return false;
+        }
+        return true;
+    }
     string minWindow(string s, string t) {
-        int n1 = s.size();
-        int n2 = t.size();
-        map<char, int> mp;
-        for (char c : t)
-            mp[c]++;
+        int n1=s.size();
+        int n2=t.size();
 
-        int l = 0;
-        int r = 0;
-        int st = -1;
-        int end = -1;
-        int cnt = 0;
-        int minl = INT_MAX;
-        while (r < n1) {
+        vector<int>needed(256);
+        vector<int>have(256);
+        int len=1e9;
+        int start=-1;
+        for(char c:t){
+            needed[c]++;
+        }
+        int l=0;
+        for(int r=0;r<n1;r++){
+            have[s[r]]++;
 
-            if (mp[s[r]] > 0)
-                cnt++;
-            mp[s[r]]--;
+            while(valid(have,needed)){
 
-            while (cnt == n2) {
-                if (r - l + 1 < minl) {
-                    st = l;
-                    end = r;
-                    minl=r-l+1;
+                if(len>r-l+1){
+                    len=min(len,r-l+1);
+                    start=l;
                 }
-                mp[s[l]]++;
-                if (mp[s[l]] > 0)
-                    cnt--;
+                have[s[l]]--;
                 l++;
             }
-            r++;
         }
-        string ans = "";
-        if (st == -1 || end == -1)
-            return ans;
 
-        for (int i = st; i <= end; i++) {
-            ans += s[i];
-        }
+        if(len==1e9) return "";
+        string ans=s.substr(start,len);
         return ans;
     }
 };
