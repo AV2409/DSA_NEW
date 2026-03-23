@@ -2,21 +2,26 @@ class Solution {
 public:
     int maximumSum(vector<int>& arr) {
         int n = arr.size();
-        int dp[n + 1][2];
-        int ans=arr[0];
-        dp[0][0]=-1e9;
-        dp[0][1]=-1e9;
-        for (int i = 1; i <= n; i++) {
+        int nodelete = arr[0];
+        int onedelete = -1e9;
 
-            int op1 = arr[i - 1];              
-            int op2 = arr[i - 1] + dp[i - 1][0]; 
-            dp[i][0] = max(op1, op2);
+        int ans = arr[0];
 
-    
-            dp[i][1] = max(dp[i - 1][0],          
-                           arr[i - 1] + dp[i - 1][1] 
-            );
-            ans = max({ans, dp[i][0], dp[i][1]});
+        for (int i = 1; i < n; i++) {
+            int pnd = nodelete;
+            int pod = onedelete;
+
+            nodelete = max(nodelete + arr[i], arr[i]);
+            int temp;
+            if(pod==-1e9) {
+                temp=arr[i];
+            }
+            else{
+                temp=pod+arr[i];
+            }
+            onedelete = max(pnd, temp);
+
+            ans = max({ans, nodelete, onedelete});
         }
         return ans;
     }
