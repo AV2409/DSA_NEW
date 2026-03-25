@@ -1,7 +1,7 @@
 class Solution {
 public:
     string removeDuplicates(string s, int k) {
-        stack<pair<int,int>>st;
+        stack<pair<char,int>>st;
 
         for(char c:s){
             if(st.empty()||st.top().first!=c) st.push({c,1});
