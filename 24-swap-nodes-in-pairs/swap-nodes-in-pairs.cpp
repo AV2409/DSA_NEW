@@ -33,17 +33,19 @@ public:
         ListNode* temp=head;
         ListNode* nextGroup=head->next->next; 
         ListNode* start=reverse(temp);
-        ListNode* prevTail=head;
-        prevTail->next = nextGroup;
+        ListNode* prevTail=start->next;
+        // prevTail->next = nextGroup;
         temp=nextGroup;
         while(temp&&temp->next){
             ListNode* nextGroup=temp->next->next;  
             ListNode* newHead = reverse(temp);
             prevTail->next=newHead;
             prevTail = temp;
-            prevTail->next = nextGroup;
+            // prevTail->next = nextGroup;
             temp=nextGroup;
         }
+
+        prevTail->next=temp;
 
         return start;
 
