@@ -34,19 +34,15 @@ public:
         ListNode* nextGroup=head->next->next; 
         ListNode* start=reverse(temp);
         ListNode* prevTail=start->next;
-        // prevTail->next = nextGroup;
         temp=nextGroup;
         while(temp&&temp->next){
             ListNode* nextGroup=temp->next->next;  
             ListNode* newHead = reverse(temp);
             prevTail->next=newHead;
-            prevTail = temp;
-            // prevTail->next = nextGroup;
+            prevTail = newHead->next;
             temp=nextGroup;
         }
-
         prevTail->next=temp;
-
         return start;
 
     }
