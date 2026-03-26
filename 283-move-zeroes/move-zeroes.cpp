@@ -9,7 +9,7 @@ public:
             j=i+1;
             while(j<n&&nums[j]==0) j++;
 
-            if(i<j && i<n && j<n) swap(nums[i],nums[j]);
+            if(i<j && i<n && j<n) swap(nums[i++],nums[j++]);
         }
     }
 };
