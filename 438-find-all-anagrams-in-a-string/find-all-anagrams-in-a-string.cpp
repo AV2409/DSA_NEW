@@ -2,7 +2,7 @@ class Solution {
 public:
     bool check(vector<int>&need,vector<int>&have){
         for(int i=0;i<26;i++){
-            if(need[i]<have[i]) return false;
+            if(need[i]!=have[i]) return false;
         }
         return true;
     }
