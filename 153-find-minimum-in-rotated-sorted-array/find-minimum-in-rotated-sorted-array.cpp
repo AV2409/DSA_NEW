@@ -1,23 +1,19 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int n = nums.size();
-        int r = n - 1;
-        int l = 0;
-        int ans=5001;
-        while (l <= r) {
-            int mid = (l + r) / 2;
-
-            if(nums[l]<=nums[mid]) {
-                ans=min(nums[l],ans);
-                l=mid+1;
-            }
-            else {
-                ans=min(nums[mid],ans);
-                r = mid-1;
-            }
-           
+        int l=0;
+        int r=nums.size()-1;
+        int n=nums.size();
+        int mid;
+        if(n==1) return nums[0];
+        if(nums[0]>nums[1]) return nums[1];
+        if(nums[0]<nums[r]) return nums[0];
+        while(l<r){
+            mid=(l+r)/2;
+            if(nums[mid]>nums[r]) l=mid+1;
+            else r=mid;
         }
-        return ans;;
+        int idx=(r)%n;
+        return nums[idx];
     }
 };
