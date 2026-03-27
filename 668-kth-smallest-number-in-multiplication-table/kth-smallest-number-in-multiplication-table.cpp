@@ -3,11 +3,8 @@ public:
     bool isPossible(int m,int n, int ans, int k) {
         int j = n - 1;
         int cnt = 0;
-        for (int i = 0; i < m; i++) {
-            while (j >= 0 && (i + 1) * (j + 1) > ans) {
-                j--;
-            }
-            cnt += j + 1;
+        for (int i = 1; i <= m; i++) {
+            cnt += min(n,ans/i);
             if (cnt >= k)
                 return true;
         }
