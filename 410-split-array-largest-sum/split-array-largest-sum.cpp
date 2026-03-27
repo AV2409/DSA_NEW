@@ -1,38 +1,36 @@
 class Solution {
 public:
-
-    bool isPossible(int mid,vector<int>& nums, int k){
-        int temp=1;
-        int sum=0;
-
-        for(int n:nums){
-            if(sum+n>mid){
-                temp++;
-                sum=n;
-                if(temp>k) return false;
-            }
-            else{
-                sum+=n;
+    bool isPossible(vector<int>& arr, int k, int mid) {
+        int n = arr.size();
+        int sum = 0;
+        int cnt = 1;
+        for (int i = 0; i < n; i++) {
+            if (sum + arr[i] <= mid) {
+                sum += arr[i];
+            } else {
+                cnt++;
+                sum = arr[i];
             }
         }
-        return true;
+        return cnt <= k;
     }
     int splitArray(vector<int>& nums, int k) {
-        int low=*max_element(nums.begin(),nums.end());
-        int high=accumulate(nums.begin(),nums.end(),0);
-        int ans=high;
-        int mid=(low+high)/2;
-        while(low<=high){
-            
-            if(isPossible(mid,nums,k)){
-                ans=mid;
-                high=mid-1;
-            }
-            else{
-                low=mid+1;
-            }
-            mid=(low+high)/2;
+        int l = *max_element(nums.begin(), nums.end());
+        int n = nums.size();
+        if (k > n)
+            return -1;
+        int r = accumulate(nums.begin(), nums.end(), 0);
+        int ans = r;
+        int mid;
+        while (l <= r) {
+            mid = l + (r - l) / 2;
+            if (isPossible(nums, k, mid)) {
+                ans = mid;
+                r = mid - 1;
+            } else
+                l = mid + 1;
         }
+
         return ans;
     }
 };
