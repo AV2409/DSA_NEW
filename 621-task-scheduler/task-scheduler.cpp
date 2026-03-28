@@ -35,7 +35,7 @@ public:
                 st.pop();
             }
 
-            if (!pq.empty() && x>0)
+            if (!pq.empty()&&x>0)
                 cnt += x;
         }
         return cnt;
