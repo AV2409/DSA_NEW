@@ -11,18 +11,18 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        while(root){
-            if((root->val>p->val)&&(root->val>q->val)){
-                root=root->left;
-            }
-            else if((root->val<p->val)&&(root->val<q->val)){
-                root=root->right;
-            }
-            else{
-                return root;
-            }
+
+        int x = min(p->val, q->val);
+        int y = max(p->val, q->val);
+
+        TreeNode* head = root;
+
+        while (head) {
+            if ((head->val >= x) && (head->val <= y))
+                return head;
+            if ((head->val > x) && (head->val > y)) head=head->left;
+            if ((head->val < x) && (head->val < y)) head=head->right;
         }
-        return root;
-        
+        return NULL;
     }
 };
