@@ -20,8 +20,8 @@ public:
         while (head) {
             if ((head->val >= x) && (head->val <= y))
                 return head;
-            if ((head->val > x) && (head->val > y)) head=head->left;
-            if ((head->val < x) && (head->val < y)) head=head->right;
+            if (head->val > y) head=head->left;
+            if (head->val < x)  head=head->right;
         }
         return NULL;
     }
