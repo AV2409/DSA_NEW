@@ -11,18 +11,23 @@
  */
 class Solution {
 public:
-    void find(TreeNode* root, int k,vector<int> &ans){
-        if(root==NULL){
+    void find(TreeNode* root, int k,int &ans,int &cnt){
+        if(root==NULL||ans!=-1){
             return;
         }
 
-        find(root->left,k,ans);
-        ans.push_back(root->val);
-        find(root->right,k,ans);
+        find(root->left,k,ans,cnt);
+        cnt++;
+        if(cnt==k) {
+            ans=root->val;
+            return;
+        }
+        find(root->right,k,ans,cnt);
     }
     int kthSmallest(TreeNode* root, int k) {
-        vector<int> ans;
-        find(root,k,ans);
-        return ans[k-1];
+        int ans=-1;
+        int cnt=0;
+        find(root,k,ans,cnt);
+        return ans;
     }
 };
