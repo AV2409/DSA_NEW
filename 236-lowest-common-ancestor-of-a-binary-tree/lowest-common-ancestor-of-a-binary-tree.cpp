@@ -16,7 +16,7 @@ public:
         int l=helper(root->left,p,q,ans);
         int r=helper(root->right,p,q,ans);
         int s=0;
-        if(root->val==p->val||root->val==q->val){
+        if(root==p||root==q){
             s=1;
         }
 
