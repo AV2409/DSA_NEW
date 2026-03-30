@@ -12,23 +12,27 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int &cnt,int& mini) {
+    int helper(TreeNode* root) {
         if (root == NULL)
-            return;
-        cnt++;
+            return 0;
+
         if (root->left == NULL && root->right == NULL) {
-            mini = min(mini, cnt);
-        } else {
-            helper(root->left, cnt, mini);
-            helper(root->right, cnt, mini);
+            return 1;
+        } 
+
+        if (root->left == NULL){
+            return 1+helper(root->right);
         }
-        cnt--;
+
+        if (root->right == NULL){
+            return 1+helper(root->left);
+        }
+
+        return 1+min(helper(root->left),helper(root->right));
+
     }
     int minDepth(TreeNode* root) {
         if(!root) return 0;
-        int cnt=0;
-        int mini=INT_MAX;
-        helper(root,cnt,mini);
-        return mini;
+        return helper(root);
     }
 };
