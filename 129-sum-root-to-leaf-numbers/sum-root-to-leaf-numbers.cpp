@@ -12,29 +12,24 @@
  */
 class Solution {
 public:
-    void check(TreeNode* root, int &temp,
-               vector<int>& ans) {
+    void check(TreeNode* root, int &temp,int &sum) {
         if (root == NULL)
             return;
         
         temp=temp*10+root->val;
         if (!root->left && !root->right) {
-            ans.push_back(temp);
+            sum+=temp;
         } else {
-            check(root->left, temp, ans);
-            check(root->right, temp, ans);
+            check(root->left, temp, sum);
+            check(root->right, temp, sum);
         }
 
         temp=temp/10;
     }
     int sumNumbers(TreeNode* root) {
-        vector<int>ans;
         int temp=0;
-        check(root,temp,ans);
         int sum=0;
-        for(int x:ans){
-            sum+=x;
-        }
+        check(root,temp,sum);
         return sum;
     }
 };
