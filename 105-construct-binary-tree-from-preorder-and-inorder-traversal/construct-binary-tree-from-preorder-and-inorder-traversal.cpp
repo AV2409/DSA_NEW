@@ -12,13 +12,13 @@
 class Solution {
 public:
 
-    TreeNode* build(vector<int>& preorder, vector<int>& inorder,unordered_map<int,int>&mp,int &idx,int low,int high){
+    TreeNode* build(vector<int>& preorder,unordered_map<int,int>&mp,int &idx,int low,int high){
         if (low > high) return NULL;
         TreeNode* root=new TreeNode(preorder[idx]);
         int i=mp[preorder[idx]];
         idx++;
-        root->left=build(preorder,inorder,mp,idx,low,i-1);
-        root->right=build(preorder,inorder,mp,idx,i+1,high);
+        root->left=build(preorder,mp,idx,low,i-1);
+        root->right=build(preorder,mp,idx,i+1,high);
 
         return root;
     }
@@ -29,6 +29,6 @@ public:
         }
         int idx=0;
 
-        return build(preorder,inorder,mp,idx,0,inorder.size()-1);
+        return build(preorder,mp,idx,0,inorder.size()-1);
     }
 };
