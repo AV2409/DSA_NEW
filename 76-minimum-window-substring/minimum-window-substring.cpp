@@ -1,9 +1,9 @@
 class Solution {
 public:
 
-    bool valid(vector<int>have,vector<int>needed){
+    bool valid(vector<int>&have,vector<int>&needed){
         for(int i=0;i<256;i++){
-            if(have[i]<needed[i]) return false;
+            if(needed[i]>have[i]) return false;
         }
         return true;
     }
@@ -11,32 +11,34 @@ public:
         int n1=s.size();
         int n2=t.size();
 
+        string ans="";
+        if(n2>n1) return ans;
+        int start=0;
+        int minLen=1e9;
+
+        int l=0;
+        int r=0;
         vector<int>needed(256);
         vector<int>have(256);
-        int len=1e9;
-        int start=-1;
+
         for(char c:t){
             needed[c]++;
         }
-        int l=0;
-        int cnt=0;
-        for(int r=0;r<n1;r++){
-            if(needed[s[r]]>0) cnt++;
-            needed[s[r]]--;
 
-            while(cnt==t.size()){
-                if(len>r-l+1){
-                    len=min(len,r-l+1);
-                    start=l;
+        for(int r=0;r<n1;r++){
+            have[s[r]]++;
+            while(valid(have,needed)){
+                if (r - l + 1 < minLen) {
+                    minLen = r - l + 1;
+                    start = l;
                 }
-                needed[s[l]]++;
-                if(needed[s[l]]>0) cnt--;
+                have[s[l]]--;
                 l++;
             }
         }
 
-        if(len==1e9) return "";
-        string ans=s.substr(start,len);
-        return ans;
+        if(minLen==1e9) return ans;
+        string res = s.substr(start, minLen); 
+        return res;
     }
 };
