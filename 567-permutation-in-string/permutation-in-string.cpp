@@ -1,39 +1,36 @@
-
 class Solution {
 public:
-    bool check(vector<int>& need, vector<int>& have) {
-        for (int i = 0; i < 26; i++) {
-            if (need[i] < have[i])
-                return false;
+    bool valid(vector<int>&have,vector<int>&needed){
+        for(int i=0;i<26;i++){
+            if(needed[i]!=have[i]) return false;
         }
         return true;
     }
-    bool checkInclusion(string s1, string s2) 
-    {
-        vector<int> need(26);
-        vector<int> have(26);
-        if (s1.size() > s2.size())
-            return false;
-        for (char c : s1)
-            need[c - 'a']++;
-        int k = s1.size();
+    bool checkInclusion(string s1, string s2) {
+        int n1=s1.size();
+        int n2=s2.size();
+        if(n1>n2) return false;
 
-        for (int i = 0; i < k; i++) {
-            have[s2[i] - 'a']++;
+        vector<int>needed(26);
+        vector<int>have(26);
+
+        for(char c:s1){
+            needed[c-'a']++;
         }
-        int idx = 0;
-        if (check(need, have))
-            return true;
 
-        int j = k;
-        int n = s2.size();
-        while (j < n) {
-            have[s2[j] - 'a']++;
-            have[s2[idx] - 'a']--;
-            idx++;
-            if (check(need, have))
-                return true;
-            j++;
+        int l=0;
+        int r=0;
+        while(r<n1){
+            have[s2[r]-'a']++;
+            r++;
+        }
+        if(valid(have,needed)) return true;
+        while(r<n2){
+            have[s2[r]-'a']++;
+            r++;
+            have[s2[l]-'a']--;
+            l++;
+            if(valid(have,needed)) return true;
         }
         return false;
     }
