@@ -24,15 +24,26 @@ public:
         for(char c:t){
             needed[c]++;
         }
+        int cnt=t.size();
 
         for(int r=0;r<n1;r++){
-            have[s[r]]++;
-            while(valid(have,needed)){
+            if (needed[s[r]] > 0) {
+                have[s[r]]++;
+                if (have[s[r]] <= needed[s[r]]) {
+                    cnt--;
+                }
+            }
+            while(cnt==0){
                 if (r - l + 1 < minLen) {
                     minLen = r - l + 1;
                     start = l;
                 }
-                have[s[l]]--;
+                if (needed[s[l]] > 0) {
+                    have[s[l]]--;
+                    if (have[s[l]] < needed[s[l]]) {
+                        cnt++;
+                    }
+                }
                 l++;
             }
         }
