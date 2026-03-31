@@ -16,8 +16,8 @@ public:
             mp[nums[i]]++;
             if (mp[nums[i]] > 1)
                 return true;
-            i++;
             mp[nums[idx]]--;
+            i++;
             idx++;
             
         }
