@@ -6,41 +6,39 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<int, map<int, multiset<int>>> m;
-        queue<pair<TreeNode*, pair<int, int>>> q;
-        q.push({root, {0, 0}});
-        while (!q.empty()) {
-            auto curr = q.front();
+        vector<vector<int>>ans;
+        if(!root) return ans;
+        
+        queue<pair<TreeNode*,pair<int,int>>>q;
+        q.push({root,{0,0}});
+        //{hd,vd,set}
+        map<int, map<int, multiset<int>>> mp;
+        
+        while(!q.empty()){
+            auto [node,p]=q.front();
             q.pop();
-            TreeNode* node = curr.first;
-            int hd = curr.second.first;
-            int lvl = curr.second.second;
-            m[hd][lvl].insert(node->val);
-            if (node->left) {
-                q.push({node->left, {hd - 1, lvl + 1}});
-            }
-
-            if (node->right) {
-                q.push({node->right, {hd + 1, lvl + 1}});
-            }
+            int hd=p.first;
+            int v=p.second;
+            mp[hd][v].insert(node->val);
+            if(node->left) q.push({node->left,{hd-1,v+1}});
+            if(node->right) q.push({node->right,{hd+1,v+1}});
         }
-        vector<vector<int>> ans;
-        for (auto i : m) {
-            vector<int> temp;
-            for (auto j : i.second) {
-                for (auto k : j.second) {
-                    temp.push_back(k);
+        for(auto it:mp){
+            vector<int>temp;
+            for(auto rows: it.second){
+                for(int x:rows.second){
+                    temp.push_back(x);
                 }
             }
             ans.push_back(temp);
         }
         return ans;
+
     }
 };
