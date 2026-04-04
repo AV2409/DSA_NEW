@@ -24,7 +24,7 @@ public:
                     flag=true;
                 }
             }
-            if(temp->val<val){
+            else{
                 if(temp->right) temp=temp->right;
                 else{
                     temp->right=node;
