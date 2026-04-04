@@ -13,38 +13,20 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        queue<TreeNode*> q;
         TreeNode* curr = root;
         while (curr != NULL) {
-            if (curr->left == NULL) {
-                q.push(curr);
-                curr = curr->right;
-            } else {
+            if (curr->left != NULL) {
                 TreeNode* temp = curr->left;
-                while (temp->right != NULL && temp->right != curr) {
+                while (temp->right) {
                     temp = temp->right;
                 }
-                if (temp->right == NULL) {
-                    temp->right = curr;
-                    q.push(curr);
-                    curr = curr->left;
-                } else if (temp->right == curr) {
-                    temp->right = NULL;
-                    curr = curr->right;
-                }
+
+                temp->right = curr->right;
+                curr->right = curr->left;
+                curr->left = NULL;
             }
-        }
-        if(q.empty()) return;
-        root=q.front();
-        q.pop();
-        TreeNode* c=root;
-        c->left=NULL;
-        while(!q.empty()){
-            TreeNode* node=q.front();
-            q.pop();
-            c->right=node;
-            c->left=NULL;
-            c=node;
+            curr=curr->right;
         }
     }
+
 };
