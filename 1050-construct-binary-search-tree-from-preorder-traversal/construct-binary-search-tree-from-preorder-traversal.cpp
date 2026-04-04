@@ -14,13 +14,10 @@ public:
 
     TreeNode* build(vector<int>& preorder,int &idx,int mini,int maxi){
         if(idx>=preorder.size()) return NULL;
-        TreeNode* root=NULL;
-        if(preorder[idx]>mini && preorder[idx]<maxi){
-            root=new TreeNode(preorder[idx]);
-            idx++;
-        }
-        if(!root) return NULL;
-
+        int val=preorder[idx];
+        if(val<=mini||val>=maxi) return NULL;
+        TreeNode* root=new TreeNode(preorder[idx]);
+        idx++;
         root->left=build(preorder,idx,mini,root->val);
         root->right=build(preorder,idx,root->val,maxi);
         return root;
