@@ -12,29 +12,30 @@
  */
 class Solution {
 public:
-    int ans = 0;
-    // {isBST, sum, minVal, maxVal}
-    vector<int> isBst(TreeNode* root) {
-        if (!root)
-            return {1, 0, INT_MAX, INT_MIN};
-        auto l = isBst(root->left);
-        auto r = isBst(root->right);
-        if (l[0] && r[0] && root->val > l[3] && root->val < r[2]) {
-            int sum = root->val + l[1] + r[1];
-            ans = max(ans, sum);
+    struct Node {
+        bool isBst;
+        int sum;
+        int mini;
+        int maxi;
+    };
+    int ans=0;
 
-            int mini = min({root->val, l[2],r[2]});
-            int maxi = max({root->val, r[3],l[3]});
+    Node helper(TreeNode* root){
+        if(!root) return {true,0,INT_MAX,INT_MIN};
 
-            return {1, sum, mini, maxi};
+        Node l=helper(root->left);
+        Node r=helper(root->right);
+        int sum=0;
+        if(l.isBst && r.isBst && root->val>l.maxi && root->val<r.mini){
+            sum+=root->val+l.sum+r.sum;
+            ans=max(ans,sum);
+            return {true,sum,min(l.mini,root->val),max(root->val,r.maxi)};
         }
-
-        return {0, 0, INT_MIN, INT_MAX};
+        return {false,0,INT_MIN,INT_MAX};
     }
+
     int maxSumBST(TreeNode* root) {
-        isBst(root);
-        if (ans == -1e9)
-            return 0;
+        helper(root);
         return ans;
     }
 };
