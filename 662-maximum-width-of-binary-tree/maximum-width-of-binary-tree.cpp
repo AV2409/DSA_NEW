@@ -21,7 +21,7 @@ public:
             int s = q.size();
             long long l = 0;
             long long r = 0;
-            int mini=q.front().second;
+            long long mini=q.front().second;
             for (int i = 0; i < s; i++) {
                 auto [node, idx] = q.front();
                 q.pop();
