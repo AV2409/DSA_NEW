@@ -1,52 +1,49 @@
 class Solution {
 public:
+
     int orangesRotting(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        int t = 0;
-        vector<vector<int>> visited(n, vector<int>(m, 0));
-        int f = 0;
         queue<pair<int, int>> q;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> vis(m, vector<int>(n, 0));
+        int fresh = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1)
+                    fresh++;
                 if (grid[i][j] == 2) {
                     q.push({i, j});
-                    visited[i][j] = 1;
-                }
-                if (grid[i][j] == 1) {
-                    f++;
+                    vis[i][j]=1;
                 }
             }
         }
+        if (fresh == 0)
+            return 0;
 
-        while (!q.empty()&&f>0) {
+        vector<int>dx={0,0,-1,1};
+        vector<int>dy={-1,1,0,0};
+        int ans = 0;
+        while (!q.empty() && fresh > 0) {
             int s = q.size();
-            t++;
+            ans++;
             for (int i = 0; i < s; i++) {
-                pair<int, int> p = q.front();
+                auto [x, y] = q.front();
                 q.pop();
-                int x = p.first;
-                int y = p.second;
-                int dx[4] = {-1, 0, 1, 0};
-                int dy[4] = {0, -1, 0, 1};
-                for (int dir = 0; dir < 4; dir++) {
-                    int nx = x + dx[dir];
-                    int ny = y + dy[dir];
 
-                    if ((nx >= 0 && nx < n) && (ny >= 0 && ny < m) &&
-                        (grid[nx][ny] == 1) && (!visited[nx][ny])) {
-                        q.push({nx, ny});
-                        visited[nx][ny] = 1;
-                        grid[nx][ny] = 2;
-                        f--;
+                for(int d=0;d<4;d++){
+                    int nx=x+dx[d];
+                    int ny=y+dy[d];
+                    if(nx>=0 && nx<m && ny>=0 && ny<n && !vis[nx][ny] && grid[nx][ny]==1){
+                        q.push({nx,ny});
+                        vis[nx][ny]=1;
+                        fresh--;
                     }
                 }
             }
         }
-        if (f == 0) {
-            return t;
-        } else {
-            return -1;
-        }
+
+        if(fresh==0) return ans;
+        return -1;
     }
 };
