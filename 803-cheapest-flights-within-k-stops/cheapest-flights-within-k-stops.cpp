@@ -20,8 +20,7 @@ public:
         while(!pq.empty()){
             auto [d,node,st]=pq.top();
             pq.pop();
-
-
+            if (d > dist[st][node]) continue;
             for(auto [nei,wt]:adj[node]){
                 if( st<k+1 && wt+d<dist[st+1][nei]){
                     dist[st+1][nei]=wt+d;
