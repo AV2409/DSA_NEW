@@ -21,11 +21,9 @@ public:
             auto [d,node,st]=pq.top();
             pq.pop();
 
-            if (st > k) continue;
-            // if(node==dst) return d;
 
             for(auto [nei,wt]:adj[node]){
-                if(wt+d<dist[st+1][nei]){
+                if( st<k+1 && wt+d<dist[st+1][nei]){
                     dist[st+1][nei]=wt+d;
                     pq.push({dist[st+1][nei], nei, st+1});
                 }
