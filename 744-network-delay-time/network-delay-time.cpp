@@ -20,6 +20,8 @@ public:
             auto [d,node]=pq.top();
             pq.pop();
 
+            if(d>dist[node]) continue;
+
             for(auto [nei,wt]:adj[node]){
                 if(d+wt<dist[nei]){
                     dist[nei]=d+wt;
