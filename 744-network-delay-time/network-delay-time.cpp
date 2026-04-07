@@ -1,57 +1,38 @@
-const auto _ = std::cin.tie(nullptr)->sync_with_stdio(false);
-#define LC_HACK
-#ifdef LC_HACK
-const auto __ = []()
-{
-    struct ___
-    {
-        static void _() { std::ofstream("display_runtime.txt") << 0 << '\n'; }
-    };
-    std::atexit(&___::_);
-    return 0;
-}();    
-#endif
-
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<vector<pair<int, int>>> adj(n+1);
-        for (auto it : times) {
-            int u = it[0];
-            int v = it[1];
-            int del = it[2];
+        
+        vector<vector<pair<int,int>>>adj(n+1);
+        for(auto it:times){
+            int u=it[0];
+            int v=it[1];
+            int wt=it[2];
 
-            adj[u].push_back({v, del});
+            adj[u].push_back({v,wt});
         }
-        vector<int> delay(n+1, 1e8);
-        delay[k]=0;
-        delay[0]=-1;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> q;
-        q.push({0, k});
-        while (!q.empty()) {
-            auto p = q.top();
-            q.pop();
-            int del = p.first;
-            int node = p.second;
 
-            for (auto it : adj[node]) {
-                int adjNode = it.first;
-                int d = it.second;
+        vector<int>dist(n+1,1e9);
 
-                if (d + del < delay[adjNode]) {
-                    delay[adjNode] = d + del;
-                    q.push({delay[adjNode], adjNode});
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        pq.push({0,k});
+        dist[k]=0;
+        while(!pq.empty()){
+            auto [d,node]=pq.top();
+            pq.pop();
+
+            for(auto [nei,wt]:adj[node]){
+                if(d+wt<dist[nei]){
+                    dist[nei]=d+wt;
+                    pq.push({dist[nei],nei});
                 }
             }
         }
-
-        int ans = 0;
-        for (int i : delay) {
-            if (i == 1e8) {
-                return -1;
-            }
-            ans = max(ans, i);
+        int ans=0;
+        for(int i=1;i<=n;i++){
+            if(dist[i]==1e9) return -1;
+            ans=max(ans,dist[i]);
         }
         return ans;
+
     }
 };
