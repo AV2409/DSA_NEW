@@ -1,33 +1,31 @@
 class Solution {
 public:
-    int findMaxSum(vector<int>& arr) {
-        int n = arr.size();
-        int p2 = 0;      // Base case: no elements
-        int p1 = arr[0]; // Base case: only first element
-        int curr = 0;
+    int helper(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1)
+            return nums[0];
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        dp[1] = max(nums[1], nums[0]);
+        for (int i = 2; i < n; i++) {
+            int o1 = dp[i - 1];
+            int o2 = nums[i] + dp[i - 2];
 
-        for (int i = 2; i <= n; i++) {
-            int np = p1;             // Not pick current element
-            int p = arr[i - 1] + p2; // Pick current element
-            curr = max(p, np);       // Store max in dp[i]
-            p2 = p1;
-            p1 = curr;
+            dp[i] = max(o1, o2);
         }
-
-        return p1; // Final answer
+        return dp[n - 1];
     }
 
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        if (n == 0)
-            return 0;
-        if (n == 1)
-            return nums[0]; // Important base case
-        vector<int> temp(nums.begin() + 1, nums.end());
-        int x1 = findMaxSum(temp);
+        if (nums.size() == 1)
+            return nums[0];
+        if (nums.size() == 2)
+            return max(nums[0], nums[1]);
+        vector<int> temp(nums.begin(), nums.end() - 1);
+        vector<int> temp1(nums.begin() + 1, nums.end());
 
-        vector<int> temp1(nums.begin(), nums.end() - 1);
-        int x2 = findMaxSum(temp1);
+        int x1 = helper(temp);
+        int x2 = helper(temp1);
 
         return max(x1, x2);
     }
