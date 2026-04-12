@@ -15,7 +15,7 @@ public:
                 j++;
             }
 
-            if(w1[i]!=w2[j]) {
+            else{
                 j++;
             }
 
