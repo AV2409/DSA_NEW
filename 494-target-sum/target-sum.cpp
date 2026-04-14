@@ -24,12 +24,11 @@ public:
         for (int i = 0; i < n; i++) {
             sum += nums[i];
         }
+        sum-=target;
 
-        if ((sum - target) < 0 || (sum - target) % 2 != 0) {
+        if ((sum) < 0 || (sum) % 2 != 0) {
             return 0;
         }
-
-        int d = (sum - target) / 2;
-        return perfectSum_tab(nums, d);
+        return perfectSum_tab(nums, sum/2);
     }
 };
