@@ -2,7 +2,7 @@ class Solution {
 public:
     
     int superEggDrop(int k, int n) {
-        vector<vector<int>> dp(k + 1, vector<int>(n + 1, -1));
+        vector<vector<int>> dp(k + 1, vector<int>(n + 1, 0));
         for (int i = 1; i <= k; i++) {
             dp[i][0] = 0;
             dp[i][1] = 1;
@@ -10,11 +10,11 @@ public:
 
         for (int i = 1; i <= n; i++) {
             dp[1][i] = i;
-            dp[0][i] = 1e9;
+            // dp[0][i] = 1e9;
         }
 
-        for (int i = 1; i <= k; i++) {
-            for (int j = 1; j <= n; j++) {
+        for (int i = 2; i <= k; i++) {
+            for (int j = 2; j <= n; j++) {
                 int mini = 1e9;
                 int low = 1, high = j;
                 while (low <= high) {
