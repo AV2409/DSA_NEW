@@ -1,32 +1,35 @@
 class MinStack {
 public:
-stack<int>st;
-stack<int>minSt;
-    MinStack() {
+    stack<long long> st;
+    long long mini = 1e18;
+    MinStack() {}
 
-    }
-    
     void push(int val) {
-        st.push(val);
-        if(minSt.empty()||val<=minSt.top()) minSt.push(val);
+        if (st.empty()) {
+            st.push(val);
+            mini=val;
+        }
+        else if (val < mini) {
+            st.push(2LL * val - mini);
+            mini=val;
+        } else
+            st.push(val);
     }
-    
+
     void pop() {
-        int ele=st.top();
+        long long ele = st.top();
         st.pop();
-        if(ele==minSt.top()) minSt.pop();
+        if (ele < mini)
+            mini = 2 * mini - ele;
     }
-    
+
     int top() {
-        if(st.empty()) return -1;
-        return st.top();
+        long long ele = st.top();
+        if (ele < mini) return mini;  // encoded case
+        return ele;
     }
-    
-    int getMin() {
-        if(minSt.empty()) return -1;
-        return minSt.top();
-        
-    }
+
+    int getMin() { return mini; }
 };
 
 /**
