@@ -44,11 +44,7 @@ public:
         pp->next = nn;
         nn->prev = pp;
 
-        node->next = head->next;
-        head->next->prev = node;
-        head->next = node;
-        node->prev = head;
-
+        insertAtHead(head,node);
         return vall;
     }
 
