@@ -20,6 +20,13 @@ void insertAtHead(Node*& head, Node*& node) {
     node->prev = head;
 }
 
+void delete_node(Node*& node) {
+    Node* nn = node->next;
+    Node* pp = node->prev;
+    pp->next = nn;
+    nn->prev = pp;
+}
+
 class LRUCache {
 public:
     Node* head;
@@ -39,12 +46,8 @@ public:
             return -1;
         int vall = mp[key]->val;
         Node* node = mp[key];
-        Node* nn = node->next;
-        Node* pp = node->prev;
-        pp->next = nn;
-        nn->prev = pp;
-
-        insertAtHead(head,node);
+        delete_node(node);
+        insertAtHead(head, node);
         return vall;
     }
 
@@ -54,11 +57,7 @@ public:
             node->val = value;
 
             // remove
-            Node* nn = node->next;
-            Node* pp = node->prev;
-            pp->next = nn;
-            nn->prev = pp;
-
+            delete_node(node);
             insertAtHead(head, node);
             return;
         }
@@ -69,18 +68,15 @@ public:
             mp[key] = node;
             return;
 
-        } 
-        else if (mp.size() >= cap) {
+        } else if (mp.size() >= cap) {
             Node* toDel = tail->prev;
-            Node* pp = toDel->prev;
-            pp->next = tail;
-            tail->prev = pp;
+            delete_node(toDel);
             mp.erase(toDel->key);
             delete toDel;
             Node* node = new Node(key, value);
             insertAtHead(head, node);
             mp[key] = node;
-        } 
+        }
     }
 };
 
