@@ -31,44 +31,40 @@ public:
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        unordered_map<string,int>mp;
-        int rows=accounts.size();
+        unordered_map<string, int> mp;
+        int rows = accounts.size();
         DisjointSet ds(rows);
 
-        for(int i=0;i<rows;i++){
-            int ss=accounts[i].size();
-            for(int j=1;j<ss;j++){
-                if(mp.count(accounts[i][j])){
-                    ds.unite(i,mp[accounts[i][j]]);
-                }
-                else{
-                    mp[accounts[i][j]]=i;
+        for (int i = 0; i < rows; i++) {
+            int ss = accounts[i].size();
+            for (int j = 1; j < ss; j++) {
+                if (mp.count(accounts[i][j])) {
+                    ds.unite(i, mp[accounts[i][j]]);
+                } else {
+                    mp[accounts[i][j]] = i;
                 }
             }
         }
 
-        unordered_map<int,set<string>>ff;
+        unordered_map<int, set<string>> ff;
 
-        for(auto it:mp){
-            string mail=it.first;
-            int idx=it.second;
-            int par=ds.find(idx);
-
-            ff[par].insert(mail);
+        for (int i = 0; i < rows; i++) {
+            int parent = ds.find(i);
+            for (int j = 1; j < accounts[i].size(); j++) {
+                ff[parent].insert(accounts[i][j]);
+            }
         }
-
-        int x=ff.size();
-        int i=0;
-        vector<vector<string>>ans(x);
-        for(auto it:ff){
-            int idx=it.first;
-            string name=accounts[idx][0];
-            ans[i].push_back(name);
-            for(string st:it.second) ans[i].push_back(st);
-            i++;
-        }
-
         
+        vector<vector<string>> ans;
+        for (auto& it : ff) {
+            vector<string> temp;
+            temp.push_back(accounts[it.first][0]);
+            for (auto& mail : it.second) {
+                temp.push_back(mail);
+            }
+
+            ans.push_back(temp);
+        }
         return ans;
     }
 };
