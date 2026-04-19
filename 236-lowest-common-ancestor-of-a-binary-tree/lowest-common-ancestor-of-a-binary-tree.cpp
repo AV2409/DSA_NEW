@@ -9,36 +9,22 @@
  */
 class Solution {
 public:
+    TreeNode* ans=NULL;
 
-    TreeNode* lca(TreeNode* root, TreeNode* p, TreeNode* q,TreeNode* &ans){
-        if(ans) return ans;
-        if(!root) return NULL;
-        
-        TreeNode* l=lca(root->left,p,q,ans);
-        TreeNode* r=lca(root->right,p,q,ans);
-        TreeNode* temp=NULL;
-        if(root==p || root==q){
-            temp=root;
-        }
+    int helper(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(ans) return 2;
+        if(!root) return 0;
 
-        if((temp&&l)||(temp&&r)){
-            if(ans==NULL) ans=temp;
-            return temp;
-        }
-        if(l&&r) {
-            if(ans==NULL) ans=root;
-            return root;
-        }
+        int val=0;
+        if(root==p||root==q) val=1;
+        int l=helper(root->left,p,q);
+        int r=helper(root->right,p,q);
 
-        if(temp) return temp;
-        if(l) return l;
-        if(r) return r;
-        return NULL;
+        if(val+l+r==2 && ans==NULL) ans=root;
+        return val+l+r;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        TreeNode* ans=NULL;
-
-        lca(root,p,q,ans);
+        helper(root,p,q);
         return ans;
     }
 };
