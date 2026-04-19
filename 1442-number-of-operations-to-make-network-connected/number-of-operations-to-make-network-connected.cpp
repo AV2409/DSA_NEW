@@ -2,10 +2,8 @@ class DisjointSet {
 public:
     vector<int> parent;
     vector<int> size;
-    vector<int> rank;
 
     DisjointSet(int n) {
-        rank.resize(n + 1, 0);
         size.resize(n + 1, 1);
         parent.resize(n + 1);
         for (int i = 0; i <= n; i++) {
@@ -13,47 +11,26 @@ public:
         }
     }
 
-    int findUParent(int node) {
+    int find(int node) {
         if (node == parent[node]) {
             return node;
         }
 
-        return parent[node] = findUParent(parent[node]);
+        return parent[node] = find(parent[node]);
     }
 
-    void unionByRank(int u, int v) {
-        int ulp_u = findUParent(u);
-        int ulp_v = findUParent(v);
-
+    void unite(int u, int v) {
+        int ulp_u = find(u);
+        int ulp_v = find(v);
         if (ulp_u == ulp_v) {
             return;
         }
 
-        if (rank[ulp_u] < rank[ulp_v]) {
-            parent[ulp_u] = ulp_v;
-        } else if (rank[ulp_u] > rank[ulp_v]) {
-            parent[ulp_v] = ulp_u;
-        } else {
-            parent[ulp_v] = ulp_u;
-            rank[ulp_u]++;
-        }
-    }
+        if (size[ulp_u] < size[ulp_v])
+            swap(ulp_u, ulp_v);
 
-    void unionBySize(int u, int v) {
-        int ulp_u = findUParent(u);
-        int ulp_v = findUParent(v);
-
-        if (ulp_u == ulp_v) {
-            return;
-        }
-
-        if (size[ulp_u] < size[ulp_v]) {
-            parent[ulp_u] = ulp_v;
-            size[ulp_v] += size[ulp_u];
-        } else {
-            parent[ulp_v] = ulp_u;
-            size[ulp_u] += size[ulp_v];
-        }
+        parent[ulp_v] = ulp_u;
+        size[ulp_u] += size[ulp_v];
     }
 };
 
@@ -66,10 +43,10 @@ public:
             int u = it[0];
             int v = it[1];
 
-            if (ds.findUParent(u) == ds.findUParent(v)) {
+            if (ds.find(u) == ds.find(v)) {
                 extraEdges++;
             } else {
-                ds.unionByRank(u, v);
+                ds.unite(u, v);
             }
         }
 
