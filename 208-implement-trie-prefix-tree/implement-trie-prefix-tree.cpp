@@ -1,77 +1,66 @@
-class Node{
+class Node {
 public:
     char data;
     Node* children[26];
     bool isTerminal;
 
-    Node(char ch){
-        data=ch;
-        for(int i=0;i<26;i++){
-            children[i]=NULL;
+    Node(char ch) {
+        data = ch;
+        for (int i = 0; i < 26; i++) {
+            children[i] = NULL;
         }
-        isTerminal=false;
+        isTerminal = false;
     }
 };
 
 class Trie {
 public:
     Node* root;
-    Trie() {
-        root= new Node('\0');
-    }
+    Trie() { root = new Node('\0'); }
 
-    void insertHelper(Node* root,string word){
-        if(word.size()==0) {
-            root->isTerminal=true;
-            return;
-        }
-
-        int idx=word[0]-'a';
-        Node* child;
-        if(root->children[idx]){
-            child=root->children[idx];
-        }
-        else{
-            child=new Node(word[0]);
-            root->children[idx]=child;
-        }
-        insertHelper(child,word.substr(1));
-    }
-    
     void insert(string word) {
-        insertHelper(root,word);
-    }
-
-    bool searchHelper(Node* root,string word){
-        if(word.size()==0) return root->isTerminal;
-
-        int idx=word[0]-'a';
-        
-        if(!root->children[idx]){
-            return false;
+        int n = word.size();
+        Node* temp = root;
+        for (int i = 0; i < n; i++) {
+            int idx = word[i] - 'a';
+            Node* child;
+            if (temp->children[idx]) {
+                child = temp->children[idx];
+            } else {
+                child = new Node(word[i]);
+                temp->children[idx] = child;
+            }
+            temp = child;
         }
-        Node* child=root->children[idx];
-        return searchHelper(child,word.substr(1));
+        temp->isTerminal = true;
     }
-    
+
     bool search(string word) {
-        return searchHelper(root,word);
-    }
+        int n = word.size();
+        Node* temp = root;
+        for (int i = 0; i < n; i++) {
+            int idx = word[i] - 'a';
 
-    bool startsWithHelper(Node* root,string word){
-        if(word.size()==0) return true;
-
-        int idx=word[0]-'a';
-        
-        if(!root->children[idx]){
-            return false;
+            if (!temp->children[idx]) {
+                return false;
+            }
+            temp = temp->children[idx];
         }
-        Node* child=root->children[idx];
-        return startsWithHelper(child,word.substr(1));
+        return temp->isTerminal;
     }
-    
+
     bool startsWith(string prefix) {
-        return startsWithHelper(root,prefix);
+        int n = prefix.size();
+        Node* temp = root;
+        for (int i = 0; i < n; i++) {
+            int idx = prefix[i] - 'a';
+
+            if (!temp->children[idx]) {
+                return false;
+            }
+            temp = temp->children[idx];
+        }
+        return true;
     }
 };
 
