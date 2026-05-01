@@ -19,7 +19,8 @@ public:
         return dp[st][end] = ans;
     }
     int getMoneyAmount(int n) {
-        dp.assign(n + 1, vector<int>(n + 1, 0));
+        dp.assign(n + 2, vector<int>(n + 2, 0));
+        
 
         for (int start = n; start >= 1; start--) {
             for (int end = start; end <= n; end++) {
@@ -31,8 +32,8 @@ public:
                     int ans = INT_MAX;
                     int temp = 0;
                     for (int i = start; i <= end; i++) {
-                        int x = (i > start) ? dp[start][i - 1] : 0;
-                        int y = (i < end) ? dp[i + 1][end] : 0;
+                        int x = dp[start][i - 1];
+                        int y = dp[i + 1][end];
                         temp = i + max(x, y);
                         ans = min(ans, temp);
                     }
