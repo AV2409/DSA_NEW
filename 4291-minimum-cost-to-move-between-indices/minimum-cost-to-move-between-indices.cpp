@@ -23,10 +23,6 @@ public:
             else back[i-1]=x+back[i];
         }
 
-        for(int x:front) cout<<x<<" ";
-        cout<<endl;
-        for(int x:back) cout<<x<<" ";
-
         vector<int>ans;
         for(auto it:queries){
             int x=it[0];
