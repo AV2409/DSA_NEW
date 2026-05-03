@@ -9,23 +9,30 @@ public:
         }
         return ans;
     }
+    vector<bool> sieve(int n) {
+        vector<bool> isPrime(n + 1, true);
 
-    bool isPrime(int n) {
-        if(n==1) return false;
+        isPrime[0] = isPrime[1] = false;
+
         for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0)
-                return false;
+            if (isPrime[i]) {
+                for (int j = i * i; j <= n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
         }
-        return true;
+        return isPrime;
     }
     int sumOfPrimesInRange(int n) {
+        
         int rev = reverse(n);
 
         int st = min(n, rev);
         int end = max(n, rev);
+        vector<bool>isPrime=sieve(end);
         int ans = 0;
         for (int i = st; i <= end; i++) {
-            if (isPrime(i)) {
+            if (isPrime[i]) {
                 cout<<i<<" ";
                 ans += i;
             }
