@@ -33,7 +33,6 @@ public:
         int ans = 0;
         for (int i = st; i <= end; i++) {
             if (isPrime[i]) {
-                cout<<i<<" ";
                 ans += i;
             }
         }
