@@ -32,14 +32,26 @@ public:
         head = newNode;
     }
 
+    void insertAtTail(ListNode* &head,ListNode* &tail, int val) {
+        ListNode* newNode = new ListNode(val);
+        if (!head) {
+            head = newNode;
+            tail=newNode;
+            return;
+        }
+        tail->next=newNode;
+        tail = newNode;
+    }
+
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode* res = NULL;
+        ListNode* tail = NULL;
         int carry = 0;
         while (l1 && l2) {
             int x = l1->val + l2->val + carry;
             carry = x / 10;
             int dig = x % 10;
-            insertAtHead(res, dig);
+            insertAtTail(res,tail, dig);
             l1=l1->next;
             l2=l2->next;
         }
@@ -47,7 +59,7 @@ public:
             int x = l1->val + carry;
             carry = x / 10;
             int dig = x % 10;
-            insertAtHead(res, dig);
+            insertAtTail(res,tail, dig);
             l1=l1->next;
         }
 
@@ -55,13 +67,13 @@ public:
             int x = l2->val + carry;
             carry = x / 10;
             int dig = x % 10;
-            insertAtHead(res, dig);
+            insertAtTail(res,tail, dig);
             l2=l2->next;
         }
 
-        if(carry) insertAtHead(res, carry);
+        if(carry) insertAtTail(res,tail, carry);
 
-        res=reverse(res);
+        // res=reverse(res);
         return res;
     }
 };
