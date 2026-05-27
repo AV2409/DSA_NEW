@@ -10,27 +10,6 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head) {
-        ListNode* temp = head;
-        ListNode* prev = NULL;
-        while (temp) {
-            ListNode* next = temp->next;
-            temp->next = prev;
-            prev = temp;
-            temp = next;
-        }
-        return prev;
-    }
-
-    void insertAtHead(ListNode* &head, int val) {
-        ListNode* newNode = new ListNode(val);
-        if (!head) {
-            head = newNode;
-            return;
-        }
-        newNode->next = head;
-        head = newNode;
-    }
 
     void insertAtTail(ListNode* &head,ListNode* &tail, int val) {
         ListNode* newNode = new ListNode(val);
@@ -72,8 +51,6 @@ public:
         }
 
         if(carry) insertAtTail(res,tail, carry);
-
-        // res=reverse(res);
         return res;
     }
 };
