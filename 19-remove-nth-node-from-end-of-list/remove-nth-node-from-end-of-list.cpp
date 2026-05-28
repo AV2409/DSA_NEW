@@ -10,29 +10,29 @@
  */
 class Solution {
 public:
-    int getLen(ListNode* head){
-        int cnt=0;
-        ListNode* temp=head;
-        while(temp){
-            cnt++;
-            temp=temp->next;
-        }
-        return cnt;
-    }
+    
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        int x=getLen(head)-n+1;
-        if(x==1){
+        ListNode* fast=head;
+        ListNode* slow=head;
+        for(int i=0;i<n;i++) fast=fast->next;
+
+        if(fast==NULL){
             ListNode* temp=head;
             head=head->next;
             temp->next=NULL;
             delete(temp);
             return head;
         }
-        ListNode* temp=head;
-        for(int i=1;i<x-1;i++) temp=temp->next;
 
-        ListNode* toDel=temp->next;
-        temp->next=toDel->next;
+        while(fast->next) {
+            slow=slow->next;
+            fast=fast->next;
+        }
+
+        
+
+        ListNode* toDel=slow->next;
+        slow->next=toDel->next;
         toDel->next=NULL;
         delete(toDel);
         return head;
