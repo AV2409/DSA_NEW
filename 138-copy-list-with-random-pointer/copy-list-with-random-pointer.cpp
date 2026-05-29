@@ -41,18 +41,19 @@ public:
             temp = nextnn;
         }
 
-        Node* copyHead = head->next;
+
+
+        Node* dNode = new Node(-1);
+        Node* res=dNode;
         temp = head;
         //copy next links
         while (temp) {
-            Node* copy = temp->next;
-            temp->next=copy->next;
-            if (copy->next)
-                copy->next = copy->next->next;
-            
+            res->next=temp->next;
+            temp->next=temp->next->next;
+            res=res->next;
             temp = temp->next;
         }
 
-        return copyHead;
+        return dNode->next;
     }
 };
