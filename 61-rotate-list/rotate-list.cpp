@@ -10,21 +10,6 @@
  */
 class Solution {
 public:
-    pair<ListNode*, ListNode*> reverse(ListNode* start, ListNode* end) {
-        ListNode* retTail=start;
-        ListNode* retHead=end;
-        ListNode* temp=start;
-        ListNode* prev=NULL;
-        ListNode* stop = end->next;
-        while(temp!=stop){
-            ListNode* next=temp->next;
-            temp->next=prev;
-            prev=temp;
-            temp=next;
-        }
-        return {retHead,retTail};
-    }
-
     int getLen(ListNode* head){
         ListNode* temp=head;
         int cnt=0;
@@ -41,29 +26,16 @@ public:
         if(k==0) return head;
         int x=n-k;
 
-        ListNode* st=head;
-        ListNode* end=head;
-        while(--x){
-            end=end->next;
-        }
-        ListNode* nextst=end->next;
-        ListNode* nextend=end->next;
-        auto zz=reverse(st,end);
+        ListNode* tail=head;
+        while(tail->next) tail=tail->next;
 
-        while(--k){
-            nextend=nextend->next;
-        }
-        auto zz2=reverse(nextst,nextend);
+        tail->next=head;
+        
+        ListNode* temp=head;
+        while(--x) temp=temp->next;
 
-        ListNode* fh=zz.first;
-        ListNode* ft=zz.second;
-
-        ListNode* sh=zz2.first;
-        ListNode* stt=zz2.second;
-
-        ft->next=sh;
-
-        auto res=reverse(fh,stt);
-        return res.first;
+        ListNode* newHead=temp->next;
+        temp->next=NULL;
+        return newHead;
     }
 };
