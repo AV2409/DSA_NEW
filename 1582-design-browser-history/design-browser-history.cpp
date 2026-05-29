@@ -20,15 +20,15 @@ public:
     
     void visit(string url) {
         Node* nn=new Node(url);
-        nn->next=head;
-        head->prev=nn;
+        head->next=nn;
+        nn->prev=head;
         head=nn;
     }
     
     string back(int steps) {
         int x=steps;
         while(x--){
-            if(head->next) head=head->next;
+            if(head->prev) head=head->prev;
         }
         return head->data;
     }
@@ -36,7 +36,7 @@ public:
     string forward(int steps) {
         int x=steps;
         while(x--){
-            if(head->prev) head=head->prev;
+            if(head->next) head=head->next;
         }
         return head->data;
     }
