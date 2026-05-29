@@ -9,63 +9,39 @@
  * };
  */
 class Solution {
-private:
-    // Function to check if there are at least k nodes left in the list
-    bool isPossible(ListNode* head, int k){
-    int i=1;
-    ListNode* temp=head;
-    while(temp){
-        if(i==k) return true;
-        i++;
-        temp=temp->next;
-    }
-    return false;
-}
-
-    bool getlength(ListNode* head, int k) {
-        int c = 1;
-        while (head != NULL) {
-            if(c==k) return true;
-            c++;
-            head = head->next;
-        }
-        return false;
-    }
-
 public:
+    pair<ListNode*, ListNode*> reverse(ListNode* start, ListNode* end) {
+        ListNode* retTail=start;
+        ListNode* retHead=end;
+        ListNode* temp=start;
+        ListNode* prev=NULL;
+        ListNode* stop = end->next;
+        while(temp!=stop){
+            ListNode* next=temp->next;
+            temp->next=prev;
+            prev=temp;
+            temp=next;
+        }
+        return {retHead,retTail};
+    }
     ListNode* reverseKGroup(ListNode* head, int k) {
-    // Function to reverse k nodes
-        // Write your code here.
-        // base case
-        if (head == NULL) {
-            return NULL;
+        if (!head)
+            return head;
+
+        ListNode* start = head;
+        ListNode* end = head;
+        int cnt = k;
+        while (--cnt && end) {
+            end = end->next;
         }
+        if (!end)
+            return head;
 
-        ListNode* prev = NULL;
-        ListNode* curent = head;
-        ListNode* forward = NULL;
-
-        int c = 0;
-        while (curent != NULL && c < k ) {
-            forward = curent->next;
-
-            curent->next = prev;
-            prev = curent;
-            curent = forward;
-            c++;
-        }
-
-        //
-        if (forward != NULL) {
-            // head->next=kreverse(forwars,k);
-            if (getlength(forward, k)) {
-                head->next = reverseKGroup(forward, k);
-
-            } else {
-                head->next = forward;
-            }
-        }
-
-        return prev;
+        ListNode* nextGroup = end->next;
+        auto p = reverse(start, end);
+        ListNode* newHead = p.first;
+        ListNode* newTail = p.second;
+        newTail->next = reverseKGroup(nextGroup, k);
+        return newHead;
     }
 };
