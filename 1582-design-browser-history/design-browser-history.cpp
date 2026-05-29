@@ -29,6 +29,7 @@ public:
         int x=steps;
         while(x--){
             if(head->prev) head=head->prev;
+            else break;
         }
         return head->data;
     }
@@ -37,6 +38,7 @@ public:
         int x=steps;
         while(x--){
             if(head->next) head=head->next;
+            else break;
         }
         return head->data;
     }
