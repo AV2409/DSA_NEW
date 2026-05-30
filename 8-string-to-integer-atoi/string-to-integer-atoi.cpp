@@ -1,17 +1,5 @@
 class Solution {
 public:
-    void helper(string s, int idx, long long& ans) {
-        if (idx == s.size())
-            return;
-
-        if(ans>=INT_MAX || ans<=INT_MIN) return;
-        if (s[idx] >= '0' && s[idx] <= '9') {
-            long long dig = s[idx] - '0';
-            ans = ans * 10 + dig;
-        } else
-            return;
-        helper(s, idx + 1, ans);
-    }
     int myAtoi(string s) {
         long long ans = 0;
         int idx = 0;
@@ -30,7 +18,17 @@ public:
         }
 
         if (idx < n && s[idx] >= '0' && s[idx] <= '9') {
-            helper(s, idx, ans);
+            for (int i = idx; i < n; i++) {
+                if (ans >= INT_MAX || ans <= INT_MIN)
+                    break;
+                if (s[i] >= '0' && s[i] <= '9') {
+                    long long dig = s[i] - '0';
+                    ans = ans * 10 + dig;
+                } 
+                else {
+                    break;
+                }
+            }
         }
 
         if (neg)
