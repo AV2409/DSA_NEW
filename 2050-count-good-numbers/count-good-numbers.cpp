@@ -4,7 +4,7 @@ public:
         if (n == 0)
             return 1;
 
-        long long tt = helper(x, n / 2);
+        long long tt = helper(x, n / 2)%MOD;
         long long res = (tt * tt) % MOD;
         if (n % 2)
             res = (res * (x % MOD)) % MOD;
