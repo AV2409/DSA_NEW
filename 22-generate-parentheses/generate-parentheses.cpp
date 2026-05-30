@@ -1,26 +1,41 @@
 class Solution {
 public:
-    void f(int op, int cl, string& s, vector<string>& ans, int n) {
-        if (s.size() == 2 * n) {
-            ans.push_back(s);
+    void helper(int op,int cl,string &str,set<string>&ans){
+        if(op<0||cl<0) return;
+        if(op==0 && cl==0){
+            ans.insert(str);
             return;
         }
-
-        if (op < n) {
-            s += '(';
-            f(op + 1, cl, s, ans, n);
-            s.pop_back();
+        if(op==0){
+            str+=')';
+            helper(op,cl-1,str,ans);
+            str.pop_back();
         }
-        if (cl < op) {
-            s += ')';
-            f(op, cl + 1, s, ans, n);
-            s.pop_back();
+        if(op>cl) return;
+        if(op==cl){
+            str+='(';
+            helper(op-1,cl,str,ans);
+            str.pop_back();
+        }
+        else{
+            str+='(';
+            helper(op-1,cl,str,ans);
+            str.pop_back();
+
+            str+=')';
+            helper(op,cl-1,str,ans);
+            str.pop_back();
         }
     }
     vector<string> generateParenthesis(int n) {
-        vector<string> ans;
-        string s = "";
-        f(0, 0, s, ans, n);
-        return ans;
+        int op=n;
+        int cl=n;
+
+        string str="";
+        set<string>ans;
+        helper(op,cl,str,ans);
+        vector<string>res;
+        for(auto s:ans) res.push_back(s);
+        return res;
     }
 };
