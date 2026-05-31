@@ -1,17 +1,16 @@
 class Solution {
 public:
     void f(int i, string digits, string& s, vector<string>& ans, int n,unordered_map<char, string> &mp) {
-        if (i == n) {
+        if(i==n){
             ans.push_back(s);
             return;
         }
 
-        char ch = digits[i];
-
-        for (int x = 0; x < mp[ch].size(); x++) {
-            char cc = mp[ch][x];
-            s += cc;
-            f(i + 1, digits, s, ans, n,mp);
+        string x=mp[digits[i]];
+        int ss=x.size();
+        for(int idx=0;idx<ss;idx++){
+            s+=x[idx];
+            f(i+1,digits,s,ans,n,mp);
             s.pop_back();
         }
     }
