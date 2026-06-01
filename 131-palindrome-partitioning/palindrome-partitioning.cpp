@@ -4,7 +4,7 @@ public:
     vector<vector<string>>ans;
 
 
-    bool isPossible(string s,int l,int r){
+    bool isPossible(string &s,int l,int r){
         while(l<r){
             if(s[l]!=s[r]) return false;
             l++;
@@ -12,7 +12,7 @@ public:
         }
         return true;
     }
-    void solve(string s,int i){
+    void solve(string &s,int i){
         if(i==s.size()){
             ans.push_back(lst);
             return;
