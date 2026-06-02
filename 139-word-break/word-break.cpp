@@ -2,7 +2,7 @@ class Solution {
 public:
     set<string>dict;
     vector<int> dp;
-    bool solve(string s,int idx){
+    bool solve(string &s,int idx){
         if(idx==s.size()) return true;
         if(dp[idx]!=-1) return dp[idx];
         for(int i=idx;i<s.size();i++){
