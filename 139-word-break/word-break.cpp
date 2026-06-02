@@ -1,6 +1,6 @@
 class Solution {
 public:
-    set<string>dict;
+    unordered_set<string>dict;
     vector<int> dp;
     bool solve(string &s,int idx){
         if(idx==s.size()) return true;
