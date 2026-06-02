@@ -1,48 +1,48 @@
 class Solution {
 public:
-    bool isPossible(int r,int c,char dig,vector<vector<char>>& board){
-        int stR=(r/3)*3;
-        int stC=(c/3)*3;
 
-        for(int i=0;i<9;i++){
-            if(i==c) continue;
-            if(board[r][i]==dig) return false;
-        }
+    bool isPossible(vector<vector<char>>& board,int i,int j){
+        int sr=(i/3)*3;
+        int sc=(j/3)*3;
 
-        for(int i=0;i<9;i++){
-            if(i==r) continue;
-            if(board[i][c]==dig) return false;
-        }
-
-        for(int i=stR;i<stR+3;i++){
-            for(int j=stC;j<stC+3;j++){
-                if(i==r && j==c) continue;
-                if(board[i][j]==dig) return false;
+        for(int r=sr;r<sr+3;r++){
+            for(int c=sc;c<sc+3;c++){
+                if(r==i && c==j) continue;
+                if(board[r][c]==board[i][j]) return false;
             }
+        }
+
+        for(int x=0;x<9;x++){
+            if(x==i) continue;
+            if(board[x][j]==board[i][j]) return false;
+        }
+
+        for(int x=0;x<9;x++){
+            if(x==j) continue;
+            if(board[i][x]==board[i][j]) return false;
         }
         return true;
     }
-
-    bool solve(vector<vector<char>>& board){
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
-                if(board[i][j]=='.'){
-                    for(char ch='1';ch<='9';ch++){
-                        if(isPossible(i,j,ch,board)){
-                            board[i][j]=ch;
-                            if(solve(board)) return true;
-                            board[i][j]='.';
-                        }
-                    }
-                    return false;
-                }
-            }
+    bool solve(vector<vector<char>>& board,int i,int j){
+        if(j==9){
+            j=0;
+            i++;
         }
-        return true;
-    }
+        if(i==9) return true;
+        if(board[i][j]!='.') {
+            return solve(board,i,j+1);
+        }
+        for(char x='1';x<='9';x++){
+            board[i][j]=x;
+            if(isPossible(board,i,j)){
+                if(solve(board,i,j+1)) return true;
+            }
+            board[i][j]='.';
+        }
 
-    
+        return false;
+    }
     void solveSudoku(vector<vector<char>>& board) {
-        solve(board);
+        solve(board,0,0);
     }
 };
