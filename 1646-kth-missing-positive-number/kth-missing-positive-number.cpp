@@ -4,7 +4,7 @@ public:
         int n = arr.size();
         int l = 1;
         int h = arr[n - 1] + k;
-
+        int ans = -1;
         while (l <= h) {
             int mid = l + (h - l) / 2;
 
@@ -12,12 +12,14 @@ public:
                 upper_bound(arr.begin(), arr.end(), mid) - arr.begin();
             int missing = mid - present;
 
-            if (missing >= k)
+            if (missing >= k ) {
+                ans=mid;
                 h = mid - 1;
-            else
+            } 
+            else if (missing < k)
                 l = mid + 1;
         }
 
-        return l;
+        return ans;
     }
 };
