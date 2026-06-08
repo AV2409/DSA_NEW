@@ -27,7 +27,7 @@ public:
             int bottom=-1;
 
             if(i-1>=0) top=mat[i-1][col];
-            if(i+1<m) top=mat[i+1][col];
+            if(i+1<m) bottom=mat[i+1][col];
 
             if(mat[i][col]>top && mat[i][col]>bottom){
                 ans={i,col};
