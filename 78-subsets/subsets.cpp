@@ -1,24 +1,19 @@
 class Solution {
 public:
-    void solve(int i,int n,vector<int>& nums,vector<int>& s,vector<vector<int>>&ans){
-        if(i==n){
-            ans.push_back(s);
-            return;
-        }
-
-        //not pick
-        solve(i+1,n,nums,s,ans);
-
-        //pick
-        s.push_back(nums[i]);
-        solve(i+1,n,nums,s,ans);
-        s.pop_back();
-    }
     vector<vector<int>> subsets(vector<int>& nums) {
         int n=nums.size();
-        vector<int>s;
+        
         vector<vector<int>>ans;
-        solve(0,n,nums,s,ans);
+        int tot=1<<nums.size();
+
+        for(int num=0;num<tot;num++){
+            vector<int>s;
+            for(int i=0;i<nums.size();i++){
+                if(num & 1<<i) s.push_back(nums[i]);
+            }
+            ans.push_back(s);
+        }
+        
         return ans;
     }
 };
