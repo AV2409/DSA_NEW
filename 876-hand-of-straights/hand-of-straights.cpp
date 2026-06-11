@@ -19,9 +19,7 @@ public:
         while (!pq.empty()) {
             int card = pq.top().first;
             int cnt = pq.top().second;
-            cnt--;
             queue<pair<int,int>>q;
-            if(cnt>0) q.push({card,cnt});
             pq.pop();
             int prev = card;
             for (int i = 1; i < groupSize; i++) {
@@ -29,7 +27,8 @@ public:
                 int nextCard = pq.top().first;
                 if(nextCard!=prev+1) return false;
                 int nextCnt = pq.top().second;
-                nextCnt--;
+                if(nextCnt<cnt) return false;
+                nextCnt-=cnt;
                 pq.pop();
                 if(nextCnt>0) q.push({nextCard,nextCnt});
                 prev=nextCard;
