@@ -16,8 +16,8 @@ public:
             for (int i = 0; i <= n; i++) {
                 if (pq.empty()) {
                     if (!q.empty())
-                        ans++;
-                    continue;
+                        ans+=n-i+1;
+                    break;
                 }
                 int x = pq.top();
                 pq.pop();
