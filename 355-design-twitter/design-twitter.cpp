@@ -1,6 +1,6 @@
 class Twitter {
 public:
-    vector<unordered_set<int>>follows;
+    vector<set<int>>follows;
     vector<vector<pair<int,int>>>tweets; //id,timer
     int timer;
     Twitter() {
@@ -17,7 +17,7 @@ public:
     vector<int> getNewsFeed(int userId) {
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
 
-        unordered_set<int> users=follows[userId];
+        set<int> users=follows[userId];
         users.insert(userId);
         vector<int>feed;
         for(int id:users){
