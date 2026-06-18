@@ -40,28 +40,18 @@ public:
             for (int i = rs; i <= re; i++) {
                 int ele = 0;
 
-                if (i == r - x) {
+                if (i == r - x||i==r+x) {
                     int l = cs, rr = ce;
-                    // top left corner exists
+                    // left corner exists
                     if (abs(cs - c) == x)
                         l++;
-                    // top right corner exists
+                    // right corner exists
                     if (abs(ce - c) == x)
                         rr--;
                     if (l <= rr)
                         ele = rowMax[i][l][rr];
                 } 
-                else if (i == r + x) {
-                    int l = cs, rr = ce;
-                    // top left corner exists
-                    if (abs(cs - c) == x)
-                        l++;
-                    // top right corner exists
-                    if (abs(ce - c) == x)
-                        rr--;
-                    if (l <= rr)
-                        ele = rowMax[i][l][rr];
-                } else {
+                else {
                     ele = rowMax[i][cs][ce];
                 }
 
