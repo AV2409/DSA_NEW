@@ -27,22 +27,6 @@ public:
             }
         }
 
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < k; j++) {
-        //         cout << v[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
-
-        // cout << endl << endl;
-        // for (int j = 0; j < k; j++) {
-        //     cout << even[j] << " ";
-        // }
-        // cout << endl;
-        // for (int j = 0; j < k; j++) {
-        //     cout << odd[j] << " ";
-        // }
-
         int ans = INT_MAX;
 
         for (int i = 0; i < k; i++) {
