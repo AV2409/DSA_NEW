@@ -36,25 +36,16 @@ public:
             int cs = max(0, c - x);
             int ce = min(m - 1, c + x);
             bool flag = true;
+
             for (int i = rs; i <= re; i++) {
                 int ele = 0;
-                if (i == r - x || i == r + x) {
-                    bool leftCornerExists = (c - x >= 0);
-                    bool rightCornerExists = (c + x < m);
 
-                    if (leftCornerExists && rightCornerExists) {
-                        if (cs + 1 <= ce - 1)
-                            ele = rowMax[i][cs + 1][ce - 1];
-                        else
-                            ele = 0;
-                    } else if (leftCornerExists) {
-                        if (cs + 1 <= ce)
-                            ele = rowMax[i][cs + 1][ce];
-                    } else if (rightCornerExists) {
-                        if (cs <= ce - 1)
-                            ele = rowMax[i][cs][ce - 1];
-                    } else {
-                        ele = rowMax[i][cs][ce];
+                if (i == r - x || i == r + x) {
+                    // Boundary row: brute force
+                    for (int j = cs; j <= ce; j++) {
+                        if (abs(i - r) == x && abs(j - c) == x)
+                            continue; // skip corner
+                        ele = max(ele, matrix[i][j]);
                     }
                 } else {
                     ele = rowMax[i][cs][ce];
