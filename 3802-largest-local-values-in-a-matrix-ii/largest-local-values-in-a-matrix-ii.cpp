@@ -40,13 +40,27 @@ public:
             for (int i = rs; i <= re; i++) {
                 int ele = 0;
 
-                if (i == r - x || i == r + x) {
-                    // Boundary row: brute force
-                    for (int j = cs; j <= ce; j++) {
-                        if (abs(i - r) == x && abs(j - c) == x)
-                            continue; // skip corner
-                        ele = max(ele, matrix[i][j]);
-                    }
+                if (i == r - x) {
+                    int l = cs, rr = ce;
+                    // top left corner exists
+                    if (abs(cs - c) == x)
+                        l++;
+                    // top right corner exists
+                    if (abs(ce - c) == x)
+                        rr--;
+                    if (l <= rr)
+                        ele = rowMax[i][l][rr];
+                } 
+                else if (i == r + x) {
+                    int l = cs, rr = ce;
+                    // top left corner exists
+                    if (abs(cs - c) == x)
+                        l++;
+                    // top right corner exists
+                    if (abs(ce - c) == x)
+                        rr--;
+                    if (l <= rr)
+                        ele = rowMax[i][l][rr];
                 } else {
                     ele = rowMax[i][cs][ce];
                 }
