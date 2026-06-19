@@ -23,7 +23,6 @@ public:
                 i++;
             }
             if (i == n && temp.size() > 0) {
-                cout << temp << endl;
                 mp[temp]++;
                 temp="";
             } 
@@ -40,7 +39,6 @@ public:
                 // separator
                 else {
                     if (temp.size() > 0) {
-                        cout << temp << endl;
                         mp[temp]++;
                         temp="";
                     }
@@ -48,7 +46,6 @@ public:
             } 
             else if (s[i] == ' ') {
                 if (temp.size() > 0) {
-                    cout << temp << endl;
                     mp[temp]++;
                     temp="";
                 }
