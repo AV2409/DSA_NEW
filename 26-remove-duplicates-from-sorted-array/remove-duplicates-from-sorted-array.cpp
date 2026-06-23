@@ -6,9 +6,9 @@ public:
 
         int idx = 0; // last unique element position
         for (int i = 1; i < n; i++) {
-            if (nums[i] != nums[idx]) { 
+            if(nums[i]!=nums[idx]){
                 idx++;
-                nums[idx] = nums[i]; // place the new unique element
+                nums[idx]=nums[i];
             }
         }
 
