@@ -3,6 +3,7 @@ public:
     string lst;
     vector<string> ans;
     void solve(string& s, int idx, int comp) {
+        
         if (idx == s.size()) {
             if (comp == 4) {
                 string temp = lst;
@@ -12,6 +13,7 @@ public:
 
             return;
         }
+        if(comp==4) return;
         for(int i=idx;i<min(idx+3,(int)s.size());i++) {
             string str = s.substr(idx, i - idx + 1);
             long long x = stoll(str);
