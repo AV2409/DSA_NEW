@@ -8,9 +8,9 @@ public:
         if (k <= 0 || n <= 0 || i == 10)
             return;
 
-        for (int idx = i; i <= 9; i++) {
-            list.push_back(i);
-            f(k - 1, n - i, i + 1, list, ans);
+        for (int idx = i; idx <= 9; idx++) {
+            list.push_back(idx);
+            f(k - 1, n - idx, idx + 1, list, ans);
             list.pop_back();
         }
     }
