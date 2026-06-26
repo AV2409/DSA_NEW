@@ -5,7 +5,7 @@ public:
             ans.push_back(list);
             return;
         }
-        if(k==0||n==0||i==10) return;
+        if(k<=0||n<=0||i==10) return;
         
         f(k,n,i+1,list,ans);
 
