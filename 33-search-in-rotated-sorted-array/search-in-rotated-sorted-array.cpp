@@ -8,7 +8,7 @@ public:
 
         while(l<=h){
             int mid=(l+h)/2;
-            cout<<mid<<" ";
+            
             if(nums[mid]==target) return mid;
             // Left half is sorted
             if (nums[l] <= nums[mid]) {
