@@ -20,7 +20,7 @@ public:
         board[x][y] = temp;
         return false;
     }
-    bool exist(vector<vector<char>>& board, string word) {
+    bool exist(vector<vector<char>>& board, string &word) {
         int m=board.size();
         int n=board[0].size();
 
