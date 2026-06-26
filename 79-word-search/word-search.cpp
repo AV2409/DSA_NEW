@@ -1,31 +1,33 @@
 class Solution {
 public:
-    vector<int>dx={1,-1,0,0};
-    vector<int>dy={0,0,1,-1};
-    bool dfs(vector<vector<char>>& board,int n,int m, string word,int i,int x,int y,vector<vector<bool>>&vis){
-        if(i==word.size()) return true;
-        vis[x][y]=true;
+    vector<int> dx = {1, 0, 0, -1};
+    vector<int> dy = {0, -1, 1, 0};
 
-        for(int dir=0;dir<4;dir++){
-            int nx=x+dx[dir];
-            int ny=y+dy[dir];
+    bool dfs(int x, int y, int i, vector<vector<char>>& board,int m,int n, string word) {
+        if (i == word.size())
+            return true;
+        
+        char temp = board[x][y];
+        board[x][y] = '.';
+        for (int dir = 0; dir < 4; dir++) {
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
 
-            if(nx>=0 && nx<n && ny>=0 && ny<m && word[i]==board[nx][ny] && !vis[nx][ny]){
-                if(dfs(board,n,m,word,i+1,nx,ny,vis)) return true;
+            if (nx >= 0 && ny >= 0 && ny < n && nx < m && board[nx][ny] == word[i]) {
+                if(dfs(nx, ny, i+1, board,m,n, word)) return true;
             }
         }
-        vis[x][y]=false;
+        board[x][y] = temp;
         return false;
     }
     bool exist(vector<vector<char>>& board, string word) {
-        int n=board.size();
-        int m=board[0].size();
-        vector<vector<bool>>vis(n,vector<bool>(m,false));
+        int m=board.size();
+        int n=board[0].size();
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(board[i][j]==word[0] && !vis[i][j]){
-                    if(dfs(board,n,m,word,1,i,j,vis)) return true;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]==word[0]){
+                    if(dfs(i,j,1,board,m,n,word)) return true;
                 }
             }
         }
