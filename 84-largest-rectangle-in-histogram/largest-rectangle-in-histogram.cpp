@@ -16,16 +16,18 @@ public:
             st.push(i);
         }
 
-        stack<int> st1;
+        while(!st.empty()) st.pop();
+
+        
         for (int i = n-1; i >= 0; i--) {
-            while (!st1.empty() && heights[i] <= heights[st1.top()])
-                st1.pop();
-            if (st1.empty())
+            while (!st.empty() && heights[i] <= heights[st.top()])
+                st.pop();
+            if (st.empty())
                 ns[i] = n;
             else
-                ns[i] = st1.top();
+                ns[i] = st.top();
 
-            st1.push(i);
+            st.push(i);
         }
 
         int ans=0;
