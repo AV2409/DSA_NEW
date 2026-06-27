@@ -10,32 +10,47 @@
  */
 class Solution {
 public:
-    ListNode* reverseBetween(ListNode* head, int left, int right) {
-
-        ListNode* temp=head;
-        ListNode* temp1=NULL;
-        for(int i=0;i<left-1;i++){
-            temp1=temp;
-            temp=temp->next;
-        }
-
-        ListNode*ogStart=temp;
-
+    ListNode* reverse(ListNode* st,ListNode* end){
+        ListNode* curr=st;
         ListNode* prev=NULL;
-        ListNode* curr=temp;
         ListNode* next=NULL;
-
-        for(int i=left;i<=right;i++){
+        ListNode* stop = end->next;
+        while(curr!=stop){
             next=curr->next;
             curr->next=prev;
             prev=curr;
             curr=next;
         }
+        return prev;
+    }
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(left==right) return head;
+        if(!head->next) return head;
+        ListNode* before=NULL;
+        ListNode* after=NULL;
 
-        ogStart->next=curr;
-        if(temp1) temp1->next=prev;
-        if(left==1) return prev;
-        return head;
+        ListNode* temp=head;
+        for(int i=1;i<left;i++){
+            before=temp;
+            temp=temp->next;
+        }
 
+        ListNode* st=temp;
+
+        ListNode* x=temp;
+
+        for(int i=left;i<right;i++){
+            temp=temp->next;
+        }
+        ListNode* end=temp;
+        after=temp->next;
+        ListNode* revH=reverse(st,end);
+        if(before) before->next=revH;
+
+        x->next=after;
+        if(before)
+            return head;
+        return revH;
+        
     }
 };
