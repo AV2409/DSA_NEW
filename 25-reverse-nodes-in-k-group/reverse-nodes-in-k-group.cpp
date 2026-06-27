@@ -10,38 +10,50 @@
  */
 class Solution {
 public:
-    pair<ListNode*, ListNode*> reverse(ListNode* start, ListNode* end) {
-        ListNode* retTail=start;
-        ListNode* retHead=end;
-        ListNode* temp=start;
+    ListNode* reverse(ListNode* left,ListNode* right){
         ListNode* prev=NULL;
-        ListNode* stop = end->next;
-        while(temp!=stop){
-            ListNode* next=temp->next;
-            temp->next=prev;
-            prev=temp;
-            temp=next;
+        ListNode* curr=left;
+        ListNode* next=NULL;
+        ListNode* stop=right->next;
+
+        while(curr!=stop){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
         }
-        return {retHead,retTail};
+        return prev;
+
+    }
+    ListNode* findR(ListNode* st,int k){
+        k--;
+        ListNode* temp=st;
+        while(k-- && temp){
+            temp=temp->next;
+        }
+        return temp;
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
-        if (!head)
-            return head;
+        if(k==1||!head||!head->next) return head;
 
-        ListNode* start = head;
-        ListNode* end = head;
-        int cnt = k;
-        while (--cnt && end) {
-            end = end->next;
+        ListNode* l=head;
+        ListNode* r=findR(l,k);
+        ListNode* before=NULL;
+        ListNode* after=NULL;
+        ListNode* start=NULL;
+        ListNode* newH=NULL;
+
+        while(l && r){
+            after=r->next;
+            start=l;
+            ListNode* revH=reverse(l,r);
+            if(before) before->next=revH;
+            else newH=revH;
+            before=start;
+            start->next=after;
+            l=after;
+            r=findR(l,k);
         }
-        if (!end)
-            return head;
-
-        ListNode* nextGroup = end->next;
-        auto p = reverse(start, end);
-        ListNode* newHead = p.first;
-        ListNode* newTail = p.second;
-        newTail->next = reverseKGroup(nextGroup, k);
-        return newHead;
+        return newH;
     }
 };
