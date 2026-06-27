@@ -10,40 +10,34 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head) {
-        if (head == NULL || head->next == NULL)
-            return head;
-
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        ListNode* next = NULL;
-        int times=2;
-        while (times--&&curr) {
-            next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return prev;
+    ListNode* reverse(ListNode* left,ListNode* right){
+        ListNode* prev=left;
+        left->next=NULL;
+        right->next=prev;
+        return right;
     }
     ListNode* swapPairs(ListNode* head) {
-        if (head == NULL || head->next == NULL)
+        if(!head||!head->next){
             return head;
-
-        ListNode* temp=head;
-        ListNode* nextGroup=head->next->next; 
-        ListNode* start=reverse(temp);
-        ListNode* prevTail=start->next;
-        temp=nextGroup;
-        while(temp&&temp->next){
-            ListNode* nextGroup=temp->next->next;  
-            ListNode* newHead = reverse(temp);
-            prevTail->next=newHead;
-            prevTail = newHead->next;
-            temp=nextGroup;
         }
-        prevTail->next=temp;
-        return start;
 
+        ListNode* l=head;
+        ListNode* r=l->next;
+        ListNode* before=NULL;
+        ListNode* after=NULL;
+        ListNode* start=l;
+        while(l && r){
+            after=r->next;
+            start=l;
+            ListNode* revH=reverse(l,r);
+            if(before) before->next=revH;
+            else head=revH;
+            start->next=after;
+            before=start;
+            l=after;
+            if(l)
+                r=l->next;
+        }
+        return head;
     }
 };
