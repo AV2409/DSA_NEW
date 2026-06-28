@@ -8,15 +8,7 @@ public:
         return s;
     }
     bool check(vector<vector<int>>& board) {
-        int x = 1;
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] != x)
-                    return false;
-                x = (x + 1) % 6;
-            }
-        }
-        return true;
+        return encode(board) == "123450";
     }
     int slidingPuzzle(vector<vector<int>>& board) {
         queue<tuple<int, int, vector<vector<int>>>> q;
