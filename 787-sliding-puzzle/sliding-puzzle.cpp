@@ -7,9 +7,6 @@ public:
                 s += char(x + '0');
         return s;
     }
-    bool check(vector<vector<int>>& board) {
-        return encode(board) == "123450";
-    }
     int slidingPuzzle(vector<vector<int>>& board) {
         queue<tuple<int, int, vector<vector<int>>>> q;
         for (int i = 0; i < 2; i++) {
@@ -22,7 +19,7 @@ public:
         vector<int> dx = {1, -1, 0, 0};
         vector<int> dy = {0, 0, 1, -1};
         int ans = 0;
-        
+
         unordered_set<string> vis;
         string state = encode(board);
         vis.insert(state);
@@ -32,7 +29,8 @@ public:
                 auto [x, y, bb] = q.front();
                 q.pop();
 
-                if (check(bb))
+                string curr = encode(bb);
+                if (curr == "123450")
                     return ans;
 
                 for (int dir = 0; dir < 4; dir++) {
