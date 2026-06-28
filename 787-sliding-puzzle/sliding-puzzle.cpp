@@ -23,9 +23,9 @@ public:
         vector<int> dy = {0, 0, 1, -1};
         int ans = 0;
         
-        unordered_map<string,bool>vis;
+        unordered_set<string> vis;
         string state = encode(board);
-        vis[state]=true;
+        vis.insert(state);
         while (!q.empty()) {
             int sz = q.size();
             for (int i = 0; i < sz; i++) {
@@ -43,8 +43,8 @@ public:
 
                         swap(bb[x][y], bb[nx][ny]);
                         string state = encode(bb);
-                        if (!vis[state]) {
-                            vis[state] = true;
+                        if (!vis.count(state)) {
+                            vis.insert(state);
                             q.push({nx, ny, bb});
                         }
                         swap(bb[x][y], bb[nx][ny]);
