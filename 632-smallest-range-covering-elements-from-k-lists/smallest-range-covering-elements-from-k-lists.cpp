@@ -15,12 +15,13 @@ public:
             auto [ele,row,col]=pq.top();
             pq.pop();
             auto [maxi,rm,cm]=*(prev(ms.end()));
+            
+            auto it=ms.find({ele,row,col});
+            if(it!=ms.end()) ms.erase(it);
             if(maxi-ele<diff){
                 ans={ele,maxi};
                 diff=maxi-ele;
             }
-            auto it=ms.find({ele,row,col});
-            if(it!=ms.end()) ms.erase(it);
             
             col++;
             if(col<nums[row].size()){
