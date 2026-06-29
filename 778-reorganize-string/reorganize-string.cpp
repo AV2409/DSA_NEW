@@ -38,6 +38,7 @@ public:
                 cnt2--;
                 if(cnt2) pq.push({cnt2,ch2});
             }
+            else return "";
             if(cnt1) pq.push({cnt1,ch1});
         }
 
