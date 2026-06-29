@@ -7,6 +7,7 @@ public:
         priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>,greater<tuple<int,int,int>>>pq;
         multiset<tuple<int,int,int>>ms;
         int n=nums.size();
+        if(n==1) return {nums[0][0],nums[0][0]};
         for(int i=0;i<n;i++){
             pq.push({nums[i][0],i,0});
             ms.insert({nums[i][0],i,0});
