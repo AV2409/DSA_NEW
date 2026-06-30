@@ -4,46 +4,68 @@ public:
         int n = s.size();
         string ans;
         stack<string> st;
-        int i = n - 1;
-        while (i >= 0) {
-            if (s[i] == ']') {
-                string x(1, s[i]);
-                st.push(x);
+        stack<int> cnt;
+        s += ']';
+        st.push(string(1, '['));
+        for (int i = 0; i <= n; i++) {
+            if (isdigit(s[i])) {
+                string num;
+                while (i <= n && isdigit(s[i])) {
+                    num += s[i];
+                    i++;
+                }
                 i--;
+                int ss = stoi(num);
+                cnt.push(ss);
             } else if (isalpha(s[i])) {
-                string x(1, s[i]);
-                st.push(x);
+                string x;
+                while (i <= n && isalpha(s[i])) {
+                    x += s[i];
+                    i++;
+                }
                 i--;
+                // reverse(x.begin(),x.end());
+                st.push(x);
             }
 
             else if (s[i] == '[') {
-                i--;
-                string num = "";
-                while (i >= 0 && isdigit(s[i])) {
-                    num += s[i];
-                    i--;
-                }
-                reverse(num.begin(), num.end());
-                int ss = stoi(num);
+                st.push(string(1, s[i]));
+            }
 
-                string str;
-                while (!st.empty() && st.top() != "]") {
-                    str += st.top();
+            else if (s[i] == ']') {
+                int times = 1;
+                if (!cnt.empty()) {
+                    times = cnt.top();
+                    cnt.pop();
+                }
+
+                vector<string> parts;
+
+                while (!st.empty() && st.top() != "[") {
+                    parts.push_back(st.top());
                     st.pop();
                 }
                 st.pop();
-                string decoded;
 
-                for (int i = 0; i < ss; i++)
-                    decoded += str;
+                reverse(parts.begin(), parts.end());
 
-                st.push(decoded);
+                string x;
+                for (auto& str : parts)
+                    x += str;
+
+                string toPush;
+                while (times--) {
+                    toPush += x;
+                }
+                // reverse(toPush.begin(),toPush.end());
+                st.push(toPush);
             }
         }
         while (!st.empty()) {
             ans += st.top();
             st.pop();
         }
+        // reverse(ans.begin(), ans.end());
         return ans;
     }
 };
