@@ -11,7 +11,7 @@ int cols;
             int nx=i+dx[dir];
             int ny=j+dy[dir];
 
-            if(nx>=0 && ny>=0 && nx<rows && ny<cols && !vis[nx][ny] && grid[nx][ny]=='1'){
+            if(nx>=0 && ny>=0 && nx<rows && ny<cols && !vis[nx][ny] &&grid[nx][ny]=='1'){
                 dfs(grid,vis,nx,ny);
             }
         }
