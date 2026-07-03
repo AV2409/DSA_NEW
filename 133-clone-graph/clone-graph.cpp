@@ -43,23 +43,12 @@ public:
             }
         }
 
-        vis.clear();
-        q.push(node);
-        vis.insert(node);
+        for(auto it:mp){
+            Node* nn=it.first;
+            Node* dummy=it.second;
 
-        while (!q.empty()) {
-            Node* nn = q.front();
-            q.pop();
-
-            Node* clone = mp[nn];
-
-            for (Node* adj : nn->neighbors) {
-                clone->neighbors.push_back(mp[adj]);
-
-                if (!vis.count(adj)) {
-                    vis.insert(adj);
-                    q.push(adj);
-                }
+            for(Node* adj:nn->neighbors){
+                dummy->neighbors.push_back(mp[adj]);
             }
         }
 
