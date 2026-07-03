@@ -1,44 +1,37 @@
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int m = prerequisites.size();
-        vector<int> adj[numCourses];
-
-        for (int i = 0; i < m; i++) {
-            int u = prerequisites[i][0];
-            int v = prerequisites[i][1];
+        vector<vector<int>>adj(numCourses);
+        vector<int>indeg(numCourses,0);
+        for(auto edge:prerequisites){
+            int u=edge[0];
+            int v=edge[1];
             adj[v].push_back(u);
+            indeg[u]++;
         }
 
-        vector<int> indeg(numCourses, 0);
-        for (int i = 0; i < m; i++) {
-            int v = prerequisites[i][0];
-            indeg[v]++;
-        }
+        queue<int>q;
 
-        queue<int> q;
-        for (int i = 0; i < numCourses; i++) {
-            if (indeg[i] == 0) {
+        for(int i=0;i<numCourses;i++){
+            if(!indeg[i]){
                 q.push(i);
             }
         }
-        vector<int> ans;
-        vector<int> e;
-        while (!q.empty()) {
-            int ele = q.front();
-            q.pop();
-            ans.push_back(ele);
 
-            for (int it : adj[ele]) {
-                indeg[it]--;
-                if (indeg[it] == 0) {
-                    q.push(it);
-                }
+        vector<int>topo;
+
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            topo.push_back(node);
+            for(int adjNode:adj[node]){
+                indeg[adjNode]--;
+                if(!indeg[adjNode]) q.push(adjNode);
             }
+            
         }
-        if (ans.size() == numCourses) {
-            return ans;
-        } else
-            return e;
+
+        if(topo.size()!=numCourses) return {};
+        return topo;
     }
 };
