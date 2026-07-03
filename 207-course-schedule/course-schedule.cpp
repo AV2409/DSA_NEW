@@ -1,40 +1,30 @@
 class Solution {
 public:
+    bool dfs(int node,vector<vector<int>>&adj,vector<int>&path){
+        path[node]=1;
+        for(int adjNode:adj[node]){
+            if(!path[adjNode]){
+                if(dfs(adjNode,adj,path)) return true;
+            }
+            else if(path[adjNode]==1) return true;
+        }
+        path[node]=2;
+        return false;
+    }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        int m = prerequisites.size();
-        vector<int> adj[numCourses];
-
-        for (int i = 0; i < m; i++) {
-            int u = prerequisites[i][0];
-            int v = prerequisites[i][1];
+        vector<vector<int>>adj(numCourses);
+        for(auto edge:prerequisites){
+            int u=edge[0];
+            int v=edge[1];
             adj[v].push_back(u);
         }
+        vector<int>path(numCourses);
 
-        vector<int> indeg(numCourses, 0);
-        for (int i = 0; i < m; i++) {
-            int v = prerequisites[i][0];
-            indeg[v]++;
-        }
-
-        queue<int> q;
-        for (int i = 0; i < numCourses; i++) {
-            if (indeg[i] == 0) {
-                q.push(i);
+        for(int i=0;i<numCourses;i++){
+            if(!path[i]){
+                if(dfs(i,adj,path)) return false;
             }
         }
-        int cnt=0;
-        while (!q.empty()) {
-            int ele = q.front();
-            q.pop();
-            cnt++;
-
-            for (int it : adj[ele]) {
-                indeg[it]--;
-                if (indeg[it] == 0) {
-                    q.push(it);
-                }
-            }
-        }
-        return (cnt == numCourses);
+        return true;
     }
 };
