@@ -1,34 +1,34 @@
 class Solution {
 public:
     int minScore(int n, vector<vector<int>>& roads) {
-        vector<vector<pair<int,int>>>adj(n+1);
-        for(auto it:roads){
-            int u=it[0];
-            int v=it[1];
-            int wt=it[2];
+        vector<vector<pair<int,int>>> adj(n + 1);
 
-            adj[u].push_back({v,wt});
-            adj[v].push_back({u,wt});
+        for (auto &r : roads) {
+            adj[r[0]].push_back({r[1], r[2]});
+            adj[r[1]].push_back({r[0], r[2]});
         }
 
-        vector<int>dist(n+1,1e9);
-        dist[1]=1e9;
-        priority_queue<tuple<int,int>,vector<tuple<int,int>>,greater<tuple<int,int>>>pq;
+        vector<int> vis(n + 1, 0);
+        queue<int> q;
+        q.push(1);
+        vis[1] = 1;
 
-        pq.push({1e9,1});
-        while(!pq.empty()){
-            auto[mini,node]=pq.top();
-            pq.pop();
+        int ans = INT_MAX;
 
-            for(auto [nei,wt]:adj[node]){
-                int newMini=min(wt,mini);
-                if(newMini<dist[nei]){
-                    pq.push({newMini,nei});
-                    dist[nei]=newMini;
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (auto &[nei, wt] : adj[node]) {
+                ans = min(ans, wt);
+
+                if (!vis[nei]) {
+                    vis[nei] = 1;
+                    q.push(nei);
                 }
             }
         }
-        return dist[n];
 
+        return ans;
     }
 };
