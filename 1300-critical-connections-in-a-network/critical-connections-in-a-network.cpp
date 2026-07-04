@@ -19,7 +19,7 @@ public:
             }
             else{
                 if(adjNode!=par){
-                    low[node]=min(low[node],dt[adjNode]);
+                    low[node]=min(low[node],low[adjNode]);
                 }
             }
         }
