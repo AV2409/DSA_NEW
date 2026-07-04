@@ -17,6 +17,8 @@ public:
             int maxi=it[0];
             int x=it[1];
             int y=it[2];
+            if(maxi > dist[x][y])
+                continue;
 
             if(x==n-1 && y==n-1) return maxi;
 
