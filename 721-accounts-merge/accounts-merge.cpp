@@ -31,40 +31,39 @@ public:
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
-        unordered_map<string, int> mp;
-        int rows = accounts.size();
-        DisjointSet ds(rows);
-
-        for (int i = 0; i < rows; i++) {
+        unordered_map<string, int> emails;
+        int n = accounts.size();
+        vector<string> names(n);
+        DisjointSet dsu(n);
+        for (int i = 0; i < n; i++) {
             int ss = accounts[i].size();
+            names[i] = accounts[i][0];
             for (int j = 1; j < ss; j++) {
-                if (mp.count(accounts[i][j])) {
-                    ds.unite(i, mp[accounts[i][j]]);
-                } else {
-                    mp[accounts[i][j]] = i;
-                }
+                string mail = accounts[i][j];
+                if (emails.count(mail)) {
+                    dsu.unite(i, emails[mail]);
+                } else
+                    emails[mail] = i;
             }
         }
-
-        unordered_map<int, set<string>> ff;
-
-        for (int i = 0; i < rows; i++) {
-            int parent = ds.find(i);
-            for (int j = 1; j < accounts[i].size(); j++) {
-                ff[parent].insert(accounts[i][j]);
-            }
+        unordered_map<int, set<string>> merged;
+        for (auto& it : emails) {
+            string mail = it.first;
+            int idx = it.second;
+            int parent = dsu.find(idx);
+            merged[parent].insert(mail);
         }
-        
-        vector<vector<string>> ans;
-        for (auto& it : ff) {
-            vector<string> temp;
-            temp.push_back(accounts[it.first][0]);
-            for (auto& mail : it.second) {
-                temp.push_back(mail);
+        vector<vector<string>>ans;
+        for(auto it:merged){
+            int idx=it.first;
+            vector<string>temp;
+            temp.push_back(names[idx]);
+            for(auto mm:it.second){
+                temp.push_back(mm);
             }
-
             ans.push_back(temp);
         }
         return ans;
+        
     }
 };
