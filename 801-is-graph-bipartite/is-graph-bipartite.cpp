@@ -9,7 +9,7 @@ public:
                 if(dfs(nei,node,newCol,cols,adj)==false) return false;
             }
             else{
-                if(nei!=par && cols[nei]==col){
+                if(cols[nei]==col){
                     return false;
                 }
             }
