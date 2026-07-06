@@ -9,7 +9,6 @@ public:
         if(dp[i][m][n]!=-1) return dp[i][m][n];
         int np=f(i-1,strs,m,n);
         int p=0;
-        string word=strs[i];
         int zeros=cnt[i].first;
         int ones=cnt[i].second;
 
