@@ -6,8 +6,8 @@ public:
         if(dp[n]!=-1) return dp[n];
         int ans=1e9;
         for(int i=0;i<sq.size();i++){
-            int op=f(n-sq[i],sq,dp);
-            if(op!=1e9) ans=min(ans,1+op);
+            int op=1+f(n-sq[i],sq,dp);
+            if(op!=1e9) ans=min(ans,op);
         }
         return dp[n]=ans;
     }
