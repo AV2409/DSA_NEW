@@ -1,23 +1,20 @@
 class Solution {
 public:
-    int perfectSum_tab(vector<int>& arr, int target) {
-        int n = arr.size();
-        vector<vector<int>> dp(n + 1, vector<int>(target + 1, 0));
-        dp[0][0] = 1;
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= target; j++) {
-                int np = dp[i - 1][j];
-                int p = 0;
-                if (arr[i - 1] <= j) {
-                    p = dp[i - 1][j - arr[i - 1]];
-                }
-                dp[i][j] = (np + p);
-            }
-        }
-        return dp[n][target];
+    vector<vector<int>>dp;
+    int f(int i, int sum,vector<int>& nums){
+        if(i<0) return sum==0;
+        if(dp[i][sum]!=-1) return dp[i][sum];
+        int np=f(i-1,sum,nums);
+        int p=0;
+        if(nums[i]<=sum) p=f(i-1,sum-nums[i],nums);
+        return dp[i][sum]= p+np;
     }
 
+    int perfectSum(vector<int>& nums,int sum){
+        int n=nums.size();
+        dp.assign(n,vector<int>(sum+1,-1));
+        return f(n-1,sum,nums);
+    }
     int findTargetSumWays(vector<int>& nums, int target) {
         int n = nums.size();
         int sum = 0;
@@ -25,10 +22,9 @@ public:
             sum += nums[i];
         }
         sum-=target;
-
         if ((sum) < 0 || (sum) % 2 != 0) {
             return 0;
         }
-        return perfectSum_tab(nums, sum/2);
+        return perfectSum(nums, sum/2);
     }
 };
