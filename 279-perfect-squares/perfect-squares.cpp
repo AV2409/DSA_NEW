@@ -1,22 +1,31 @@
 class Solution {
 public:
-    int f(int n,vector<int>& sq,vector<int>& dp){
-        if(n==0) return 0;
-        if(n<0) return 1e9;
-        if(dp[n]!=-1) return dp[n];
-        int ans=1e9;
-        for(int i=0;i<sq.size();i++){
-            int op=1+f(n-sq[i],sq,dp);
-            if(op!=1e9) ans=min(ans,op);
+    vector<vector<int>> dp;
+    int f(int i, int amt, vector<int>& coins) {
+        
+        if (i == 0) {
+            if (amt % coins[0] == 0)
+                return amt / coins[0];
+            else
+                return 1e9;
         }
-        return dp[n]=ans;
+        if (dp[i][amt] != -1)
+            return dp[i][amt];
+        int np = f(i - 1, amt, coins);
+        int p = INT_MAX;
+        if (coins[i] <= amt) {
+            p = 1 + f(i, amt - coins[i], coins);
+        }
+
+        return dp[i][amt] = min(np, p);
     }
     int numSquares(int n) {
         vector<int>sq;
-        vector<int>dp(n+1,-1);
         for(int i=1;i*i<=n;i++){
             sq.push_back(i*i);
         }
-        return f(n,sq,dp);
+        int x=sq.size();
+        dp.assign(x, vector<int>(n + 1, -1));
+        return f(x-1,n,sq);
     }
 };
