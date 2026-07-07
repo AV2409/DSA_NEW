@@ -1,26 +1,28 @@
 class Solution {
 public:
-    int change(int amount, vector<int>& coins) {
-        
-        int n = coins.size();
-        vector<vector<long long>> dp(n + 1, vector<long long>(amount + 1, 0));
-        const long long MOD= 1e18+7;
-        dp[0][0] = 1;
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= amount; j++) {
-
-                long long np = dp[i - 1][j];
-                long long p = 0;
-
-                if (coins[i - 1] <= j) {
-                    p = dp[i][j - coins[i - 1]];
-                }
-
-                dp[i][j] = (np + p)%MOD;
-            }
+    vector<vector<int>> dp;
+    int f(int i, int amt, vector<int>& coins) {
+        if (i == 0) {
+            if (amt % coins[0] == 0)
+                return 1;
+            else
+                return 0;
+        }
+        if (dp[i][amt] != -1)
+            return dp[i][amt];
+        int np = f(i - 1, amt, coins);
+        int p = 0;
+        if (coins[i] <= amt) {
+            p = f(i, amt - coins[i], coins);
         }
 
-        return (int)dp[n][amount];
+        return dp[i][amt] = p+np;
+    }
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        sort(coins.begin(),coins.end());
+        dp.assign(n, vector<int>(amount + 1, -1));
+        int x = f(n - 1, amount, coins);
+        return x;
     }
 };
