@@ -1,22 +1,38 @@
 class Solution {
 public:
-    vector<int>dp;
-    int f(int i,int timer,vector<int>& days, vector<int>& costs){
-        if(i==days.size()) return 0;
-        
-        if(timer>days[i]) return f(i+1,timer,days,costs);
-        if(dp[i]!=-1) return dp[i];
-        int one=costs[0]+f(i+1,days[i]+1,days,costs);
+    vector<int> dp;
 
-        int seven=costs[1]+f(i+1,days[i]+7,days,costs);
+    int f(int i, vector<int>& days, vector<int>& costs) {
+        if (i >= days.size())
+            return 0;
 
-        int thirty=costs[2]+f(i+1,days[i]+30,days,costs);
+        if (dp[i] != -1)
+            return dp[i];
 
-        return dp[i]= min({one,seven,thirty});
+        int j = i;
+
+        // 1-day pass
+        while (j < days.size() && days[j] < days[i] + 1)
+            j++;
+        int one = costs[0] + f(j, days, costs);
+
+        // 7-day pass
+        j = i;
+        while (j < days.size() && days[j] < days[i] + 7)
+            j++;
+        int seven = costs[1] + f(j, days, costs);
+
+        // 30-day pass
+        j = i;
+        while (j < days.size() && days[j] < days[i] + 30)
+            j++;
+        int thirty = costs[2] + f(j, days, costs);
+
+        return dp[i] = min({one, seven, thirty});
     }
+
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        int n=days.size();
-        dp.assign(n,-1);
-        return f(0,0,days,costs);
+        dp.assign(days.size(), -1);
+        return f(0, days, costs);
     }
 };
