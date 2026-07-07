@@ -1,29 +1,25 @@
 class Solution {
 public:
+    vector<vector<int>>dp;
+    int f(int i,int j,vector<int>& nums){
+        if(i>j) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int ans=0;
+        for(int k=i;k<=j;k++){
+            int temp=f(i,k-1,nums)+f(k+1,j,nums)+nums[i-1]*nums[k]*nums[j+1];
+            ans=max(ans,temp);
+        }
+        return dp[i][j] = ans;
+    }
     int maxCoins(vector<int>& nums) {
-        vector<int> arr;
-        arr.push_back(1);
-        int maxi = 0;
-        for (int x : nums) {
-            arr.push_back(x);
-            maxi = max(x, maxi);
+        vector<int>x={1};
+        for(int i:nums){
+            x.push_back(i);
         }
-
-        arr.push_back(1);
-        int m = arr.size();
-        vector<vector<int>> dp(m, vector<int>(m, 0));
-
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = i + 2; j <= m - 1; j++) {
-                int temp = -1;
-                for (int k = i + 1; k < j; k++) {
-                    int cc = arr[i] * arr[k] * arr[j] +dp[i][k] + dp[k][j];
-                    temp = max(temp, cc);
-                }
-                dp[i][j] = temp;
-            }
-        }
-
-        return dp[0][m-1];
+        x.push_back(1);
+        int i=1;
+        int n = nums.size();
+        dp.assign(n+1,vector<int>(n+1,-1));
+        return f(i,n,x);
     }
 };
