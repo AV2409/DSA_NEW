@@ -1,18 +1,19 @@
 class Solution {
 public:
-    int combinationSum4(vector<int>& nums, int target) {
-        vector<long long> dp(target + 1, 0);
-        dp[0] = 1;
-        int n = nums.size();
-        for (int i = 1; i <= target; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i - nums[j] >= 0)
-                    dp[i] += dp[i - nums[j]];
-                if (dp[i] > INT_MAX) {
-                    dp[i] = INT_MAX;
-                }
-            }
+    vector<int> dp;
+    int f(int target, vector<int>& nums) {
+        if(target==0) return 1;
+        if(dp[target]!=-1) return dp[target];
+        int ans=0;
+        for(int x:nums){
+            if(x<=target) ans+=f(target-x,nums);
         }
-        return dp[target];
+        return dp[target]= ans;
+    }
+    int combinationSum4(vector<int>& nums, int target) {
+        int n = nums.size();
+        dp.assign(target + 1, -1);
+        int x = f(target, nums);
+        return x;
     }
 };
