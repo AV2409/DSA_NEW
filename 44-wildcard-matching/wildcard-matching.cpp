@@ -1,42 +1,37 @@
 class Solution {
 public:
+    vector<vector<int>>dp;
+    bool f(int i, int j, string& s, string& p) {
+        if (i < 0 && j < 0)
+            return true;
+        // s finished
+        if (i < 0) {
+            while (j >= 0 && p[j] == '*')
+                j--;
+            return j < 0;
+        }
+        // p finished
+        if (j < 0) {
+            return false;
+        }
+        if(dp[i][j]!=-1) return dp[i][j];
+        if (p[j] == '*') {
+            bool op1 = f(i - 1, j - 1, s, p);
+            bool op2 = f(i - 1, j, s, p);
+            bool op3 = f(i, j - 1, s, p);
+            return dp[i][j]= op1 || op2 || op3;
+        } else if (p[j] == '?') {
+            return dp[i][j]= f(i - 1, j - 1, s, p);
+        }
+
+        if (s[i] == p[j])
+            return dp[i][j]= f(i - 1, j - 1, s, p);
+        return dp[i][j]= false;
+    }
     bool isMatch(string s, string p) {
-        int n1 = s.size();
-        int n2 = p.size();
-
-        vector<vector<bool>> dp(n1 + 1, vector<bool>(n2 + 1));
-        dp[0][0] = true;
-
-        for (int i = 1; i <= n2; i++) {
-            bool flag = true;
-            for (int ii = 0; ii < i; ii++) {
-                if (p[ii] != '*') {
-                    flag = false;
-                    break;
-                }
-            }
-            dp[0][i] = flag;
-        }
-
-        for (int i = 1; i <= n1; i++) {
-            for (int j = 1; j <= n2; j++) {
-                if (p[j - 1] == '*' || p[j - 1] == '?') {
-                    if (p[j - 1] == '?') {
-                        dp[i][j] = dp[i - 1][j - 1];
-                    } else {
-                        bool op1 = dp[i - 1][j];
-                        bool op2 = dp[i][j - 1];
-                        dp[i][j] = op1 || op2;
-                    }
-                } else {
-                    if (p[j - 1] == s[i - 1]) {
-                        dp[i][j] = dp[i - 1][j - 1];
-                    } else {
-                        dp[i][j] = false;
-                    }
-                }
-            }
-        }
-        return dp[n1][n2];
+        int n = s.size();
+        int m = p.size();
+        dp.assign(n,vector<int>(m,-1));
+        return f(n - 1, m - 1, s, p);
     }
 };
