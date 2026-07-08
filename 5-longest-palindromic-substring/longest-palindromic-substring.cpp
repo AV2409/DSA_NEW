@@ -1,34 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>>dp;
-    bool f(string &s, int i, int j) {
-        if (i >= j) return true;
+    int start = 0;
+    int maxLen = 1;
 
-        if (dp[i][j] != -1)
-            return dp[i][j];
+    void expand(int left, int right, string& s) {
 
-        if (s[i] != s[j])
-            return dp[i][j] = false;
-
-        return dp[i][j] = f(s, i + 1, j - 1);
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {
+            int len = right - left + 1;
+            if (len > maxLen) {
+                maxLen = len;
+                start = left;
+            }
+            left--;
+            right++;
+        }
     }
     string longestPalindrome(string s) {
-        int n=s.size();
-        dp.assign(n,vector<int>(n,-1));
-        int start = 0;
-        int maxLen = 1;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                if (f(s, i, j)) {
-                    int len = j - i + 1;
-                    if (len > maxLen) {
-                        maxLen = len;
-                        start = i;
-                    }
-                }
-            }
+        int ans = 0;
+        int n = s.size();
+        for (int i = 0; i < s.size(); i++) {
+            expand(i, i, s);
+            expand(i, i + 1, s);
         }
-        return s.substr(start,maxLen);
+        return s.substr(start, maxLen);
     }
 };
