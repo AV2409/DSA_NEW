@@ -16,10 +16,10 @@ public:
         }
         if(dp[i][j]!=-1) return dp[i][j];
         if (p[j] == '*') {
-            bool op1 = f(i - 1, j - 1, s, p);
+            // bool op1 = f(i - 1, j - 1, s, p);
             bool op2 = f(i - 1, j, s, p);
             bool op3 = f(i, j - 1, s, p);
-            return dp[i][j]= op1 || op2 || op3;
+            return dp[i][j]=  op2 || op3;
         } else if (p[j] == '?') {
             return dp[i][j]= f(i - 1, j - 1, s, p);
         }
