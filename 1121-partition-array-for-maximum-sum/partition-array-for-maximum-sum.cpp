@@ -1,29 +1,24 @@
 class Solution {
 public:
-
-    int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        int n = arr.size();
-        vector<int> dp(n + 1, 0);
-
-        for (int i = n-1; i >= 0; i--) {
-            // if (n - i <= k) {
-            //     int maxe = arr[i];
-            //     for (int t = i; t < n; t++) {
-            //         maxe = max(maxe, arr[t]);
-            //     }
-            //     dp[i] = (n - i) * maxe;
-            //     continue;
-            // }
-
-            int ans = 0;
-            int maxe = arr[i];
-            for (int t = i; t < min(n,i + k); t++) {
-                maxe = max(maxe, arr[t]);
-                int temp = maxe * (t - i + 1) + dp[t + 1];
-                ans = max(ans, temp);
-            }
-            dp[i] = ans;
+    vector<int>dp;
+    long long f(int i,vector<int>& arr, int k,int n){
+        if(i==n) return 0;
+        if(dp[i]!=-1) return dp[i];
+        long long ans=0;
+        int maxi=arr[i];
+        int ss=min(i+k,n);
+        for(int idx=i;idx<ss;idx++){
+            int len=idx-i+1;
+            maxi=max(arr[idx],maxi);
+            int x1=len*maxi;
+            long long x2=f(idx+1,arr,k,n);
+            ans=max(ans,x1+x2);
         }
-        return dp[0];
+        return dp[i]= ans;
+    }
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();
+        dp.assign(n,-1);
+        return f(0,arr,k,n);
     }
 };
