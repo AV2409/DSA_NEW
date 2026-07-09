@@ -28,7 +28,7 @@ public:
                 if (j > 0 && s2[j - 1] == s3[k])
                     op2 = curr[j - 1];
 
-                curr[j] = op1 | op2;
+                curr[j] = op1 || op2;
             }
             prev = curr;
         }
