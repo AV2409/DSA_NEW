@@ -1,11 +1,11 @@
 class TrieNode {
 public:
-    vector<TrieNode*> children;
+    TrieNode* children[26];
     bool isTerminal;
     string word;
     TrieNode() {
         this->isTerminal = false;
-        children.assign(26, NULL);
+        for(int i=0;i<26;i++) children[i]=NULL;
         word="";
     }
 };
@@ -23,7 +23,6 @@ public:
                 temp->children[idx] = new TrieNode();
             }
             temp = temp->children[idx];
-            
         }
         temp->isTerminal = true;
         temp->word=word;
@@ -58,7 +57,7 @@ public:
 
     vector<string> findWords(vector<vector<char>>& board,
                              vector<string>& words) {
-        for (string x : words) {
+        for (string &x : words) {
             insert(x);
         }
 
