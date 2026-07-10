@@ -27,28 +27,27 @@ public:
         temp->isTerminal = true;
     }
 
-    string findMax(string word) {
+    int findMax(string word) {
         int n = word.size();
         TrieNode* temp = root;
-        string ans = "";
+        int ans = 0;
         for (int i = 0; i < n; i++) {
+            ans <<= 1;
             int idx = word[i] - '0';
             if (idx == 0) {
                 if (temp->children[1]) {
                     temp = temp->children[1];
-                    ans += '1';
+                    ans |= 1;
                 } else {
                     temp = temp->children[0];
-                    ans += '0';
                 }
             }
             if (idx == 1) {
                 if (temp->children[0]) {
                     temp = temp->children[0];
-                    ans += '1';
+                    ans |= 1;
                 } else {
                     temp = temp->children[1];
-                    ans += '0';
                 }
             }
         }
@@ -92,8 +91,8 @@ public:
         int ans = 0;
         int n = nums.size();
         for (int i = 0; i < n; i++) {
-            string res = trie->findMax(bitNums[i]);
-            ans = max(ans, bitToNum(res));
+            int res = trie->findMax(bitNums[i]);
+            ans = max(ans, res);
         }
         return ans;
     }
