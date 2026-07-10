@@ -22,11 +22,11 @@ public:
             if (temp->children[idx] == NULL) {
                 temp->children[idx] = new TrieNode();
             }
-            string prevWord=temp->word;
             temp = temp->children[idx];
-            temp->word=prevWord+word[i];
+            
         }
         temp->isTerminal = true;
+        temp->word=word;
     }
     
     vector<string>ans;
