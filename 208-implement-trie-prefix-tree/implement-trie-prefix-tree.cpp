@@ -1,64 +1,57 @@
-class Node {
+class TrieNode {
 public:
-    char data;
-    Node* children[26];
+    vector<TrieNode*>children;
     bool isTerminal;
 
-    Node(char ch) {
-        data = ch;
-        for (int i = 0; i < 26; i++) {
-            children[i] = NULL;
-        }
-        isTerminal = false;
+    TrieNode() {
+        this->isTerminal=false;
+        children.assign(26,NULL);
     }
 };
 
+
 class Trie {
 public:
-    Node* root;
-    Trie() { root = new Node('\0'); }
+    TrieNode* root;
+    Trie() {
+        root=new TrieNode();
+    }
 
     void insert(string word) {
-        int n = word.size();
-        Node* temp = root;
-        for (int i = 0; i < n; i++) {
-            int idx = word[i] - 'a';
-            Node* child;
-            if (temp->children[idx]) {
-                child = temp->children[idx];
-            } else {
-                child = new Node(word[i]);
-                temp->children[idx] = child;
+        int n=word.size();
+        TrieNode* temp=root;
+        for(int i=0;i<n;i++){
+            int idx=word[i]-'a';
+            if(temp->children[idx]==NULL){
+                temp->children[idx]=new TrieNode();
             }
-            temp = child;
+            temp=temp->children[idx];
         }
-        temp->isTerminal = true;
+        temp->isTerminal=true;
     }
 
     bool search(string word) {
-        int n = word.size();
-        Node* temp = root;
-        for (int i = 0; i < n; i++) {
-            int idx = word[i] - 'a';
-
-            if (!temp->children[idx]) {
+        int n=word.size();
+        TrieNode* temp=root;
+        for(int i=0;i<n;i++){
+            int idx=word[i]-'a';
+            if(temp->children[idx]==NULL){
                 return false;
             }
-            temp = temp->children[idx];
+            temp=temp->children[idx];
         }
-        return temp->isTerminal;
+        return temp->isTerminal==true;
     }
 
     bool startsWith(string prefix) {
-        int n = prefix.size();
-        Node* temp = root;
-        for (int i = 0; i < n; i++) {
-            int idx = prefix[i] - 'a';
-
-            if (!temp->children[idx]) {
+        int n=prefix.size();
+        TrieNode* temp=root;
+        for(int i=0;i<n;i++){
+            int idx=prefix[i]-'a';
+            if(temp->children[idx]==NULL){
                 return false;
             }
-            temp = temp->children[idx];
+            temp=temp->children[idx];
         }
         return true;
     }
