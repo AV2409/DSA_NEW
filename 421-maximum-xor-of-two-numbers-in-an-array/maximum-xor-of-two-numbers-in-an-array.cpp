@@ -30,25 +30,25 @@ public:
     string findMax(string word) {
         int n = word.size();
         TrieNode* temp = root;
-        string ans="";
+        string ans = "";
         for (int i = 0; i < n; i++) {
             int idx = word[i] - '0';
             if (idx == 0) {
                 if (temp->children[1]) {
                     temp = temp->children[1];
-                    ans+='1';
+                    ans += '1';
                 } else {
                     temp = temp->children[0];
-                    ans+='0';
+                    ans += '0';
                 }
             }
             if (idx == 1) {
                 if (temp->children[0]) {
                     temp = temp->children[0];
-                    ans+='1';
+                    ans += '1';
                 } else {
                     temp = temp->children[1];
-                    ans+='0';
+                    ans += '0';
                 }
             }
         }
@@ -73,15 +73,13 @@ public:
 
     int bitToNum(string x) {
         int ans = 0;
-        long long z = 1;
-        for (int i = 31; i >= 0; i--) {
-            ans += z * (x[i] - '0');
-            z = z * 2;
+        for (char c : x) {
+            ans <<= 1;
+            ans |= (c - '0');
         }
         return ans;
     }
 
-    
     int findMaximumXOR(vector<int>& nums) {
         Trie* trie = new Trie();
         vector<string> bitNums;
