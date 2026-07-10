@@ -29,14 +29,15 @@ public:
         temp->isTerminal = true;
     }
     
-    set<string>ans;
+    vector<string>ans;
     int n;
     int m;
     vector<int>dx={0,0,1,-1};
     vector<int>dy={1,-1,0,0};
     void dfs(int x,int y,TrieNode* temp,vector<vector<char>>& board){
         if(temp->isTerminal){
-            ans.insert(temp->word);
+            ans.push_back(temp->word);
+            temp->isTerminal = false;
         }
         char ch=board[x][y];
         board[x][y]='#';
@@ -73,8 +74,6 @@ public:
                 }
             }
         }
-        vector<string>res;
-        for(auto x:ans) res.push_back(x);
-        return res;
+        return ans;
     }
 };
