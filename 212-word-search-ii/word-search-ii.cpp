@@ -14,7 +14,7 @@ class Solution {
 public:
     TrieNode* root = new TrieNode();
 
-    void insert(string word) {
+    void insert(string &word) {
         int n = word.size();
         TrieNode* temp = root;
         for (int i = 0; i < n; i++) {
