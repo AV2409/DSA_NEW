@@ -1,21 +1,62 @@
-class Solution {
+class TrieNode {
 public:
-    string find(string& word,unordered_set<string>&st,int maxi){
-        int z=word.size();
-        int ss=min(maxi,z);
-        string temp="";
-        for(int i=0;i<ss;i++){
-            temp+=word[i];
-            if(st.count(temp)) return temp;
+    vector<TrieNode*>children;
+    bool isTerminal;
+
+    TrieNode() {
+        this->isTerminal=false;
+        children.assign(26,NULL);
+    }
+};
+
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root=new TrieNode();
+    }
+
+    void insert(string word) {
+        int n=word.size();
+        TrieNode* temp=root;
+        for(int i=0;i<n;i++){
+            int idx=word[i]-'a';
+            if(temp->children[idx]==NULL){
+                temp->children[idx]=new TrieNode();
+            }
+            temp=temp->children[idx];
+        }
+        temp->isTerminal=true;
+    }
+
+    string search(string word) {
+        int n=word.size();
+        TrieNode* temp=root;
+        string x="";
+        for(int i=0;i<n;i++){
+            int idx=word[i]-'a';
+            
+            if(temp->isTerminal) return x;
+            x+=word[i];
+            if(temp->children[idx]==NULL){
+                return word;
+            }
+            temp=temp->children[idx];
         }
         return word;
     }
+};
+
+class Solution {
+public:
+    Trie* trie=new Trie();
+    string find(string word){
+        return trie->search(word);
+    }
     string replaceWords(vector<string>& dictionary, string sentence) {
-        int maxi=0;
-        unordered_set<string>st;
+        
         for(string w:dictionary){
-            st.insert(w);
-            maxi=max(maxi,(int)w.size());
+            trie->insert(w);
         }
 
         vector<string>words;
@@ -31,7 +72,7 @@ public:
         
         string ans;
         for(string word:words){
-            string x=find(word,st,maxi);
+            string x=find(word);
             ans+=x;
             ans+=" ";
         }
