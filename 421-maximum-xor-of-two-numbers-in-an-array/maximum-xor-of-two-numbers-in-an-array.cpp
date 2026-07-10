@@ -66,6 +66,7 @@ public:
             else
                 ans[31 - i] = '0';
             n = n / 2;
+            if(n==0) break;
         }
         return ans;
     }
