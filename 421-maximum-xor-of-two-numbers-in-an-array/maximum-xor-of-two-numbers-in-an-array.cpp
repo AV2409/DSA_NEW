@@ -27,19 +27,6 @@ public:
         temp->isTerminal = true;
     }
 
-    bool search(string word) {
-        int n = word.size();
-        TrieNode* temp = root;
-        for (int i = 0; i < n; i++) {
-            int idx = word[i] - '0';
-            if (temp->children[idx] == NULL) {
-                return false;
-            }
-            temp = temp->children[idx];
-        }
-        return temp->isTerminal == true;
-    }
-
     string findMax(string word) {
         int n = word.size();
         TrieNode* temp = root;
@@ -94,13 +81,9 @@ public:
         return ans;
     }
 
-    Trie* trie = new Trie();
+    
     int findMaximumXOR(vector<int>& nums) {
-        // for(int x:nums) {
-        //     string ss=numToBit(x);
-        //     int nn=bitToNum(ss);
-        //     cout<<ss<<"-->"<<nn<<endl;
-        // }
+        Trie* trie = new Trie();
         vector<string> bitNums;
         for (int x : nums) {
             string ss = numToBit(x);
