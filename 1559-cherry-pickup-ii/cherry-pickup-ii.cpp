@@ -10,11 +10,10 @@ public:
         int ans=0;
         for(int dj=-1;dj<=1;dj++){
             int nj=j+dj;
-            int newRow=row+1;
             for(int dy=-1;dy<=1;dy++){
                 int ny=y+dy;
                 if(nj>=0 &&nj<cols && ny>=0 && ny<cols){
-                    ans=max(ans,f(newRow,nj,ny,grid));
+                    ans=max(ans,f(row+1,nj,ny,grid));
                 }
             }
         }
