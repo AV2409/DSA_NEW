@@ -6,12 +6,13 @@ public:
     unordered_map<int, unordered_map<char,int>> dp;
     int f(int i, char c) { 
         if(i==N) return 1;
-        if(dp[i][c]!=0) return dp[i][c];
+        if (dp[i].count(c))
+            return dp[i][c];
         int temp=0;
         for(auto ch:mp[c]){
-            temp=(temp%MOD+f(i+1,ch)%MOD)%MOD;
+            temp=(temp+f(i+1,ch))%MOD;
         }
-        return dp[i][c]= temp%MOD;
+        return dp[i][c]= temp;
      }
     int countVowelPermutation(int n) {
         N=n;
