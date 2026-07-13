@@ -6,17 +6,13 @@ public:
             return;
         }
         if (idx > n) {
-
             return;
         }
 
-        for (int i = idx; i <= n; i++) {
-            // f(idx + 1, n, k, list, ans);
-
-            list.push_back(i);
-            f(i + 1, n, k, list, ans);
-            list.pop_back();
-        }
+        f(idx + 1, n, k, list, ans);
+        list.push_back(idx);
+        f(idx + 1, n, k, list, ans);
+        list.pop_back();
     }
     vector<vector<int>> combine(int n, int k) {
         vector<int> list;
