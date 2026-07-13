@@ -7,22 +7,21 @@ public:
 
         while(l<=h){
             int mid=(l+h)/2;
-            
             if(nums[mid]==target) return true;
-            if(nums[l]==nums[mid]) l++;
-            // Left half is sorted
-            else if (nums[l] <= nums[mid]) {
-                if (nums[l] <= target && target < nums[mid])
-                    h = mid - 1;
-                else
-                    l = mid + 1;
+            if(nums[l]==nums[mid]){
+                l++;
+                continue;
             }
-            // Right half is sorted
-            else {
-                if (nums[mid] < target && target <= nums[h])
-                    l = mid + 1;
-                else
-                    h = mid - 1;
+            if(nums[l]<nums[mid]){
+                //left sorted
+                if(target<nums[mid] && target>=nums[l]) h=mid-1;
+                else l=mid+1;
+            }
+
+            else{
+                //right sorted
+                if(target>nums[mid] && target<=nums[h]) l=mid+1;
+                else h=mid-1;
             }
         }
         return false;
