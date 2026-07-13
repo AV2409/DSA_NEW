@@ -1,39 +1,34 @@
 class Solution {
 public:
-    bool isPossible(int mid,vector<int>& nums, int k) {
-        int cnt = 1;
-        long long sum = 0;
-        for (int x : nums) {
-            if (sum + x <= mid) {
-                sum += x;
-            } else {
-                cnt++;
-                sum = x;
+    bool isPossible(vector<int>& nums, int k,int mid){
+        int sum=0;
+        int cnt=1;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            if(sum+nums[i]<=mid){
+                sum+=nums[i];
             }
-
-            if (cnt > k)
-                return false;
+            else{
+                sum=nums[i];
+                cnt++;
+            }
+            if(cnt>k) return false;
         }
-
-        return true;
+        return cnt<=k;
     }
     int splitArray(vector<int>& nums, int k) {
-        int l = *max_element(nums.begin(), nums.end());
-        long long h = accumulate(nums.begin(), nums.end(), 0LL);
-
-        int ans = h;
-
-        while (l <= h) {
-            long long mid = l + (h - l) / 2;
-
-            if (isPossible(mid, nums, k)) {
-                ans = mid;
-                h = mid - 1;
-            } else {
-                l = mid + 1;
+        int l=*max_element(nums.begin(),nums.end());
+        int h=accumulate(nums.begin(),nums.end(),0);
+        int ans=-1;
+        while(l<=h){
+            int mid=(l+h)/2;
+            // cout<<mid;
+            if(isPossible(nums,k,mid)){
+                ans=mid;
+                h=mid-1;
             }
+            else l=mid+1;
         }
-
         return ans;
     }
 };
