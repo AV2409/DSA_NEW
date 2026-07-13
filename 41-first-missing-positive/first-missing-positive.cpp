@@ -2,14 +2,26 @@ class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
         int n=nums.size();
-        vector<bool>hash(1e5+1,false);
+        int i=0;
+        while(i<n){
+            if(nums[i]==i+1) {
+                i++;
+                continue;
+            }
+            if(nums[i]<0){
+                i++;
+                continue;
+            }
+            int correctidx=nums[i]-1;
+            if(correctidx >= 0 && correctidx<n && nums[i] != nums[correctidx]) {
+                swap(nums[i],nums[correctidx]);
+            }
+            else i++;
 
+        }
         for(int i=0;i<n;i++){
-            if(nums[i]>0 && nums[i]<=1e5) hash[nums[i]]=true;
+            if(nums[i]!=i+1) return i+1;
         }
-        for(int i=1;i<=1e5;i++){
-            if(!hash[i]) return i;
-        }
-        return 1e5+1;
+        return n+1;
     }
 };
