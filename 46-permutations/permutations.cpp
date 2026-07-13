@@ -1,8 +1,9 @@
 class Solution {
 public:
     vector<int>vis;
+    int n;
     void f(vector<int>& nums,vector<int>&list,vector<vector<int>>&ans){
-        if(list.size()==nums.size()){
+        if(list.size()==n){
             ans.push_back(list);
             return;
         }
@@ -17,7 +18,7 @@ public:
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        int n=nums.size();
+        n=nums.size();
         vis.assign(n,0);
         vector<vector<int>>ans;
         vector<int>list;
