@@ -9,8 +9,9 @@ public:
             int mid=(l+h)/2;
             
             if(nums[l]<nums[h]) return nums[l];
-            if(nums[l]==nums[mid]){
+            if(nums[l]==nums[mid] && nums[mid]==nums[h]){
                 l++;
+                h--;
                 continue;
             }
             if(nums[l]<=nums[mid]){
