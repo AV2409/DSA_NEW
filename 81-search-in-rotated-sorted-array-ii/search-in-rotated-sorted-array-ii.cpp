@@ -8,11 +8,12 @@ public:
         while(l<=h){
             int mid=(l+h)/2;
             if(nums[mid]==target) return true;
-            if(nums[l]==nums[mid]){
+            if (nums[l] == nums[mid] && nums[mid] == nums[h]) {
                 l++;
+                h--;
                 continue;
             }
-            if(nums[l]<nums[mid]){
+            if(nums[l]<=nums[mid]){
                 //left sorted
                 if(target<nums[mid] && target>=nums[l]) h=mid-1;
                 else l=mid+1;
