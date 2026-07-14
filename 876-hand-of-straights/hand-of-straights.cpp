@@ -12,33 +12,30 @@ public:
         priority_queue<pair<int, int>, vector<pair<int, int>>,
                        greater<pair<int, int>>>
             pq;
-        
-        for(auto it:mp){
-            pq.push({it.first,it.second});
+
+        for (auto it : mp) {
+            pq.push({it.first, it.second});
         }
         while (!pq.empty()) {
-            int card = pq.top().first;
-            int cnt = pq.top().second;
-            queue<pair<int,int>>q;
+            auto [card,cnt]=pq.top();
             pq.pop();
-            int prev = card;
-            for (int i = 1; i < groupSize; i++) {
+            queue<pair<int,int>>q;
+            for(int i=1;i<=groupSize-1;i++){
                 if(pq.empty()) return false;
-                int nextCard = pq.top().first;
-                if(nextCard!=prev+1) return false;
-                int nextCnt = pq.top().second;
-                if(nextCnt<cnt) return false;
-                nextCnt-=cnt;
+                auto [neiCard,neiCnt]=pq.top();
                 pq.pop();
-                if(nextCnt>0) q.push({nextCard,nextCnt});
-                prev=nextCard;
-            }
 
+                if(neiCard!=card+i) return false;
+                if(neiCnt<cnt) return false;
+                neiCnt-=cnt;
+                if(neiCnt>0) q.push({neiCard,neiCnt});
+            }
             while(!q.empty()){
                 pq.push(q.front());
                 q.pop();
             }
         }
+
         return true;
     }
 };
