@@ -3,7 +3,6 @@ public:
     vector<pair<int,int>>dir={{-2,-1},{-2,1},{2,-1},{2,1},{-1,-2},{-1,2},{1,-2},{1,2}};
     int n;
     bool dfs(int i,int j,vector<vector<int>>& grid){
-        cout<<i<<"-"<<j<<endl;
         if(grid[i][j]==((n*n)-1)) return true;
 
         for(auto [dx,dy]:dir){
