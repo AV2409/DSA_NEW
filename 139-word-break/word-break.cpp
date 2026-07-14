@@ -1,21 +1,25 @@
 class Solution {
 public:
     unordered_set<string>dict;
-    vector<int> dp;
+    int n;
+    vector<int>dp;
     bool solve(string &s,int idx){
-        if(idx==s.size()) return true;
+        if(idx==n) return true;
         if(dp[idx]!=-1) return dp[idx];
-        for(int i=idx;i<s.size();i++){
-            string first=s.substr(idx,i-idx+1);
-            if(dict.count(first)){
-                if(solve(s,i+1)) return dp[idx]=true;
+        string x="";
+        bool ans=false;
+        for(int i=idx;i<n;i++){
+            x+=s[i];
+            if(dict.count(x)){
+                ans=ans||solve(s,i+1);
             }
         }
-        return dp[idx]=false;
+        return dp[idx]= ans;
     }
     bool wordBreak(string s, vector<string>& wordDict) {
-        dp.assign(s.size(),-1);
         for(string x:wordDict) dict.insert(x);
+        n=s.size();
+        dp.assign(n,-1);
         return solve(s,0);
     }
 };
