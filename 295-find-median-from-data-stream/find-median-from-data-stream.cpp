@@ -1,32 +1,31 @@
 class MedianFinder {
 public:
-    priority_queue<int>left;
-    priority_queue<int,vector<int>,greater<int>>right;
-    MedianFinder() {
-        
-    }
-    
+    priority_queue<int> left;
+    priority_queue<int, vector<int>, greater<int>> right;
+    MedianFinder() {}
+
     void addNum(int num) {
-        left.push(num);
-        int l=left.size();
-        int r=right.size();
-        if(l-r>1){
+        if (left.empty() || num <= left.top())
+            left.push(num);
+        else
+            right.push(num);
+
+        if (left.size() > right.size() + 1) {
             right.push(left.top());
             left.pop();
-        }
-        else{
-            right.push(left.top());
-            left.pop();
+        } else if (right.size() > left.size()) {
             left.push(right.top());
             right.pop();
         }
     }
-    
+
     double findMedian() {
-        int l=left.size();
-        int r=right.size();
-        if(l!=r) return left.top();
-        else return (left.top()+right.top())/2.0;
+        int l = left.size();
+        int r = right.size();
+        if (l != r)
+            return left.top();
+        else
+            return (left.top() + right.top()) / 2.0;
     }
 };
 
