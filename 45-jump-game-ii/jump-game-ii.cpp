@@ -1,22 +1,20 @@
 class Solution {
 public:
-    int jump(vector<int>& nums) {
-        int l=0;
-        int r=0;
-        int distCovered=0;
-        int jumps=0;
-        int n=nums.size();
-        while(r<n-1){
-            int farthest = 0;
-
-            for (int i = l; i <= r; i++) {
-                farthest = max(farthest, i + nums[i]);
-            }
-
-            l = r + 1;
-            r = farthest;
-            jumps++;
+    int n;
+    vector<int>dp;
+    int f(int idx,vector<int>& nums){
+        if(idx>=n-1) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int x=nums[idx];
+        int ans=1e9;
+        for(int i=1;i<=x;i++){
+            ans=min(ans,1+f(idx+i,nums));
         }
-        return jumps;
+        return dp[idx]= ans;
+    }
+    int jump(vector<int>& nums) {
+        n=nums.size();
+        dp.assign(n,-1);
+        return f(0,nums);
     }
 };
