@@ -5,28 +5,25 @@ public:
         if (n == 1)
             return intervals;
         sort(intervals.begin(), intervals.end());
+        vector<vector<int>>ans;
 
-        int i = 0;
-        int j = 1;
+        int st=intervals[0][0];
+        int end=intervals[0][1];
+        
+        for(int i=1;i<n;i++){
+            int newSt=intervals[i][0];
+            int newEnd=intervals[i][1];
 
-        vector<vector<int>> ans;
-        int st1 = intervals[i][0];
-        int end1 = intervals[i][1];
-
-        while (j < n) {
-            int st2 = intervals[j][0];
-            int end2 = intervals[j][1];
-            if (end1 < st2) {
-                ans.push_back({st1, end1});
-                st1 = st2;
-                end1 = end2;
-            } else {
-                end1 = max(end1, end2);
+            if(newSt<=end){
+                end=max(end,newEnd);
             }
-            j++;
+            else{
+                ans.push_back({st,end});
+                st=newSt;
+                end=newEnd;
+            }
         }
-
-        ans.push_back({st1,end1});
+        ans.push_back({st,end});
         return ans;
     }
 };
