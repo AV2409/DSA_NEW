@@ -1,34 +1,32 @@
 class Solution {
 public:
-    vector<vector<int>> insert(vector<vector<int>>& intervals,vector<int>& newInterval) {
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        vector<vector<int>>ans;
+        int s=newInterval[0];
+        int e=newInterval[1];
+        int n=intervals.size();
+        bool isIns=false;
+        for(int i=0;i<n;i++){
+            int st=intervals[i][0];
+            int end=intervals[i][1];
 
-        vector<vector<int>> ans;
-        int s = newInterval[0];
-        int e = newInterval[1];
-        bool inserted = false;
-        for (auto &it : intervals) {
-            // current interval completely before new interval
-            if (it[1] < s) {
-                ans.push_back(it);
+            if(end<s){
+                ans.push_back({st,end});
             }
-            // current interval completely after new interval
-            else if (it[0] > e) {
-                if (!inserted) {
-                    ans.push_back({s, e});
-                    inserted = true;
+            else if(st>e){
+                if(!isIns){
+                    ans.push_back({s,e});
+                    isIns=true;
                 }
-                ans.push_back(it);
+                ans.push_back({st,end});
             }
-            // overlap
-            else {
-                s = min(s, it[0]);
-                e = max(e, it[1]);
+            else{
+                s=min(st,s);
+                e=max(e,end);
             }
         }
 
-        if (!inserted)
-            ans.push_back({s, e});
-
+        if(!isIns) ans.push_back({s,e});
         return ans;
     }
 };
