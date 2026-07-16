@@ -15,24 +15,17 @@ public:
         TreeNode* node=new TreeNode(val);
         if(!root) return node;
         TreeNode* temp=root;
-        bool flag=false;
-        while(true){
-            if(temp->val>val){
-                if(temp->left) temp=temp->left;
-                else {
-                    temp->left=node;
-                    flag=true;
-                }
-            }
-            else{
-                if(temp->right) temp=temp->right;
-                else{
-                    temp->right=node;
-                    flag=true;
-                }
-            }
-            if(flag) break;
+        TreeNode* prev=root;
+
+        while(temp){
+            prev=temp;
+            if(temp->val>val) temp=temp->left;
+            else if(temp->val<val) temp=temp->right;
         }
+        // cout<<prev->val;
+        if(val<prev->val)
+            prev->left=new TreeNode(val);
+        else prev->right=new TreeNode(val);
         return root;
     }
 };
