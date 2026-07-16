@@ -11,17 +11,18 @@
  */
 class Solution {
 public:
-    int ans=-1;
-    int helper(TreeNode* root){
+    int ans=0;
+    int solve(TreeNode* root){
         if(!root) return 0;
-        
-        int lh=helper(root->left);
-        int rh=helper(root->right);
-        ans=max(ans,lh+rh);
-        return (1+max(lh,rh));
+
+        int l=solve(root->left);
+        int r=solve(root->right);
+        ans=max(ans,l+r);
+        // cout<<root->val<<"--->"<<1+max(l,r)<<endl;
+        return 1+max(l,r);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        helper(root);
+        solve(root);
         return ans;
     }
 };
