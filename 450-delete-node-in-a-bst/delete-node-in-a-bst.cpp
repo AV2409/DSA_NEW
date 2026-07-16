@@ -6,37 +6,47 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
  * };
  */
 class Solution {
 public:
-    TreeNode* findMax(TreeNode* root) {
-        while (root->right)
-            root = root->right;
-        return root;
+    int findMin(TreeNode* root){
+        TreeNode* temp=root;
+        while(temp->left){
+            temp=temp->left;
+        }
+        return temp->val;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if (!root)
-            return root;
-
-        if (root->val > key) {
+        if(!root) return root;
+        if (root->val > key){
             root->left=deleteNode(root->left,key);
-        } else if (root->val < key) {
+        }
+        else if (root->val < key){
             root->right=deleteNode(root->right,key);
         }
-        else{
-            //no child
-            if(root->left==NULL && root->right==NULL) return NULL;
+            
+        else {
+            //0 child
+            if (root->right==NULL && root->left==NULL) {
+                delete root;
+                return NULL;
+            }
 
             //1 child
-            if(root->left==NULL) return root->right;
-            if(root->right==NULL) return root->left;
+            if (root->right==NULL || root->left==NULL) {
+                if(root->left) return root->left;
+                return root->right;
+            }
 
-            //both
-            TreeNode* maxi=findMax(root->left);
-            root->val=maxi->val;
-            root->left=deleteNode(root->left,maxi->val);
+            //2 child
+            int mini=findMin(root->right);
+
+            root->val=mini;
+            root->right=deleteNode(root->right,mini);
+
         }
         return root;
     }
