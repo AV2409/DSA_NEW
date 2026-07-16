@@ -11,22 +11,20 @@ class Solution {
 public:
     TreeNode* ans=NULL;
     int helper(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(ans) return 2;
         if(!root) return 0;
-        if(ans) return 0;
 
-        int cnt=0;
-        if(root==p||root==q) cnt++;
-        int left=helper(root->left,p,q);
-        int right=helper(root->right,p,q);
-        cnt+=left+right;
-        
+        int val=0;
+        if(root->val==p->val || root->val==q->val) val++;
+        int l=helper(root->left,p,q);
+        int r=helper(root->right,p,q);
 
-        if(cnt==2 && ans==NULL){
+        int cnt=val+l+r;
+        if(cnt==2 && ans==NULL) {
             ans=root;
             return 2;
         }
         return cnt;
-        
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         helper(root,p,q);
