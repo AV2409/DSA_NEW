@@ -11,56 +11,58 @@ class Solution {
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         unordered_map<TreeNode*, TreeNode*> par;
-        unordered_map<TreeNode*, bool> vis;
 
-        par[root] = NULL;
         queue<TreeNode*> q;
+        par[root] = NULL;
         q.push(root);
+
         while (!q.empty()) {
             TreeNode* node = q.front();
             q.pop();
-            vis[node]=false;
 
             if (node->left) {
-                par[node->left] = node;
                 q.push(node->left);
+                par[node->left] = node;
             }
-
             if (node->right) {
-                par[node->right] = node;
                 q.push(node->right);
+                par[node->right] = node;
             }
         }
 
-        queue<TreeNode*> qq;
+        q.push(target);
+        unordered_map<TreeNode*, bool> vis;
+        vis[target]=true;
+        vector<int> ans;
         int dist = 0;
-        qq.push(target);
+        while (!q.empty()) {
+            int ss = q.size();
+            if (dist == k)
+                break;
 
-        while (!qq.empty()) {
-            if(dist==k) break;
-            int ss = qq.size();
-            while (ss--) {
-                TreeNode* node = qq.front();
-                qq.pop();
-                vis[node] = true;
+            for (int i = 0; i < ss; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
                 if (node->left && !vis[node->left]) {
-                    qq.push(node->left);
+                    q.push(node->left);
+                    vis[node->left]=true;
                 }
-
                 if (node->right && !vis[node->right]) {
-                    qq.push(node->right);
+                    q.push(node->right);
+                    vis[node->right]=true;
                 }
-
-                if (par[node] && !vis[par[node]]) {
-                    qq.push(par[node]);
+                if(par[node] && !vis[par[node]]) {
+                    q.push(par[node]);
+                    vis[par[node]]=true;
                 }
             }
             dist++;
         }
-        vector<int>ans;
-        while(!qq.empty()){
-            ans.push_back(qq.front()->val);
-            qq.pop();
+        while(!q.empty()){
+            TreeNode* node=q.front();
+            q.pop();
+            ans.push_back(node->val);
         }
         return ans;
     }
