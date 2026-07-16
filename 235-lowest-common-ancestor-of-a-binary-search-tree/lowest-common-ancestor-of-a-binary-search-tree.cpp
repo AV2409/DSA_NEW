@@ -14,9 +14,8 @@ public:
     void helper(TreeNode* root, TreeNode* p, TreeNode* q){
         if(!root) return;
         if(ans) return;
-
+        int maxi=max(p->val,q->val);
         int mini=min(p->val,q->val);
-        int maxi=max(q->val,p->val);
 
         if(root->val>maxi) helper(root->left,p,q);
         else if(root->val<mini) helper(root->right,p,q);
