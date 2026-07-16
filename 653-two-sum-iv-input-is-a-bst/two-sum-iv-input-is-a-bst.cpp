@@ -11,56 +11,68 @@
  */
 
 class BSTIterator {
-private: 
-    void pushAll1(TreeNode* root){
-        while(root){
-            st1.push(root);
-            root=root->left;
-        }
-    }
-
-    void pushAll2(TreeNode* root){
-        while(root){
-            st2.push(root);
-            root=root->right;
-        }
-    }
 public:
-    stack<TreeNode*>st1;
+    stack<TreeNode*>st;
     stack<TreeNode*>st2;
     BSTIterator(TreeNode* root) {
-        pushAll1(root);
-        pushAll2(root);
+        TreeNode* temp=root;
+        while(temp){
+            st.push(temp);
+            temp=temp->left;
+        }
+        temp=root;
+        while(temp){
+            st2.push(temp);
+            temp=temp->right;
+        }
     }
     
-    int nextL() {
-        TreeNode* node=st1.top();
-        st1.pop();
-        pushAll1(node->right);
+    int nextGreater() {
+        TreeNode* node=st.top();
+        st.pop();
+        TreeNode* temp=node->right;
+        while(temp){
+            st.push(temp);
+            temp=temp->left;
+        }
         return node->val;
     }
-    int nextG() {
+    
+    bool hasNextGreater() {
+        return !st.empty();
+    }
+
+    int nextSmaller() {
         TreeNode* node=st2.top();
         st2.pop();
-        pushAll2(node->left);
+        TreeNode* temp=node->left;
+        while(temp){
+            st2.push(temp);
+            temp=temp->right;
+        }
         return node->val;
+    }
+    
+    bool hasNextSmaller() {
+        return !st2.empty();
     }
 };
 
 class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
-        if(!root) return false;
-        BSTIterator it(root);
-
-        int i=it.nextL();
-        int j=it.nextG();
-
-        while(i<j){
-            if(i+j==k) return true;
-
-            if(i+j>k) j=it.nextG();
-            else i=it.nextL();
+        BSTIterator *bst=new BSTIterator(root);
+        int low=bst->nextGreater();
+        int high=bst->nextSmaller();
+        while(true){
+            if(low>=high) return false;
+            if(low+high==k) return true;
+            else if(low+high<k){
+                low=bst->nextGreater();
+            }
+            else {
+                high=bst->nextSmaller();
+            }
         }
         return false;
     }
