@@ -24,8 +24,8 @@ public:
         }
         // cout<<prev->val;
         if(val<prev->val)
-            prev->left=new TreeNode(val);
-        else prev->right=new TreeNode(val);
+            prev->left=node;
+        else prev->right=node;
         return root;
     }
 };
