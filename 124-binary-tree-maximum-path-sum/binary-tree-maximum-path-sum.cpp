@@ -12,16 +12,17 @@
 class Solution {
 public:
     int ans=INT_MIN;
-    int helper(TreeNode* root){
+    int solve(TreeNode* root){
         if(!root) return 0;
-        
-        int lh=max(0,helper(root->left));
-        int rh=max(0,helper(root->right));
-        ans=max(ans,root->val+lh+rh);
-        return (root->val+max(lh,rh));
+
+        int l=max(0,solve(root->left));
+        int r=max(0,solve(root->right));
+        ans=max(ans,root->val+l+r);
+        // cout<<root->val<<"--->"<<1+max(l,r)<<endl;
+        return root->val+max(l,r);
     }
     int maxPathSum(TreeNode* root) {
-        helper(root);
+        solve(root);
         return ans;
     }
 };
