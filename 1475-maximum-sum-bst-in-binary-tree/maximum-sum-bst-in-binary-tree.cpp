@@ -14,10 +14,11 @@ class Solution {
 public:
     struct Node {
         bool isBst;
-        int sum;
-        int mini;
-        int maxi;
+        int sum = 0;
+        long long mini;
+        long long maxi;
     };
+
     int ans = 0;
     Node helper(TreeNode* root) {
         if (!root)
@@ -27,13 +28,13 @@ public:
         Node r = helper(root->right);
 
         if (l.isBst && r.isBst && root->val > l.maxi && root->val < r.mini) {
-            int temp = root->val + l.sum + r.sum;
-            ans = max(ans, temp);
-            int mn = min(root->val, l.mini);
-            int mx = max(root->val, r.maxi);
-            return {true, temp, mn, mx};
-        }
+            ans = max(ans, root->val + l.sum + r.sum);
+            long long mini = min((long long)root->val, l.mini);
+            long long maxi = max((long long)root->val, r.maxi);
 
+            return {true, root->val + l.sum + r.sum, mini, maxi};
+            return {true, root->val + l.sum + r.sum, mini, maxi};
+        }
         return {false, 0, INT_MIN, INT_MAX};
     }
     int maxSumBST(TreeNode* root) {
