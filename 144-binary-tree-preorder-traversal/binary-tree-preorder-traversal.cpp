@@ -12,16 +12,37 @@
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        if(!root) return {};
-        vector<int>ans;
-        stack<TreeNode*>st;
-        st.push(root);
-        while(!st.empty()){
-            TreeNode* node=st.top();
-            st.pop();
-            ans.push_back(node->val);
-            if(node->right) st.push(node->right);
-            if(node->left) st.push(node->left);
+        vector<int> ans;
+        TreeNode* curr = root;
+        while (curr) {
+            if (curr->left == NULL) {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+
+            else {
+                // find rightmost guy on left
+                TreeNode* temp = curr->left;
+                TreeNode* prev = curr->left;
+                while (temp && temp!=curr) {
+                    prev = temp;
+                    temp = temp->right;
+                }
+
+                // connect that guy to the root/curr
+                //creating thread
+                if (prev->right == NULL) {
+                    prev->right = curr;
+                    ans.push_back(curr->val);
+                    curr=curr->left;
+                }
+
+                //if already connected
+                else{
+                    prev->right=NULL;
+                    curr=curr->right;
+                }
+            }
         }
         return ans;
     }
