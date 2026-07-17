@@ -24,32 +24,31 @@ public:
             return;
         if (f == 2)
             return;
-        
+
         find(root->left);
 
-        if (prev == NULL) {
-            prev = root;
-        } else {
-            if (root->val <= prev->val) {
-                if (f == 0) {
-                    w11 = prev;
-                    w12 = root;
-                }
-
-                if (f == 1) {
-                    w21 = prev;
-                    w22 = root;
-                }
-                f++;
+        if (prev && root->val <= prev->val) {
+            if (f == 0) {
+                w11 = prev;
+                w12 = root;
             }
-            prev=root;
+
+            if (f == 1) {
+                w21 = prev;
+                w22 = root;
+            }
+            f++;
         }
+        prev = root;
+
         find(root->right);
+        
     }
     void recoverTree(TreeNode* root) {
         find(root);
-        if(!w21) swap(w11->val,w12->val);
-        else swap(w11->val,w22->val);
-
+        if (!w21)
+            swap(w11->val, w12->val);
+        else
+            swap(w11->val, w22->val);
     }
 };
