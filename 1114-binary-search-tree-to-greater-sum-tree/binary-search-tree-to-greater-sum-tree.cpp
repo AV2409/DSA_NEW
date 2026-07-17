@@ -11,32 +11,19 @@
  */
 class Solution {
 public:
-    vector<int>trav;
-    unordered_map<int,TreeNode*>mp;
+
+    int sum=0;
     void inorder(TreeNode* root){
         if(!root) return;
         inorder(root->right);
-        trav.push_back(root->val);
-        mp[root->val]=root;
+
+        sum+=root->val;
+        root->val=sum;
+
         inorder(root->left);
     }
     TreeNode* bstToGst(TreeNode* root) {
         inorder(root);
-        // for(int x:trav){
-        //     cout<<x<<" ";
-        // }
-        int n=trav.size();
-        vector<int>preSum(n);
-        preSum[0]=trav[0];
-        for(int i=1;i<n;i++){
-            preSum[i]=preSum[i-1]+trav[i];
-        }
-
-        for(int i=0;i<n;i++){
-            int val=trav[i];
-            TreeNode* node=mp[val];
-            node->val=preSum[i];
-        }
         return root;
     }
 };
