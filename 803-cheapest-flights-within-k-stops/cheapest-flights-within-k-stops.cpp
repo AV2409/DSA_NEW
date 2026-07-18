@@ -1,39 +1,43 @@
 class Solution {
 public:
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<pair<int,int>>>adj(n);
-
-        for(auto it:flights){
-            int u=it[0];
-            int v=it[1];
-            int wt=it[2];
-            adj[u].push_back({v,wt});
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst,
+                          int k) {
+        vector<vector<pair<int, int>>> adj(n);
+        for (auto it : flights) {
+            int from = it[0];
+            int to = it[1];
+            int wt = it[2];
+            adj[from].push_back({to, wt});
         }
-        vector<vector<int>>dist(n,vector<int>(k+2,1e9));
-        dist[src][0]=0;
 
+        vector<vector<int>> dist(n, vector<int>(k + 2, 1e9));
+        dist[src][0] = 0;
         
-        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>>pq;
-        pq.push({0,0,src});
-
-        while(!pq.empty()){
-            auto it=pq.top();
-            int d=it[0];
-            int stops=it[1];
-            int node=it[2];
+        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>>pq;
+        pq.push({0, src, 0});
+        while (!pq.empty()) {
+            auto [d, node, stops] = pq.top();
             pq.pop();
-            if(node==dst) return d;
-            if(stops==k+1) continue;
-            if(d>dist[node][stops]) continue;
+            if (node == dst)
+                return d;
 
-            for(auto& [adjNode,wt]:adj[node]){
-                if(wt+d<dist[adjNode][stops+1]){
-                    dist[adjNode][stops+1]=wt+d;
-                    pq.push({d+wt,stops+1,adjNode});
+            if (d > dist[node][stops])
+                continue;
+            if (stops == k + 1)
+                continue;
+
+            for (auto [nei, wt] : adj[node]) {
+                int newDist = d + wt;
+                if (newDist < dist[nei][stops + 1]) {
+                    dist[nei][stops + 1] = newDist;
+                    pq.push({newDist, nei, stops + 1});
                 }
             }
         }
-        return -1;
+        int ans = 1e9;
+        for (int i = 0; i <= k + 1; i++)
+            ans = min(ans, dist[dst][i]);
 
+        return ans == 1e9 ? -1 : ans;
     }
 };
