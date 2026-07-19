@@ -17,20 +17,16 @@ public:
         return ans;
     }
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int n = matrix[0].size();
-        int m = matrix.size();
-
-        vector<int> arr(n, 0);
-        int ans = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == '1')
-                    arr[j]++;
-                else
-                    arr[j] = 0;
+        int rows=matrix.size();
+        int cols=matrix[0].size();
+        vector<int>ht(cols,0);
+        int ans=0;
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(matrix[i][j]=='1') ht[j]++;
+                else ht[j]=0;
             }
-            int temp = largestRectangleArea(arr);
-            ans = max(ans, temp);
+            ans=max(ans,largestRectangleArea(ht));
         }
         return ans;
     }
