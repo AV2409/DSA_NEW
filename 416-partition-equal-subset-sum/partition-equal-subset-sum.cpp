@@ -1,27 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>>dp;
-    bool f(int i, int sum,vector<int>& arr){
-        if(i<0) return sum==0;
-        if(i==0) return sum==arr[0];
-        if(sum==0) return true;
-        if(dp[i][sum]!=-1) return dp[i][sum];
-        bool np=f(i-1,sum,arr);
-        bool p=false;
-
-        if(arr[i]<=sum) p=f(i-1,sum-arr[i],arr);
-        return dp[i][sum]= np||p;
-    }
     bool isSubsetSum(vector<int>& arr, int sum) {
         int n=arr.size();
-        dp.assign(n,vector<int>(sum+1,-1));
-        return f(n-1,sum,arr);
+        vector<vector<bool>>dp(n+1,vector<bool>(sum+1,false));
+        for(int i=0;i<=n;i++) dp[i][0]=true;
+        for(int i=1;i<=n;i++){
+            for(int s=1;s<=sum;s++){
+                bool pick=false;
+                bool np=dp[i-1][s];
+                if(s>=arr[i-1]) pick=dp[i-1][s-arr[i-1]];
+                dp[i][s]= pick||np;
+            }
+        }
+        return dp[n][sum];
     }
     bool canPartition(vector<int>& nums) {
-        int sum = accumulate(nums.begin(), nums.end(), 0);
-        if (sum % 2)
-            return false;
-        sum /= 2;
-        return isSubsetSum(nums, sum);
+        int sum=accumulate(nums.begin(),nums.end(),0);
+        if(sum%2) return false;
+        return isSubsetSum(nums,sum/2);
     }
 };
