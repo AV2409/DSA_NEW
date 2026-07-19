@@ -23,7 +23,7 @@ public:
             return dp[i][j]= f(i+1,j+1,s,p);
         }
         else{
-            if(s[i]==p[j]) return f(i+1,j+1,s,p);
+            if(s[i]==p[j]) return dp[i][j]= f(i+1,j+1,s,p);
             return dp[i][j]= false;
         }
     }
