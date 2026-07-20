@@ -1,31 +1,22 @@
 class Solution {
 public:
     int compress(vector<char>& chars) {
-        int i=0;
-        int index=0;
+        vector<int>hash(256,0);
+        int l=0;
+        int r=0;
+        string ans;
         int n=chars.size();
-
-        while(i<n){
-            int j=i;
-
-            while(j<n && chars[i]==chars[j]) j++;
-            //after completion either at new char or end of array
-
-            //storing old char
-            chars[index++]=chars[i];
-
-            int count=j-i;
-
-            //storing count if >1
-            if(count>1){
-                string temp=to_string(count);
-                for(char ch : temp){
-                    chars[index++]=ch;
-                }
-            }
-
-            i=j;
+        while(r<n){
+            r=l;
+            while(r<n && chars[l]==chars[r]) r++;
+            int len=r-l;
+            ans+=chars[l];
+            if(len>1) ans+=to_string(len);
+            l=r;
         }
-        return index;
+        for(int i=0;i<ans.size();i++){
+            chars[i]=ans[i];
+        }
+        return ans.size();
     }
 };
