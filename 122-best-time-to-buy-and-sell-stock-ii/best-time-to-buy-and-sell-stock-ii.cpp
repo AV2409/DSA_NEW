@@ -7,7 +7,7 @@ public:
         if(dp[i][bought]!=-1) return dp[i][bought];
         if(bought){
             //sell
-            int op1=prices[i]+f(i,false,prices);
+            int op1=prices[i]+f(i+1,false,prices);
 
             //skip
             int op2=f(i+1,bought,prices);
