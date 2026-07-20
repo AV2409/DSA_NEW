@@ -1,26 +1,29 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int n=prices.size();
-        vector<vector<int>>dp(n+1,vector<int>(2));
-        //j=0 not bought
-        //j=1 bought
-        for(int i=n-1;i>=0;i--){
-            for(int j=0;j<2;j++){
-                if(j==1){
-                    int op1=dp[i+1][1];
-                    int op2=prices[i]+dp[i+1][0];
-                    dp[i][j]=max(op1,op2);
-                }
+    int n;
+    vector<vector<int>>dp;
+    int f(int i,bool bought,vector<int>& prices){
+        if(i==n) return 0;
+        if(dp[i][bought]!=-1) return dp[i][bought];
+        if(bought){
+            //sell
+            int op1=prices[i]+f(i,false,prices);
 
-                if(j==0){
-                    int op1=dp[i+1][0];
-                    int op2=dp[i+1][1]-prices[i];
-                    dp[i][j]=max(op1,op2);
-                }
-            }
+            //skip
+            int op2=f(i+1,bought,prices);
+
+            return dp[i][bought]= max(op1,op2);
         }
+        //buy
+        int op1=-prices[i]+f(i+1,true,prices);
+        int op2=f(i+1,bought,prices);
 
-        return dp[0][0];
+        return dp[i][bought]= max(op1,op2);
+
+    }
+    int maxProfit(vector<int>& prices) {
+        n=prices.size();
+        dp.assign(n,vector<int>(2,-1));
+        return f(0,false,prices);
     }
 };
