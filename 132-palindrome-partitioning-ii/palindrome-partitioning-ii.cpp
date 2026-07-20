@@ -1,42 +1,48 @@
 class Solution {
 public:
-    vector<int> dp;
-    vector<vector<bool>> pal;
-    int f(int i, string& s) {
-        if (i == s.size())
-            return 0;
-        if (dp[i] != -1)
-            return dp[i];
-        int ans = INT_MAX;
-        for (int idx = i; idx < s.size(); idx++) {
-            if (pal[i][idx]) {
-                ans = min(ans, 1 + f(idx + 1, s));
-            }
+    vector<vector<int>>ispal;
+    int n;
+    void check(int mid,string &s){
+        //odd length;
+        int i=mid;
+        int j=mid;
+        while(i>=0 && j<n && s[i]==s[j]){
+            ispal[i][j]=1;
+            i--;
+            j++;
         }
-        return dp[i] = ans;
+
+        //even length;
+        i=mid-1;
+        j=mid;
+        while(i>=0 && j<n && s[i]==s[j]){
+            ispal[i][j]=1;
+            i--;
+            j++;
+        }
     }
-    int minCut(string s) {
-        int n = s.size();
-        pal.assign(n, vector<bool>(n, false));
 
-        // Length = 1
-        for (int i = 0; i < n; i++)
-            pal[i][i] = true;
+    vector<int>dp;
 
-        // Length >= 2
-        for (int len = 2; len <= n; len++) {
-            for (int i = 0; i + len - 1 < n; i++) {
-                int j = i + len - 1;
-
-                if (s[i] != s[j])
-                    pal[i][j] = false;
-                else if (len == 2)
-                    pal[i][j] = true;
-                else
-                    pal[i][j] = pal[i + 1][j - 1];
+    int f(int idx,string &s){
+        if(idx==n) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int ans=INT_MAX;
+        for(int i=idx;i<n;i++){
+            if(ispal[idx][i]){
+                ans=min(ans,1+f(i+1,s));
             }
         }
-        dp.assign(n, -1);
-        return f(0, s) - 1;
+        return dp[idx]= ans;
+    }
+
+    int minCut(string s) {
+        n=s.size();
+        ispal.assign(n,vector<int>(n,0));
+        dp.assign(n,-1);
+        for(int i=0;i<n;i++){
+            check(i,s);
+        }
+        return f(0,s)-1;
     }
 };
