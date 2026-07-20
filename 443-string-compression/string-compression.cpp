@@ -3,7 +3,6 @@ public:
     int compress(vector<char>& chars) {
         int l = 0;
         int r = 0;
-        string ans;
         int n = chars.size();
         int idx = 0;
         while (r < n) {
