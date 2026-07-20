@@ -1,7 +1,6 @@
 class Solution {
 public:
     int compress(vector<char>& chars) {
-        vector<int>hash(256,0);
         int l=0;
         int r=0;
         string ans;
