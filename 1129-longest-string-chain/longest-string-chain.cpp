@@ -1,21 +1,25 @@
 class Solution {
 public:
     bool check(string& a, string& b) {
-        if (a.size() + 1 != b.size())
-            return false;
+        int cnt=0;
+        int n1=a.size();
+        int n2=b.size();
 
-        int i = 0, j = 0;
-
-        while (i < a.size() && j < b.size()) {
-            if (a[i] == b[j]) {
+        if(n1+1!=n2) return false;
+        int i=0;
+        int j=0;
+        while(i<n1 && j<n2){
+            if(a[i]==b[j]){
                 i++;
                 j++;
-            } else {
-                j++; // skip one character in the longer string
             }
+            else{
+                j++;
+                cnt++;
+            }
+            if(cnt>1) return false;
         }
-
-        return i == a.size();
+        return cnt<=1;
     }
     static bool comp(string& a, string& b) { return a.size() < b.size(); }
     int longestStrChain(vector<string>& words) {
