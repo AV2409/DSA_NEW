@@ -10,6 +10,15 @@ public:
         if (mp.find(key) != mp.end())
             return mp[key];
         
+        vector<int> freq(26, 0);
+        for (int i = 0; i < n; i++) {
+            freq[s1[i] - 'a']++;
+            freq[s2[i] - 'a']--;
+        }
+        for (int x : freq) {
+            if (x != 0)
+                return mp[key]=false;
+        }
         for (int i = 1; i < n; i++) {
             string t1 = s1.substr(0, i);
             string t2 = s2.substr(n - i, i);
@@ -32,16 +41,7 @@ public:
         return mp[key] = false;
     }
     bool isScramble(string s1, string s2) {
-        int n=s1.size();
-        vector<int> freq(26, 0);
-        for (int i = 0; i < n; i++) {
-            freq[s1[i] - 'a']++;
-            freq[s2[i] - 'a']--;
-        }
-        for (int x : freq) {
-            if (x != 0)
-                return false;
-        }
+        
         unordered_map<string, bool> mp;
         return solve(s1, s2, mp);
     }
