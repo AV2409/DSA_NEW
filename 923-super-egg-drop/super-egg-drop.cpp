@@ -1,39 +1,38 @@
 class Solution {
 public:
-    
-    int superEggDrop(int k, int n) {
-        vector<vector<int>> dp(k + 1, vector<int>(n + 1, 0));
-        for (int i = 1; i <= k; i++) {
-            dp[i][0] = 0;
-            dp[i][1] = 1;
-        }
+    vector<vector<int>> dp;
+    int f(int n, int k) {
+        if (n == 1)
+            return 1;
+        if (n <= 0)
+            return 0;
+        if (k == 1)
+            return n;
+        if (dp[n][k] != -1)
+            return dp[n][k];
+        int ans = 1e9;
+        int st = 1;
+        int end = n;
 
-        for (int i = 1; i <= n; i++) {
-            dp[1][i] = i;
-            // dp[0][i] = 1e9;
-        }
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
 
-        for (int i = 2; i <= k; i++) {
-            for (int j = 2; j <= n; j++) {
-                int mini = 1e9;
-                int low = 1, high = j;
-                while (low <= high) {
-                    int mid = (low + high) / 2;
+            int breakCase = f(mid - 1, k - 1);
+            int notBreakCase = f(n - mid, k);
 
-                    int op1 = dp[i-1][mid-1];
-                    int op2 = dp[i][j-mid];
+            int temp = 1 + max(breakCase, notBreakCase);
+            ans = min(ans, temp);
 
-                    int temp = 1 + max(op1, op2);
-                    mini = min(mini, temp);
-
-                    if (op1 > op2)
-                        high = mid - 1;
-                    else
-                        low = mid + 1;
-                }
-                dp[i][j] = mini;
+            if (breakCase < notBreakCase) {
+                st = mid + 1;
+            } else {
+                end = mid - 1;
             }
         }
-        return dp[k][n];
+        return dp[n][k] = ans;
+    }
+    int superEggDrop(int k, int n) {
+        dp.assign(n + 1, vector<int>(k + 1, -1));
+        return f(n, k);
     }
 };
