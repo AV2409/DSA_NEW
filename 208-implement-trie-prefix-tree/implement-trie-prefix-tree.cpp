@@ -1,14 +1,14 @@
-class TrieNode {
+class TrieNode{
 public:
-    vector<TrieNode*>children;
-    bool isTerminal;
-
-    TrieNode() {
-        this->isTerminal=false;
-        children.assign(26,NULL);
+    TrieNode* children[26];
+    bool terminal;
+    TrieNode(){
+        for(int i=0;i<26;i++){
+            children[i]=NULL;
+        }
+        terminal=false;
     }
 };
-
 
 class Trie {
 public:
@@ -16,38 +16,35 @@ public:
     Trie() {
         root=new TrieNode();
     }
-
+    
     void insert(string word) {
-        int n=word.size();
         TrieNode* temp=root;
-        for(int i=0;i<n;i++){
-            int idx=word[i]-'a';
+        for(char ch:word){
+            int idx=ch-'a';
             if(temp->children[idx]==NULL){
                 temp->children[idx]=new TrieNode();
             }
             temp=temp->children[idx];
         }
-        temp->isTerminal=true;
+        temp->terminal=true;
     }
-
+    
     bool search(string word) {
-        int n=word.size();
         TrieNode* temp=root;
-        for(int i=0;i<n;i++){
-            int idx=word[i]-'a';
+        for(char ch:word){
+            int idx=ch-'a';
             if(temp->children[idx]==NULL){
                 return false;
             }
             temp=temp->children[idx];
         }
-        return temp->isTerminal==true;
+        return temp->terminal==true;
     }
-
+    
     bool startsWith(string prefix) {
-        int n=prefix.size();
         TrieNode* temp=root;
-        for(int i=0;i<n;i++){
-            int idx=prefix[i]-'a';
+        for(char ch:prefix){
+            int idx=ch-'a';
             if(temp->children[idx]==NULL){
                 return false;
             }
