@@ -1,43 +1,54 @@
 class Solution {
 public:
     int cnt=0;
-    void merge(vector<int>&arr,int st,int mid,int end){
-        int i=st;
-        int j=mid+1;
-        int y=mid+1;
-        for(int x=st;x<=mid;x++){
-            while(y<=end && arr[x]>2LL*arr[y]) y++;
-            cnt+=y-mid-1;
-        }
+    void merge(int st,int mid,int end,vector<int> &arr){
         vector<int>ans;
+        int j=mid+1;
+        int i=st;
+        int x=i;
+        int y=j;
+        while(x<=mid){
+            while(y<=end && (long long)arr[x] > 2LL * arr[y]) y++;
+            cnt+=y-mid-1;
+            x++;
+        }
         while(i<=mid && j<=end){
-            if(arr[i]<=arr[j]) ans.push_back(arr[i++]);
+            if(arr[i]<=arr[j]){
+                ans.push_back(arr[i]);
+                i++;
+            }
             else {
-                ans.push_back(arr[j++]); 
+                ans.push_back(arr[j]);
+                j++;
             }
         }
         
         while(i<=mid){
-            ans.push_back(arr[i++]);
+            ans.push_back(arr[i]);
+            i++;
         }
         
         while(j<=end){
-            ans.push_back(arr[j++]);
+            ans.push_back(arr[j]);
+            j++;
         }
-        for (int k = 0; k < ans.size(); k++) {
-            arr[st + k] = ans[k];
+        
+        for(int k=st;k<=end;k++){
+            arr[k]=ans[k-st];
         }
     }
-    void mergeSort(vector<int> &arr,int st,int end){
+    void mergeSort(int st,int end,vector<int> &arr){
         if(st>=end) return;
         
         int mid=(st+end)/2;
-        mergeSort(arr,st,mid);
-        mergeSort(arr,mid+1,end);
-        merge(arr,st,mid,end);
+        
+        mergeSort(st,mid,arr);
+        mergeSort(mid+1,end,arr);
+        merge(st,mid,end,arr);
     }
     int reversePairs(vector<int>& nums) {
-        mergeSort(nums,0,nums.size()-1);
+        int n=nums.size();
+        mergeSort(0,n-1,nums);
         return cnt;
     }
 };
