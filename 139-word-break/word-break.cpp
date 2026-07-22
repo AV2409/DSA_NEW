@@ -1,50 +1,28 @@
-class TrieNode{
-public:
-    TrieNode* children[26];
-    bool terminal;
-    TrieNode(){
-        for(int i=0;i<26;i++){
-            children[i]=NULL;
-        }
-        terminal=false;
-    }
-};
-
 class Solution {
 public:
-    TrieNode* root=new TrieNode();
-    void insert(string word) {
-        TrieNode* temp=root;
-        for(char ch:word){
-            int idx=ch-'a';
-            if(temp->children[idx]==NULL){
-                temp->children[idx]=new TrieNode();
-            }
-            temp=temp->children[idx];
+    int n;
+    set<string>st;
+    vector<int>dp;
+    bool f(int idx,string &s){
+        if(idx==n) return true;
+        if(dp[idx]!=-1) return dp[idx];
+        bool ans=false;
+        string x="";
+        for(int i=idx;i<n;i++){
+            x+=s[i];
+            if(st.count(x)) ans=ans||f(i+1,s);
+            if(ans) return dp[idx]= true;
         }
-        temp->terminal=true;
-    }
-    unordered_map<int,unordered_map<TrieNode*,bool>>mp;
-    bool find(int idx,TrieNode* head,string &s){
-        if(idx==s.size()) return head == root || head->terminal;
-        if (mp[idx].count(head))
-            return mp[idx][head];
-        int i=s[idx]-'a';
-        if(head->children[i]==NULL) return false;
-
-        TrieNode* temp=head->children[i];
-        //start from root;
-        bool op1=false;
-        if(temp->terminal) op1=find(idx+1,root,s);
-        bool op2=find(idx+1,temp,s);
-        return mp[idx][head]= op1||op2;
+        return dp[idx]= ans;
     }
 
     bool wordBreak(string s, vector<string>& wordDict) {
+        n=s.size();
+        dp.assign(n,-1);
         for(string &w:wordDict){
-            insert(w);
+            st.insert(w);
         }
 
-        return find(0,root,s);
+        return f(0,s);
     }
 };
