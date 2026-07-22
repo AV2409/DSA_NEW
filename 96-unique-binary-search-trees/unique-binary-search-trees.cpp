@@ -1,12 +1,14 @@
 class Solution {
 public:
-vector<int>dp;
+    vector<int>dp;
     int f(int n){
         if(n<=1) return 1;
-        int ans=0;
         if(dp[n]!=-1) return dp[n];
+        int ans=0;
         for(int i=1;i<=n;i++){
-            ans+=f(i-1)*f(n-i);
+            int left=f(i-1);
+            int right=f(n-i);
+            ans+=left*right;
         }
         return dp[n]= ans;
     }
