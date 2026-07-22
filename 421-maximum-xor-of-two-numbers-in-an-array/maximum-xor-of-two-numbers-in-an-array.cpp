@@ -12,6 +12,7 @@ public:
 class Solution {
 public:
     TrieNode* root = new TrieNode();
+    int ans=-1;
     void insert(string& num) {
         TrieNode* temp = root;
         for (char c : num) {
@@ -22,22 +23,23 @@ public:
             temp = temp->children[idx];
         }
     }
-    string findMax(string& num) {
-        string ans;
+    void findMax(string& num) {
+        // string ans;
+        int res=0;
         TrieNode* temp = root;
         for (char c : num) {
             int idx = c - '0';
             int toggled = 1 - idx;
-
+            res=res<<1;
             if (temp->children[toggled]) {
-                ans.push_back('1');
+                res|=1;
                 temp = temp->children[toggled];
             } else {
-                ans.push_back('0');
+                res|=0;
                 temp = temp->children[idx];
             }
         }
-        return ans;
+        ans=max(ans,res);
     }
     string numToBits(int n) {
         string ans(32, '0');
@@ -51,28 +53,17 @@ public:
         return ans;
     }
 
-    int bitToNum(string& s) {
-        int ans = 0;
-        for (int i = 0; i < 32; i++) {
-            ans <<= 1;
-            ans |= (s[i] - '0');
-        }
-        return ans;
-    }
     int findMaximumXOR(vector<int>& nums) {
         vector<string> bits;
         for (int n : nums) {
             bits.push_back(numToBits(n));
-            // cout<<bits.back()<<" ";
         }
 
         for (string n : bits) {
             insert(n);
         }
-        int ans = -1;
         for (string n : bits) {
-            string ansStr = findMax(n);
-            ans = max(ans, bitToNum(ansStr));
+            findMax(n);
         }
         return ans;
     }
