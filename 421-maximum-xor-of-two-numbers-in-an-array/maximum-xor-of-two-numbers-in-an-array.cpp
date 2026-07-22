@@ -1,99 +1,78 @@
 class TrieNode {
 public:
-    vector<TrieNode*> children;
-    bool isTerminal;
-
+    TrieNode* children[2];
+    bool terminal;
     TrieNode() {
-        this->isTerminal = false;
-        children.assign(2, NULL);
-    }
-};
-
-class Trie {
-public:
-    TrieNode* root;
-    Trie() { root = new TrieNode(); }
-
-    void insert(string word) {
-        int n = word.size();
-        TrieNode* temp = root;
-        for (int i = 0; i < n; i++) {
-            int idx = word[i] - '0';
-            if (temp->children[idx] == NULL) {
-                temp->children[idx] = new TrieNode();
-            }
-            temp = temp->children[idx];
+        for (int i = 0; i < 2; i++) {
+            children[i] = NULL;
         }
-        temp->isTerminal = true;
-    }
-
-    int findMax(string word) {
-        int n = word.size();
-        TrieNode* temp = root;
-        int ans = 0;
-        for (int i = 0; i < n; i++) {
-            ans <<= 1;
-            int idx = word[i] - '0';
-            if (idx == 0) {
-                if (temp->children[1]) {
-                    temp = temp->children[1];
-                    ans |= 1;
-                } else {
-                    temp = temp->children[0];
-                }
-            }
-            if (idx == 1) {
-                if (temp->children[0]) {
-                    temp = temp->children[0];
-                    ans |= 1;
-                } else {
-                    temp = temp->children[1];
-                }
-            }
-        }
-        return ans;
     }
 };
 
 class Solution {
 public:
-    string numToBit(int n) {
+    TrieNode* root = new TrieNode();
+    void insert(string& num) {
+        TrieNode* temp = root;
+        for (char c : num) {
+            int idx = c - '0';
+            if (temp->children[idx] == NULL) {
+                temp->children[idx] = new TrieNode();
+            }
+            temp = temp->children[idx];
+        }
+    }
+    string findMax(string& num) {
         string ans;
-        ans.assign(32, '0');
+        TrieNode* temp = root;
+        for (char c : num) {
+            int idx = c - '0';
+            int toggled = 1 - idx;
+
+            if (temp->children[toggled]) {
+                ans.push_back('1');
+                temp = temp->children[toggled];
+            } else {
+                ans.push_back('0');
+                temp = temp->children[idx];
+            }
+        }
+        return ans;
+    }
+    string numToBits(int n) {
+        string ans(32, '0');
+        int i = 31;
+        while (n > 0) {
+            int rem = n % 2;
+            n /= 2;
+            ans[i] = rem + '0';
+            i--;
+        }
+        return ans;
+    }
+
+    int bitToNum(string& s) {
+        int ans = 0;
         for (int i = 0; i < 32; i++) {
-            if (n & 1)
-                ans[31 - i] = '1';
-            else
-                ans[31 - i] = '0';
-            n = n / 2;
-            if(n==0) break;
-        }
-        return ans;
-    }
-
-    int bitToNum(string x) {
-        int ans = 0;
-        for (char c : x) {
             ans <<= 1;
-            ans |= (c - '0');
+            ans |= (s[i] - '0');
         }
         return ans;
     }
-
     int findMaximumXOR(vector<int>& nums) {
-        Trie* trie = new Trie();
-        vector<string> bitNums;
-        for (int x : nums) {
-            string ss = numToBit(x);
-            bitNums.push_back(ss);
-            trie->insert(ss);
+        vector<string> bits;
+        for (int n : nums) {
+            bits.push_back(numToBits(n));
+            // cout<<bits.back()<<" ";
         }
 
-        int ans = 0;
-        int n = nums.size();
-        for (int i = 0; i < n; i++) {
-            int res = trie->findMax(bitNums[i]);
-            ans = max(ans, res);
+        for (string n : bits) {
+            insert(n);
+        }
+        int ans = -1;
+        for (string n : bits) {
+            string ansStr = findMax(n);
+            ans = max(ans, bitToNum(ansStr));
         }
         return ans;
     }
