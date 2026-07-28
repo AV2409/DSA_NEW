@@ -10,47 +10,34 @@
  */
 class Solution {
 public:
-
-    void insertAtTail(ListNode* &head,ListNode* &tail, int val) {
-        ListNode* newNode = new ListNode(val);
-        if (!head) {
-            head = newNode;
-            tail=newNode;
+    ListNode* head=NULL;
+    ListNode* tail=NULL;
+    void insert(int n){
+        ListNode* newnode=new ListNode(n);
+        if(!head) {
+            head=newnode;
+            tail=newnode;
             return;
         }
-        tail->next=newNode;
-        tail = newNode;
+        tail->next=newnode;
+        tail=tail->next;
     }
-
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* res = NULL;
-        ListNode* tail = NULL;
-        int carry = 0;
-        while (l1 && l2) {
-            int x = l1->val + l2->val + carry;
-            carry = x / 10;
-            int dig = x % 10;
-            insertAtTail(res,tail, dig);
-            l1=l1->next;
-            l2=l2->next;
+        
+        int c=0;
+        while(l1 || l2){
+            int x=0;
+            int y=0;
+            if(l1) x=l1->val;
+            if(l2) y=l2->val;
+            int sum=c+x+y;
+            int dig=sum%10;
+            c=sum/10;
+            insert(dig);
+            if(l1) l1=l1->next;
+            if(l2) l2=l2->next;
         }
-        while(l1){
-            int x = l1->val + carry;
-            carry = x / 10;
-            int dig = x % 10;
-            insertAtTail(res,tail, dig);
-            l1=l1->next;
-        }
-
-        while(l2){
-            int x = l2->val + carry;
-            carry = x / 10;
-            int dig = x % 10;
-            insertAtTail(res,tail, dig);
-            l2=l2->next;
-        }
-
-        if(carry) insertAtTail(res,tail, carry);
-        return res;
+        if(c) insert(c);
+        return head;
     }
 };
