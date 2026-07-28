@@ -5,7 +5,7 @@ public:
     int val;
     Node* next;
     Node* random;
-
+    
     Node(int _val) {
         val = _val;
         next = NULL;
@@ -17,42 +17,41 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if (!head)
-            return head;
-        Node* curr = head;
-        while (curr) {
-            int val = curr->val;
-            Node* next = curr->next;
-
-            Node* dummy = new Node(val);
-            curr->next = dummy;
-            dummy->next = next;
-
-            curr = next;
+        if(!head) return head;
+        
+        //interleaving
+        Node* curr=head;
+        while(curr){
+            int v=curr->val;
+            Node* copy=new Node(v);
+            copy->next=curr->next;
+            curr->next=copy;
+            curr=copy->next;
         }
+        Node* newhead=head->next;
 
-        curr = head;
-        Node* copyH = curr->next;
-        curr = head;
+        //copy random pointers
+        curr=head;
+        while(curr){
+            Node* random=curr->random;
+            Node* copy=curr->next;
 
-        while (curr) {
-            Node* copyNode = curr->next;
-            Node* random = curr->random;
-            if (random)
-                copyNode->random = random->next;
-
-            curr = curr->next->next;
+            if(random) copy->random=random->next;
+            curr=curr->next->next;
         }
-        curr = head;
-        while (curr) {
-            Node* copyNode = curr->next;
-            curr->next = curr->next->next;
-            Node* next = curr->next;
-            if (next)
-                copyNode->next = next->next;
+        
 
-            curr = curr->next;
+        //copy next pointers and restore list
+        curr=head;
+        while(curr){
+            Node* nextNode=curr->next->next;
+            Node* copy=curr->next;
+
+            if(nextNode) copy->next=nextNode->next;
+            curr->next=nextNode;
+            curr=curr->next;
         }
-        return copyH;
+        return newhead;
+        
     }
 };
