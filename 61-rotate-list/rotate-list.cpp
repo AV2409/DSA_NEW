@@ -13,7 +13,7 @@ public:
     int getLen(ListNode* head){
         ListNode* temp=head;
         int cnt=0;
-        while(temp){
+        while(temp) {
             cnt++;
             temp=temp->next;
         }
@@ -24,18 +24,22 @@ public:
         int n=getLen(head);
         k=k%n;
         if(k==0) return head;
-        int x=n-k;
 
-        ListNode* tail=head;
-        while(tail->next) tail=tail->next;
-
-        tail->next=head;
-        
+        //make cycle
         ListNode* temp=head;
-        while(--x) temp=temp->next;
+        while(temp->next){
+            temp=temp->next;
+        }
+        temp->next=head;
 
-        ListNode* newHead=temp->next;
+        temp=head;
+        int x=n-k;
+        while(--x){
+            temp=temp->next;
+        }
+        ListNode* newhead=temp->next;
         temp->next=NULL;
-        return newHead;
+        return newhead;
+
     }
 };
