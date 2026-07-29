@@ -14,23 +14,23 @@ public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>>ans;
         if(!root) return ans;
-
         queue<TreeNode*>q;
-        bool rev=false;
         q.push(root);
+        bool rev=false;
         while(!q.empty()){
-            int s=q.size();
-            vector<int>temp(s);
-            for(int i=0;i<s;i++){
-                TreeNode* node= q.front();
+            int ss=q.size();
+            vector<int>temp(ss);
+            for(int i=0;i<ss;i++){
+                int idx=i;
+                if(rev) idx=ss-i-1;
+                TreeNode* node=q.front();
                 q.pop();
-                if(rev) temp[s-i-1]=node->val;
-                else temp[i]=node->val;
+                temp[idx]=(node->val);
                 if(node->left) q.push(node->left);
                 if(node->right) q.push(node->right);
             }
-            rev=!rev;
             ans.push_back(temp);
+            rev=!rev;
         }
         return ans;
     }
