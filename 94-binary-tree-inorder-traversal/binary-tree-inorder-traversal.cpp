@@ -11,15 +11,36 @@
  */
 class Solution {
 public:
-    vector<int>ans;
-    void solve(TreeNode* root){
-        if(!root) return;
-        solve(root->left);
-        ans.push_back(root->val);
-        solve(root->right);
-    }
     vector<int> inorderTraversal(TreeNode* root) {
-        solve(root);
+        TreeNode* curr=root;
+        vector<int>ans;
+
+        while(curr){
+            if(!curr->left){
+                ans.push_back(curr->val);
+                curr=curr->right;
+                continue;
+            }
+            //find left's rightmost child
+            TreeNode* temp=curr->left;
+            TreeNode* prev=curr;
+            while(temp && temp!=curr){
+                prev=temp;
+                temp=temp->right;
+            }
+            //connection making or connection deletion
+            //{prev is last and temp is either curr or null}
+
+            if(temp==NULL){
+                prev->right=curr;
+                curr=curr->left;
+            }
+            else if(temp==curr){
+                prev->right=NULL;
+                ans.push_back(curr->val);
+                curr=curr->right;
+            }
+        }
         return ans;
     }
 };
