@@ -12,67 +12,66 @@
 
 class BSTIterator {
 public:
-    stack<TreeNode*>st;
+    stack<TreeNode*>st1;
     stack<TreeNode*>st2;
+
     BSTIterator(TreeNode* root) {
-        TreeNode* temp=root;
-        while(temp){
-            st.push(temp);
-            temp=temp->left;
+        TreeNode* curr=root;
+        while(curr){
+            st1.push(curr);
+            curr=curr->left;
         }
-        temp=root;
-        while(temp){
-            st2.push(temp);
-            temp=temp->right;
+        curr=root;
+        while(curr){
+            st2.push(curr);
+            curr=curr->right;
         }
     }
     
     int nextGreater() {
-        TreeNode* node=st.top();
-        st.pop();
-        TreeNode* temp=node->right;
+        TreeNode* curr=st1.top();
+        st1.pop();
+        TreeNode* temp=curr->right;
         while(temp){
-            st.push(temp);
+            st1.push(temp);
             temp=temp->left;
         }
-        return node->val;
-    }
-    
-    bool hasNextGreater() {
-        return !st.empty();
+        return curr->val;
     }
 
-    int nextSmaller() {
-        TreeNode* node=st2.top();
+    int nextLesser() {
+        TreeNode* curr=st2.top();
         st2.pop();
-        TreeNode* temp=node->left;
+        TreeNode* temp=curr->left;
         while(temp){
             st2.push(temp);
             temp=temp->right;
         }
-        return node->val;
+        return curr->val;
     }
-    
-    bool hasNextSmaller() {
+    bool hasNextGreater() {
+        return !st1.empty();
+    }
+    bool hasNextLesser() {
         return !st2.empty();
     }
+    
+    
 };
 
 class Solution {
 public:
     bool findTarget(TreeNode* root, int k) {
-        BSTIterator *bst=new BSTIterator(root);
-        int low=bst->nextGreater();
-        int high=bst->nextSmaller();
-        while(true){
-            if(low>=high) return false;
-            if(low+high==k) return true;
-            else if(low+high<k){
-                low=bst->nextGreater();
-            }
-            else {
-                high=bst->nextSmaller();
-            }
+        BSTIterator* bst=new BSTIterator(root);
+
+        int l=bst->nextGreater();
+        int r=bst->nextLesser();
+
+        while(l<r){
+            int sum=l+r;
+            if(sum==k) return true;
+            else if(sum<k) l=bst->nextGreater();
+            else r=bst->nextLesser();
         }
         return false;
     }
