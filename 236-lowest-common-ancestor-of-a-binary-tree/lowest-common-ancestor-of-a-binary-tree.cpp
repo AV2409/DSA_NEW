@@ -14,7 +14,7 @@ public:
         if(ans) return 2;
         if(!root) return 0;
 
-        int curr=root->val==p->val||root->val==q->val;
+        int curr=root==p||root==q;
 
         int l=helper(root->left,p,q);
         int r=helper(root->right,p,q);
