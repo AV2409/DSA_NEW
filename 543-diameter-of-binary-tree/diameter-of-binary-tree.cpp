@@ -14,11 +14,9 @@ public:
     int ans=0;
     int solve(TreeNode* root){
         if(!root) return 0;
-
         int l=solve(root->left);
         int r=solve(root->right);
         ans=max(ans,l+r);
-        // cout<<root->val<<"--->"<<1+max(l,r)<<endl;
         return 1+max(l,r);
     }
     int diameterOfBinaryTree(TreeNode* root) {
