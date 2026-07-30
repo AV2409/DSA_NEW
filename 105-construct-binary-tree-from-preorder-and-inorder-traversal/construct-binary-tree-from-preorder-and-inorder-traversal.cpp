@@ -12,26 +12,27 @@
 class Solution {
 public:
     unordered_map<int,int>mp;
-    TreeNode* build(int &idx,int low,int high,vector<int>& preorder, vector<int>& inorder){
-        if(low>high) return NULL;
-        if(idx==preorder.size()) return NULL;
+    int n;
+    TreeNode* build(int &idx,int st,int end,vector<int>& preorder, vector<int>& inorder){
+        if(idx>=n) return NULL;
+        if(st>end) return NULL;
         TreeNode* root=new TreeNode(preorder[idx]);
-
-        int inIdx=mp[preorder[idx]];
+        // if(st==end) return root;
+        int inord=mp[preorder[idx]];
         idx++;
-        root->left=build(idx,low,inIdx-1,preorder,inorder);
-        root->right=build(idx,inIdx+1,high,preorder,inorder);
-        return root;
 
+        root->left=build(idx,st,inord-1,preorder,inorder);
+        root->right=build(idx,inord+1,end,preorder,inorder);
+        return root;
+        
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n=inorder.size();
+        n=inorder.size();
         for(int i=0;i<n;i++){
             mp[inorder[i]]=i;
         }
-
         int idx=0;
-
-        return build(idx,0,n-1,preorder,inorder);
+        TreeNode* root=build(idx,0,n-1,preorder,inorder);
+        return root;
     }
 };
