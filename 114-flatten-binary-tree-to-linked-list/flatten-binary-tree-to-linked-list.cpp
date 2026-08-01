@@ -6,38 +6,33 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    TreeNode* prev = NULL;
     void flatten(TreeNode* root) {
-        // vector<TreeNode*> ans;
-        TreeNode* curr = root;
-        while (curr) {
-            if (curr->left == NULL) {
-                curr = curr->right;
-            }
-
-            else {
-                // find rightmost guy on left
-                TreeNode* temp = curr->left;
-                TreeNode* prev = curr->left;
-                while (temp && temp != curr) {
-                    prev = temp;
-                    temp = temp->right;
-                }
-
-                // connect that guy to the root/curr
-                // creating thread
-
-                prev->right = curr->right;
-                curr->right = curr->left;
-                curr->left = NULL;
+        TreeNode* curr=root;
+        while(curr){
+            if(curr->left==NULL){
                 curr=curr->right;
+                continue;
             }
+            //find right most guy
+            TreeNode* prev=NULL;
+            TreeNode* temp=curr->left;
+            while(temp){
+                prev=temp;
+                temp=temp->right;
+            }
+            //connect it to curr->right
+            if(prev) prev->right=curr->right;
+
+            //remove curr->right and attatch curr->left to curr->right and move curr;
+            curr->right=curr->left;
+            curr->left=NULL;
+            curr=curr->right;
+
         }
     }
 };
