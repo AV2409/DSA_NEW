@@ -1,13 +1,14 @@
 class Solution {
 public:
     vector<int>cols;
-    bool dfs(int node,int col,vector<vector<int>>& adj){
+
+    bool dfs(int node,int col,vector<vector<int>>& graph){
         cols[node]=col;
         int newCol=1-col;
 
-        for(int nei:adj[node]){
+        for(auto nei:graph[node]){
             if(cols[nei]==-1){
-                if(dfs(nei,newCol,adj)==false) return false;
+                if(dfs(nei,newCol,graph)==false) return false;
             }
             else if(cols[nei]==col) return false;
         }
@@ -23,6 +24,5 @@ public:
             }
         }
         return true;
-        
     }
 };
