@@ -22,36 +22,39 @@ public:
 class Solution {
 public:
     Node* cloneGraph(Node* node) {
-        if (node == nullptr)
-            return nullptr;
-        unordered_map<Node*, Node*> mp;
-        set<Node*> vis;
-        queue<Node*> q;
+        if(!node) return node;
+        unordered_map<Node*,Node*>mp;
+        unordered_map<int,bool>vis;
+        queue<Node*>q;
         q.push(node);
-        vis.insert(node);
-
-        while (!q.empty()) {
-            Node* nn = q.front();
+        vis[node->val]=1;
+        vector<Node*>trav;
+        while(!q.empty()){
+            Node* nn=q.front();
             q.pop();
-            Node* newNode = new Node(nn->val);
-            mp[nn] = newNode;
-            for (Node* adj : nn->neighbors) {
-                if (!vis.count(adj)) {
-                    vis.insert(adj);
-                    q.push(adj);
+            trav.push_back(nn);
+
+            int val=nn->val;
+            Node* clone=new Node(val);
+            mp[nn]=clone;
+
+            for(auto nei:nn->neighbors){
+                if(!vis[nei->val]){
+                    q.push(nei);
+                    vis[nei->val]=1;
                 }
             }
         }
 
-        for(auto it:mp){
-            Node* nn=it.first;
-            Node* dummy=it.second;
-
-            for(Node* adj:nn->neighbors){
-                dummy->neighbors.push_back(mp[adj]);
+        for(Node* nn:trav){
+            Node* clone=mp[nn];
+            for(auto nei:nn->neighbors){
+                clone->neighbors.push_back(mp[nei]);
             }
         }
 
         return mp[node];
+
+
     }
 };
