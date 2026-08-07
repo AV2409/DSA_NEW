@@ -1,69 +1,67 @@
-class TrieNode {
-public:
-    TrieNode* children[2];
-    bool terminal;
-    TrieNode() {
-        for (int i = 0; i < 2; i++) {
-            children[i] = NULL;
-        }
+class TrieNode{
+    public:
+    vector<TrieNode*>child;
+
+    TrieNode(){
+        child.assign(2,NULL);
     }
 };
 
 class Solution {
 public:
-    TrieNode* root = new TrieNode();
-    int ans=-1;
-    void insert(string& num) {
-        TrieNode* temp = root;
-        for (char c : num) {
-            int idx = c - '0';
-            if (temp->children[idx] == NULL) {
-                temp->children[idx] = new TrieNode();
+    TrieNode* root=new TrieNode();
+    void insert(string word) {
+        TrieNode* temp=root;
+        for(char c:word){
+            int idx=c-'0';
+            if(temp->child[idx]==NULL){
+                temp->child[idx]=new TrieNode();
             }
-            temp = temp->children[idx];
+            temp=temp->child[idx];
         }
     }
-    void findMax(string& num) {
-        // string ans;
+    int find(string word) {
+        TrieNode* temp=root;
         int res=0;
-        TrieNode* temp = root;
-        for (char c : num) {
-            int idx = c - '0';
-            int toggled = 1 - idx;
-            res=res<<1;
-            if (temp->children[toggled]) {
+        for(int i=0;i<32;i++){
+            int idx=word[i]-'0';
+            int inv=1-idx;
+            if(temp->child[inv]){
+                res<<=1;
                 res|=1;
-                temp = temp->children[toggled];
-            } else {
-                res|=0;
-                temp = temp->children[idx];
+                temp=temp->child[inv];
+            }
+            else {
+                res<<=1;
+                temp=temp->child[idx];
             }
         }
-        ans=max(ans,res);
+        return res;
     }
-    string numToBits(int n) {
-        string ans(32, '0');
-        int i = 31;
-        while (n > 0) {
-            int rem = n % 2;
-            n /= 2;
-            ans[i] = rem + '0';
-            i--;
+    string toBit(int num){
+        string ans(32,'0');
+        int idx=31;
+        while(num>0){
+            int dig=num&1;
+            if(dig) ans[idx]='1';
+            num>>=1;
+            idx--;
         }
         return ans;
     }
-
     int findMaximumXOR(vector<int>& nums) {
-        vector<string> bits;
-        for (int n : nums) {
-            bits.push_back(numToBits(n));
+        vector<string>strs;
+        for(int x:nums){
+            strs.push_back(toBit(x));
         }
-
-        for (string n : bits) {
-            insert(n);
+        
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            insert(strs[i]);
         }
-        for (string n : bits) {
-            findMax(n);
+        int ans=0;
+        for(int i=0;i<n;i++){
+            ans=max(ans,find(strs[i]));
         }
         return ans;
     }
