@@ -10,7 +10,7 @@ class TrieNode{
 class Solution {
 public:
     TrieNode* root=new TrieNode();
-    void insert(string word) {
+    void insert(string &word) {
         TrieNode* temp=root;
         for(char c:word){
             int idx=c-'0';
@@ -21,7 +21,7 @@ public:
         }
     }
 
-    int find(string word) {
+    int find(string &word) {
         TrieNode* temp=root;
         int res=0;
         for(int i=0;i<32;i++){
