@@ -1,68 +1,57 @@
 class Node {
 public:
-    int key;
-    int val;
-    Node* next;
-    Node* prev;
-    Node(int k,int v) {
-        key=k;
-        val=v;
-        next = nullptr;
-        prev = nullptr;
+    int key, val;
+    Node *prev, *next;
+
+    Node(int k, int v) {
+        key = k;
+        val = v;
+        prev = next = nullptr;
     }
 };
 
 class LRUCache {
-public:
-    Node* head = nullptr;
-    Node* tail = nullptr;
+private:
     int cap;
     unordered_map<int, Node*> mp;
-    void insertFront(Node* node) {
-        node->next=head;
-        if(head) head->prev=node;
-        head=node;
-        if(tail==nullptr) tail=node;
-    }
+    Node *head, *tail;   // Dummy head & dummy tail
 
-    void deleteNode(Node* node) {
-        Node* prev = node->prev;
-        Node* next = node->next;
+    void insertFront(Node* node){
+        Node* prev=head;
+        Node* next=head->next;
 
-        if (prev)
-            prev->next = next;
-        if (next)
-            next->prev = prev;
+        node->next=next;
+        node->prev=prev;
         
-        if(node==head) head=head->next;
-        if(node==tail) tail=tail->prev;
-
-        node->next=NULL;
-        node->prev=NULL;
+        head->next=node;
+        next->prev=node;
     }
-    void deleteBack(){
-        if(head==tail) {
-            delete tail;
-            head=nullptr;
-            tail=nullptr;
-            return;
-        }
 
-        Node* toDel=tail;
-        tail=tail->prev;
-        toDel->prev=nullptr;
-        tail->next=nullptr;
-        delete toDel;
+    void deleteNode(Node* node){
+        Node* next=node->next;
+        Node* prev=node->prev;
+
+        next->prev=prev;
+        prev->next=next;
     }
-    LRUCache(int capacity) { cap = capacity; }
+
+    
+public:
+    LRUCache(int capacity) {
+        cap=capacity;
+
+        head=new Node(-1,-1);
+        tail=new Node(-1,-1);
+        head->next=tail;
+        tail->prev=head;
+    }
 
     int get(int key) {
-        if (!mp.count(key))
-            return -1;
-        Node* node = mp[key];
+        if(!mp.count(key)) return -1;
+        Node* node=mp[key];
+        
         deleteNode(node);
         insertFront(node);
-
         return node->val;
     }
 
@@ -70,18 +59,19 @@ public:
         if(mp.count(key)){
             Node* node=mp[key];
             node->val=value;
+
             deleteNode(node);
             insertFront(node);
             return;
         }
 
-        Node* node=new Node(key,value);
-
         if(mp.size()==cap){
-            int last=tail->key;
-            mp.erase(last);
-            deleteBack();
+            Node* lru=tail->prev;
+            mp.erase(lru->key);
+            deleteNode(lru);
+            delete lru;
         }
+        Node* node=new Node(key,value);
         mp[key]=node;
         insertFront(node);
     }
