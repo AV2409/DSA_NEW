@@ -1,37 +1,34 @@
 class Solution {
 public:
-    bool valid(vector<int>&have,vector<int>&needed){
+    bool check(vector<int>&hash1,vector<int>&hash2){
         for(int i=0;i<26;i++){
-            if(needed[i]!=have[i]) return false;
+            if(hash2[i]<hash1[i]) return false;
         }
         return true;
     }
     bool checkInclusion(string s1, string s2) {
+        vector<int>hash1(26,0);
+        vector<int>hash2(26,0);
         int n1=s1.size();
         int n2=s2.size();
         if(n1>n2) return false;
-
-        vector<int>needed(26);
-        vector<int>have(26);
-
         for(char c:s1){
-            needed[c-'a']++;
+            hash1[c-'a']++;
         }
-
         int l=0;
-        int r=0;
-        while(r<n1){
-            have[s2[r]-'a']++;
-            r++;
+        for(int i=0;i<n1;i++){
+            hash2[s2[i]-'a']++;
         }
-        if(valid(have,needed)) return true;
+        if(check(hash1,hash2)) return true;
+        int r=n1;
         while(r<n2){
-            have[s2[r]-'a']++;
-            r++;
-            have[s2[l]-'a']--;
+            hash2[s2[r]-'a']++;
+            hash2[s2[l]-'a']--;
             l++;
-            if(valid(have,needed)) return true;
+            r++;
+            if(check(hash1,hash2)) return true;
         }
         return false;
+
     }
 };
