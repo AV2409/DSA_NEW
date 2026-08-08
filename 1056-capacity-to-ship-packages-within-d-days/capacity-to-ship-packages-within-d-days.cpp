@@ -2,18 +2,15 @@ class Solution {
 public:
     bool isPossible(int mid,vector<int>& weights, int days){
         int d=1;
+        int w=0;
         int n=weights.size();
-        int sum=0;
         for(int i=0;i<n;i++){
-            if(sum+weights[i]<=mid){
-                sum+=weights[i];
-            }
-            else{
+            if(weights[i]+w>mid){
+                w=weights[i];
                 d++;
-                sum=weights[i];
             }
+            else w+=weights[i];
             if(d>days) return false;
-
         }
         return d<=days;
     }
