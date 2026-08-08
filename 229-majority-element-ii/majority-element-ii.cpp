@@ -19,7 +19,7 @@ public:
             }
             else if(cnt2==0&&nums[i]!=ele1){
                 ele2=nums[i];
-                cnt2++;
+                cnt2=1;
             }
             else if(ele1==nums[i]){
                 cnt1++;
