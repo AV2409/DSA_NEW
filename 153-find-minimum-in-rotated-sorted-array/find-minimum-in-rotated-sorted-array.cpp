@@ -6,18 +6,14 @@ public:
         int h=n-1;
 
         while(l<h){
-            int mid=(l+h)/2;
             if(nums[l]<nums[h]) return nums[l];
-            if(nums[l]<=nums[mid]){
-                //left sorted
+            int mid=(l+h)/2;
+
+            if(nums[mid]>=nums[l]){
                 l=mid+1;
             }
-
-            else{
-                //right sorted
-                h=mid;
-            }
+            else h=mid;
         }
-        return nums[l];
+        return nums[h];
     }
 };
