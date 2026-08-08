@@ -11,17 +11,23 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int &k,int &ans){
-        if(!root||ans!=-1) return;
-        helper(root->left,k,ans);
-        k--;
-        if(k==0) ans=root->val;
-        helper(root->right,k,ans);
-
+    bool found=false;
+    int ans=-1;
+    int K;
+    void helper(TreeNode* root){
+        if(!root) return;
+        if(found) return;
+        helper(root->left);
+        K--;
+        if(K==0 && ans==-1){
+            ans=root->val;
+            found=true;
+        }
+        helper(root->right);
     }
     int kthSmallest(TreeNode* root, int k) {
-        int ans=-1;
-        helper(root,k,ans);
+        K=k;
+        helper(root);
         return ans;
     }
 };
