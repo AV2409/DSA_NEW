@@ -1,23 +1,31 @@
 class Solution {
 public:
-    void f(int idx, int n, int k, vector<int>& list, vector<vector<int>>& ans) {
-        if (list.size() == k) {
-            ans.push_back(list);
+    int N;
+    int K;
+    vector<vector<int>> ans;
+    vector<int> list;
+    void helper(int i) {
+        if (list.size() > K)
             return;
-        }
-        if (idx > n) {
+        if (i > N) {
+            if (list.size() == K)
+                ans.push_back(list);
             return;
         }
 
-        f(idx + 1, n, k, list, ans);
-        list.push_back(idx);
-        f(idx + 1, n, k, list, ans);
+        // pick
+
+        list.push_back(i);
+        helper(i + 1);
         list.pop_back();
+
+        
+        helper(i+1);
     }
     vector<vector<int>> combine(int n, int k) {
-        vector<int> list;
-        vector<vector<int>> ans;
-        f(1, n, k, list, ans);
+        N = n;
+        K = k;
+        helper(1);
         return ans;
     }
 };
