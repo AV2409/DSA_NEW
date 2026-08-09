@@ -1,32 +1,46 @@
 class Solution {
 public:
-    vector<string>lst;
-    vector<vector<string>>ans;
-
-
-    bool isPossible(string &s,int l,int r){
-        while(l<r){
-            if(s[l]!=s[r]) return false;
-            l++;
-            r--;
+    vector<vector<int>>ispal;
+    int n;
+    void expand(int i,int j,string &s){
+        while(i>=0 && j<n){
+            if(s[i]==s[j]){
+                ispal[i][j]=1;
+                i--;
+                j++;
+            }
+            else break;
         }
-        return true;
     }
-    void solve(string &s,int i){
-        if(i==s.size()){
-            ans.push_back(lst);
+    vector<vector<string>>ans;
+    vector<string>list;
+    void f(int i,string &s){
+        if(i==n){
+            ans.push_back(list);
             return;
         }
-        for(int idx=i;idx<s.size();idx++){
-            if(isPossible(s,i,idx)){
-                lst.push_back(s.substr(i, idx - i + 1));
-                solve(s,idx+1);
-                lst.pop_back();
+
+        for(int part=i;part<n;part++){
+            if(ispal[i][part]){
+                string temp=s.substr(i,part-i+1);
+                list.push_back(temp);
+                f(part+1,s);
+                list.pop_back();
             }
         }
     }
     vector<vector<string>> partition(string s) {
-        solve(s,0);
+        n=s.size();
+        ispal.assign(n,vector<int>(n,0));
+
+        for(int i=0;i<n;i++){
+            //odd
+            expand(i,i,s);
+            //even
+            expand(i,i+1,s);
+        }
+        f(0,s);
         return ans;
+
     }
 };
