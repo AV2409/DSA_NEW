@@ -1,71 +1,58 @@
 class Solution {
 public:
     string decodeString(string s) {
-        int n = s.size();
-        string ans;
+        stack<int>nums;
         stack<string> st;
-        stack<int> cnt;
-        s += ']';
-        st.push(string(1, '['));
-        for (int i = 0; i <= n; i++) {
-            if (isdigit(s[i])) {
-                string num;
-                while (i <= n && isdigit(s[i])) {
-                    num += s[i];
+        int n=s.size();
+        int i=0;
+
+        while(i<n){
+            if(s[i]>='0' && s[i]<='9'){
+                string nn="";
+                while(i<n && s[i]>='0' && s[i]<='9'){
+                    nn+=s[i];
                     i++;
                 }
-                i--;
-                int ss = stoi(num);
-                cnt.push(ss);
-            } else if (isalpha(s[i])) {
-                string x;
-                while (i <= n && isalpha(s[i])) {
-                    x += s[i];
-                    i++;
-                }
-                i--;
-                // reverse(x.begin(),x.end());
-                st.push(x);
+                int nnint=stoi(nn);
+                nums.push(nnint);
+            }
+            else if(s[i]=='['){
+                st.push("[");
+                i++;
             }
 
-            else if (s[i] == '[') {
+            else if(s[i]>='a' && s[i]<='z'){
                 st.push(string(1, s[i]));
+                i++;
             }
-
-            else if (s[i] == ']') {
-                int times = 1;
-                if (!cnt.empty()) {
-                    times = cnt.top();
-                    cnt.pop();
-                }
-
-                vector<string> parts;
-
-                while (!st.empty() && st.top() != "[") {
-                    parts.push_back(st.top());
+            else if(s[i]==']'){
+                string temp="";
+                while(!st.empty() && st.top()!="["){
+                    temp = st.top() + temp;
                     st.pop();
                 }
                 st.pop();
-
-                reverse(parts.begin(), parts.end());
-
-                string x;
-                for (auto& str : parts)
-                    x += str;
-
-                string toPush;
-                while (times--) {
-                    toPush += x;
+                string toAdd="";
+                int times=nums.top();
+                nums.pop();
+                for(int x=0;x<times;x++){
+                    toAdd+=temp;
                 }
-                // reverse(toPush.begin(),toPush.end());
-                st.push(toPush);
+                st.push(toAdd);
+                i++;
             }
+
         }
-        while (!st.empty()) {
-            ans += st.top();
+        vector<string>res;
+        while(!st.empty()){
+            res.push_back(st.top());
             st.pop();
         }
-        // reverse(ans.begin(), ans.end());
+        reverse(res.begin(),res.end());
+        string ans="";
+        for(string x:res){
+            ans+=x;
+        }
         return ans;
     }
 };
