@@ -2,34 +2,34 @@ class Solution {
 public:
     vector<int>cols;
     int N;
-    // vector<vector<string>>ans;
-    
     int ans=0;
-    bool isPossible(int row,int col){
-        int x=cols.size();
-        for(int r=0;r<x;r++){
-            int c=cols[r];
-            if(c==col||abs(row-r)==abs(col-c)) return false;
+    bool isPossible(int r,int c){
+        int ss=cols.size();
+        for(int i=0;i<ss;i++){
+            int row=i;
+            int col=cols[i];
+
+            if(c==col || abs(row-r)==abs(col-c)) return false;
         }
         return true;
     }
-    void solve(int row){
-        if(row==N){
+    void helper(int r){
+        if(r==N){
             ans++;
             return;
         }
 
-        for(int col=0;col<N;col++){
-            if(isPossible(row,col)) {
-                cols.push_back(col);
-                solve(row+1);
+        for(int c=0;c<N;c++){
+            if(isPossible(r,c)){
+                cols.push_back(c);
+                helper(r+1);
                 cols.pop_back();
             }
         }
     }
     int totalNQueens(int n) {
         N=n;
-        solve(0);
+        helper(0);
         return ans;
     }
 };
