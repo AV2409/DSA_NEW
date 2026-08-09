@@ -14,18 +14,19 @@ public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         TreeNode* node=new TreeNode(val);
         if(!root) return node;
-        TreeNode* temp=root;
-        TreeNode* prev=root;
+        TreeNode* curr=root;
+        TreeNode* prev=NULL;
 
-        while(temp){
-            prev=temp;
-            if(temp->val>val) temp=temp->left;
-            else if(temp->val<val) temp=temp->right;
+        while(curr){
+            prev=curr;
+            if(curr->val>val) curr=curr->left;
+            else curr=curr->right;
         }
-        // cout<<prev->val;
-        if(val<prev->val)
-            prev->left=node;
+        
+        if(prev->val>val) prev->left=node;
         else prev->right=node;
+
         return root;
+
     }
 };
