@@ -3,29 +3,31 @@ public:
     bool isAlienSorted(vector<string>& words, string order) {
         vector<int>hash(26);
         for(int i=0;i<26;i++){
-            char c=order[i];
-            hash[c-'a']=i;
+            hash[order[i]-'a']=i;
         }
 
-        for(int i=0;i<words.size()-1;i++){
-            string word1=words[i];
-            string word2=words[i+1];
+        int n=words.size();
+        for(int i=0;i<n-1;i++){
+            string w1=words[i];
+            string w2=words[i+1];
 
-            int n1=word1.size();
-            int n2=word2.size();
-
-            int mini=min(n1,n2);
-            bool flag=true;
-            for(int x=0;x<mini;x++){
-                char c1=word1[x];
-                char c2=word2[x];
-                if(c1!=c2) {
-                    flag=false;
-                    if(hash[c1-'a']>hash[c2-'a']) return false;
-                    break;
+            int n1=w1.size();
+            int n2=w2.size();
+            int x=0;
+            int y=0;
+            while(x<n1 && y<n2){
+                if(w1[x]==w2[y]){
+                    x++;
+                    y++;
                 }
+                else break;
             }
-            if(flag && n1>n2) return false;
+            if(y==n2 && x!=n1) return false;
+            if(x!=n1){
+                int ord1=hash[w1[x]-'a'];
+                int ord2=hash[w2[y]-'a'];
+                if(ord1>ord2) return false;
+            }
         }
         return true;
     }
