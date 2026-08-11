@@ -2,11 +2,13 @@ class Solution {
 public:
     vector<vector<bool>>isPal;
     int n;
+    int cnt=0;
     void expand(int i,int j,string &s){
         while(i>=0 && j<n && s[i]==s[j]){
             isPal[i][j]=true;
             i--;
             j++;
+            cnt++;
         }
     }
     int countSubstrings(string s) {
@@ -16,14 +18,7 @@ public:
             expand(i,i,s);
             expand(i,i+1,s);
         }
-        int cnt=0;
-        for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
-                if(isPal[i][j]){
-                    cnt++;
-                }
-            }
-        }
+        
         return cnt;
     }
 };
