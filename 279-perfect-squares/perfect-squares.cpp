@@ -1,31 +1,24 @@
 class Solution {
 public:
-    vector<vector<int>> dp;
-    int f(int i, int amt, vector<int>& coins) {
-        
-        if (i == 0) {
-            if (amt % coins[0] == 0)
-                return amt / coins[0];
-            else
-                return 1e9;
-        }
-        if (dp[i][amt] != -1)
-            return dp[i][amt];
-        int np = f(i - 1, amt, coins);
-        int p = INT_MAX;
-        if (coins[i] <= amt) {
-            p = 1 + f(i, amt - coins[i], coins);
-        }
-
-        return dp[i][amt] = min(np, p);
+    vector<vector<int>>dp;
+    int f(int i,vector<int>& coins, int amount){
+        if(amount==0) return 0;
+        if(i<0) return 1e9;
+        if(dp[i][amount]!=-1) return dp[i][amount];
+        int pick=1e9;
+        if(amount>=coins[i]) pick=1+f(i,coins,amount-coins[i]);
+        int np=f(i-1,coins,amount);
+        return dp[i][amount]= min(pick,np);
     }
     int numSquares(int n) {
-        vector<int>sq;
+        vector<int>nums;
         for(int i=1;i*i<=n;i++){
-            sq.push_back(i*i);
+            nums.push_back(i*i);
         }
-        int x=sq.size();
-        dp.assign(x, vector<int>(n + 1, -1));
-        return f(x-1,n,sq);
+        int nn=nums.size();
+        dp.assign(nn,vector<int>(n+1,-1));
+        int ans = f(nn-1,nums,n);
+        if(ans==1e9) return -1;
+        return ans;
     }
 };
