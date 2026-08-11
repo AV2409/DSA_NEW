@@ -1,40 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>>ispal;
+    vector<vector<bool>>isPal;
     int n;
-    void check(int mid,string &s){
-        //odd length;
-        int i=mid;
-        int j=mid;
+    void expand(int i,int j,string &s){
         while(i>=0 && j<n && s[i]==s[j]){
-            ispal[i][j]=1;
-            i--;
-            j++;
-        }
-
-        //even length;
-        i=mid-1;
-        j=mid;
-        while(i>=0 && j<n && s[i]==s[j]){
-            ispal[i][j]=1;
+            isPal[i][j]=true;
             i--;
             j++;
         }
     }
-
     int countSubstrings(string s) {
         n=s.size();
-        ispal.assign(n,vector<int>(n,0));
+        isPal.assign(n,vector<bool>(n,false));
         for(int i=0;i<n;i++){
-            check(i,s);
+            expand(i,i,s);
+            expand(i,i+1,s);
         }
-        int ans=0;
-
+        int cnt=0;
         for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if(ispal[i][j]) ans++;
+            for(int j=i;j<n;j++){
+                if(isPal[i][j]){
+                    cnt++;
+                }
             }
         }
-        return ans;
+        return cnt;
     }
 };
