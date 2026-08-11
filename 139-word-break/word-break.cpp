@@ -4,22 +4,24 @@ public:
     int n;
     vector<int>dp;
     bool f(int i,string &s){
-        if(i>=n) return true;
+        if(i==n) return true;
         if(dp[i]!=-1) return dp[i];
         string temp="";
         bool ans=false;
         for(int part=i;part<n;part++){
             temp+=s[part];
             if(st.count(temp)){
-                ans=ans||f(part+1,s);
+                ans|=f(part+1,s);
+                if(ans) return dp[i]= true;
             }
         }
         return dp[i]= ans;
     }
     bool wordBreak(string s, vector<string>& wordDict) {
         n=s.size();
-        st.insert(wordDict.begin(),wordDict.end());
         dp.assign(n,-1);
+        st.insert(wordDict.begin(),wordDict.end());
         return f(0,s);
+
     }
 };
