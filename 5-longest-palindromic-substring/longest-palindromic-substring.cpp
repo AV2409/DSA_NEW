@@ -1,48 +1,37 @@
 class Solution {
 public:
-    vector<vector<int>> ispal;
+    vector<vector<bool>>isPal;
     int n;
-    void check(int mid, string& s) {
-        // odd length;
-        int i = mid;
-        int j = mid;
-        while (i >= 0 && j < n && s[i] == s[j]) {
-            ispal[i][j] = 1;
-            i--;
-            j++;
-        }
-
-        // even length;
-        i = mid - 1;
-        j = mid;
-        while (i >= 0 && j < n && s[i] == s[j]) {
-            ispal[i][j] = 1;
+    void expand(int i,int j,string &s){
+        while(i>=0 && j<n && s[i]==s[j]){
+            isPal[i][j]=true;
             i--;
             j++;
         }
     }
     string longestPalindrome(string s) {
-        n = s.size();
-        int start = 0;
-        int maxLen = 1;
-
-        ispal.assign(n,vector<int>(n,0));
+        n=s.size();
+        isPal.assign(n,vector<bool>(n,false));
         for(int i=0;i<n;i++){
-            check(i,s);
+            expand(i,i,s);
+            expand(i,i+1,s);
         }
+
+        int st=0;
+        int len=1;
 
         for(int i=0;i<n;i++){
             for(int j=i;j<n;j++){
-                if(ispal[i][j]) {
-                    int len=j-i+1;
-                    if(len>maxLen){
-                        maxLen=len;
-                        start=i;
+                if(isPal[i][j]){
+                    if(j-i+1>len){
+                        len=j-i+1;
+                        st=i;
                     }
                 }
             }
         }
 
-        return s.substr(start, maxLen);
+        return s.substr(st,len);
+
     }
 };
