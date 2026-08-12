@@ -7,7 +7,7 @@ public:
         if(j<0) return i+1;
         if(dp[i][j]!=-1) return dp[i][j];
         if(word1[i]==word2[j]){
-            return f(i-1,j-1,word1,word2);
+            return dp[i][j] = f(i-1,j-1,word1,word2);
         }
 
         int op1=1+f(i-1,j,word1,word2);
