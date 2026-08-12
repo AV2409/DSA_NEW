@@ -1,31 +1,21 @@
 class Solution {
 public:
     vector<vector<int>>dp;
-    int f(int i,int j,string &w1, string &w2){
+    int f(int i,int j,string &word1, string &word2){
         if(i<0 && j<0) return 0;
-        if(i<0 || j<0){
-            if(i<0) return j+1;
-            return i+1;
-        }
+        if(i<0) return j+1;
+        if(j<0) return i+1;
         if(dp[i][j]!=-1) return dp[i][j];
-
-        int ans=INT_MAX;
-        if(w1[i]==w2[j]){
-            ans=min(ans,f(i-1,j-1,w1,w2));
-        }
-        else{
-            //delete
-            int op1=1+f(i-1,j,w1,w2);
-            //insert
-            int op2=1+f(i,j-1,w1,w2);
-            //replace
-            int op3=1+f(i-1,j-1,w1,w2);
-
-            int mini=min({op1,op2,op3});
-            ans=min(ans,mini);
+        if(word1[i]==word2[j]){
+            return f(i-1,j-1,word1,word2);
         }
 
-        return dp[i][j]=  ans;
+        int op1=1+f(i-1,j,word1,word2);
+        int op2=1+f(i-1,j-1,word1,word2);
+        int op3=1+f(i,j-1,word1,word2);
+
+        return dp[i][j] = min({op1,op2,op3});
+
     }
     int minDistance(string word1, string word2) {
         int n1=word1.size();
