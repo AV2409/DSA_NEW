@@ -1,49 +1,43 @@
 class Solution {
 public:
-    vector<int>merge(vector<vector<int>>&intervals){
-        int n=intervals.size();
+    vector<int>mergeIntervals(vector<vector<int>>&intervals){
         sort(intervals.begin(),intervals.end());
-        // vector<vector<int>>ans;
-        vector<int>res;
-        int s1=intervals[0][0];
-        int e1=intervals[0][1];
-        for(int i=1;i<n;i++){
-            int s2=intervals[i][0];
-            int e2=intervals[i][1];
 
-            if(s2<=e1){
-                e1=max(e1,e2);
+        int st=intervals[0][0];
+        int end=intervals[0][1];
+        int n=intervals.size();
+        vector<int>ans;
+        for(int i=1;i<n;i++){
+            int s=intervals[i][0];
+            int e=intervals[i][1];
+
+            if(s<=end){
+                end=max(e,end);
             }
             else{
-                // ans.push_back({s1,e1});
-                res.push_back(e1-s1+1);
-                s1=s2;
-                e1=e2;
+                ans.push_back(end-st+1);
+                st=s;
+                end=e;
             }
         }
-        // ans.push_back({s1,e1});
-        res.push_back(e1-s1+1);
-        // return ans;
-        return res;
+        ans.push_back(end-st+1);
+        return ans;
     }
     vector<int> partitionLabels(string s) {
-        vector<int>start(26,-1);
-        vector<int>end(26,-1);
         int n=s.size();
+        unordered_map<char,pair<int,int>>mp;
         for(int i=0;i<n;i++){
-            int idx=s[i]-'a';
-            if(start[idx]==-1) {
-                start[idx]=i;
+            if(!mp.count(s[i])){
+                mp[s[i]].first=i;
             }
-            end[idx]=i;
+            mp[s[i]].second=i;
         }
-
         vector<vector<int>>intervals;
-
-        for(int i=0;i<26;i++){
-            if(start[i]!=-1) intervals.push_back({start[i],end[i]});
+        for(auto it:mp){
+            intervals.push_back({it.second.first,it.second.second});
         }
 
-        return merge(intervals);
+        vector<int>ans=mergeIntervals(intervals);
+        return ans;
     }
 };
