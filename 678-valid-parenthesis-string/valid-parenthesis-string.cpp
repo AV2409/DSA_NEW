@@ -1,30 +1,37 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        int mini=0;
-        int maxi=0;
+        int op=0;
+        int cl=0;
+
         int n=s.size();
+        deque<int>st;
         for(int i=0;i<n;i++){
-            if(s[i]=='('){
-                mini++;
-                maxi++;
-            }
-
-            else if(s[i]==')'){
-                mini--;
-                maxi--;
-            }
-
+            if(s[i]=='(') op++;
+            else if(s[i]=='*') st.push_back(i);
             else{
-                mini--;
-                maxi++;
-            }
-
-            if(maxi < 0)
-                return false;
-
-            mini = max(mini, 0);
+                if(op) op--;
+                else if(!st.empty()) {
+                    st.pop_front();
+                }
+                else return false;
+            } 
         }
-        return mini==0;
+
+        for(int i=n-1;i>=0;i--){
+            if(s[i]==')') cl++;
+            else if(s[i]=='*') continue;
+            else{
+                if(cl) cl--;
+                else if(!st.empty()){
+                    int idx=st.back();
+                    st.pop_back();
+                    if(idx<i) return false;
+                }
+                else return false;
+            } 
+        }
+        return true;
+
     }
 };
