@@ -1,32 +1,45 @@
 class Solution {
 public:
-    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        vector<vector<int>>ans;
-        int s=newInterval[0];
-        int e=newInterval[1];
-        int n=intervals.size();
-        bool isIns=false;
-        for(int i=0;i<n;i++){
-            int st=intervals[i][0];
-            int end=intervals[i][1];
+    vector<vector<int>> insert(vector<vector<int>>& intervals,
+                               vector<int>& newInterval) {
 
-            if(end<s){
-                ans.push_back({st,end});
+        int st = newInterval[0];
+        int end = newInterval[1];
+
+        vector<vector<int>> ans;
+        bool inserted = false;
+
+        for (auto it : intervals) {
+            int s = it[0];
+            int e = it[1];
+
+            // Current interval is completely before newInterval
+            if (e < st) {
+                ans.push_back({s, e});
             }
-            else if(st>e){
-                if(!isIns){
-                    ans.push_back({s,e});
-                    isIns=true;
+
+            // Current interval overlaps newInterval
+            else if (s <= end) {
+                st = min(st, s);
+                end = max(end, e);
+            }
+
+            // Current interval is completely after newInterval
+            else {
+                if (!inserted) {
+                    ans.push_back({st, end});
+                    inserted = true;
                 }
-                ans.push_back({st,end});
-            }
-            else{
-                s=min(st,s);
-                e=max(e,end);
+
+                ans.push_back({s, e});
             }
         }
 
-        if(!isIns) ans.push_back({s,e});
+        // newInterval hasn't been inserted yet
+        if (!inserted) {
+            ans.push_back({st, end});
+        }
+
         return ans;
     }
 };
