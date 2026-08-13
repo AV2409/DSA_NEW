@@ -13,6 +13,7 @@ public:
             if(a==target[0] && b<=target[1] && c<=target[2]) first=true;
             if(a<=target[0] && b==target[1] && c<=target[2]) second=true;
             if(a<=target[0] && b<=target[1] && c==target[2]) third=true;
+            if(first && second && third) return true;
         }
         return first && second && third;
 
