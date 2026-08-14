@@ -1,17 +1,17 @@
 class Solution {
 public:
-    int reverse(int n) {
-        int rev = 0;
-
-        // if(n>INT_MAX||n<INT_MIN) return 0;
-        while (n != 0) {
-            if ((rev > INT_MAX / 10) || (rev < INT_MIN / 10))
-                return 0;
-            int rem = n % 10;
-            rev = rev * 10 + rem;
-            n = n / 10;
+    int solve(long long x){
+        long long ans=0;
+        while(x){
+            int dig=x%10;
+            ans=ans*10+dig;
+            x=x/10;
+            if(ans<INT_MIN||ans>INT_MAX) return 0;
         }
-
-        return rev;
+        return ans;
+    }
+    int reverse(int x) {
+        long long num=1LL*x;
+        return solve(num);
     }
 };
