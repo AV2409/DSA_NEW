@@ -19,7 +19,7 @@ public:
 
     int stoneGameII(vector<int>& piles) {
         n=piles.size();
-        dp.assign(n,vector<int>(2*n+1,-1));
+        dp.assign(n,vector<int>(n+1,-1));
         int sum=accumulate(piles.begin(),piles.end(),0);
         int diff=f(0,1,piles);
         return (diff+sum)/2;
