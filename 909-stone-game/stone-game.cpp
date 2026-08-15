@@ -19,8 +19,6 @@ public:
     }
 
     bool stoneGame(vector<int>& piles) {
-        int n=piles.size();
-        dp.assign(n,vector<vector<int>>(n,vector<int>(2,-1)));
-        return f(0,n-1,0,piles,0,0);
+        return true;
     }
 };
