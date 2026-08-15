@@ -22,8 +22,6 @@ public:
         dp.assign(n,vector<int>(2*n+1,-1));
         int sum=accumulate(piles.begin(),piles.end(),0);
         int diff=f(0,1,piles);
-        cout<<diff<<endl;
-        cout<<sum;
         return (diff+sum)/2;
     }
 };
