@@ -10,13 +10,13 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* st,ListNode* end){
-        ListNode* curr=st;
+    ListNode* reverse(ListNode* head, ListNode* tail){
         ListNode* prev=NULL;
-        ListNode* next=NULL;
-        ListNode* stop = end->next;
-        while(curr!=stop){
-            next=curr->next;
+        ListNode* target=tail->next;
+        ListNode* curr=head;
+
+        while(curr!=target){
+            ListNode* next=curr->next;
             curr->next=prev;
             prev=curr;
             curr=next;
@@ -25,32 +25,32 @@ public:
     }
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         if(left==right) return head;
-        if(!head->next) return head;
-        ListNode* before=NULL;
-        ListNode* after=NULL;
-
-        ListNode* temp=head;
-        for(int i=1;i<left;i++){
-            before=temp;
-            temp=temp->next;
+        int l=left;
+        int r=right;
+        ListNode* curr=head;
+        ListNode* prev=NULL;
+        while(--l){
+            prev=curr;
+            curr=curr->next;
         }
+        ListNode* headNode=curr;
 
-        ListNode* st=temp;
-
-        ListNode* x=temp;
-
-        for(int i=left;i<right;i++){
-            temp=temp->next;
+        curr=head;
+        while(--r){
+            curr=curr->next;
         }
-        ListNode* end=temp;
-        after=temp->next;
-        ListNode* revH=reverse(st,end);
-        if(before) before->next=revH;
+        ListNode* tailNode=curr;
+        ListNode* next=curr->next;
 
-        x->next=after;
-        if(before)
-            return head;
-        return revH;
-        
+        ListNode* revH=reverse(headNode,tailNode);
+        headNode->next=next;
+        if(!prev){
+            head=revH;
+        }
+        else{
+            prev->next=revH;
+        }
+        return head;
+
     }
 };
