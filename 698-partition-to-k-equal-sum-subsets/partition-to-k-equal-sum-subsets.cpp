@@ -4,25 +4,21 @@ public:
     int groups=0;
     int reqSum;
     int n;
-    bool solve(int i,vector<int>& nums,int sum,int rem){
-        if(rem==0) return true;
+    bool solve(int st,vector<int>& nums,int sum,int rem){
+        if(rem==1) return true;
         if(sum==0) {
             return solve(0,nums,reqSum,rem-1);
         }
-        if(i>=n) return false;
-        if(vis[i]) return solve(i+1,nums,sum,rem);
+        
+        for(int i=st;i<n;i++){
+            if(vis[i]) continue;
+            if(nums[i]>sum) continue;
 
-        //not pick
-        bool np=solve(i+1,nums,sum,rem);
-
-        //
-        bool p=false;
-        if(nums[i]<=sum) {
             vis[i]=1;
-            p=solve(i+1,nums,sum-nums[i],rem);
+            if(solve(i+1,nums,sum-nums[i],rem)) return true;
             vis[i]=0;
         }
-        return p||np;
+        return false;
 
     }
     bool canPartitionKSubsets(vector<int>& nums, int k) {
