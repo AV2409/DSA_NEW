@@ -10,50 +10,47 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* left,ListNode* right){
+    ListNode* findKNode(ListNode* head, int k){
+        ListNode* curr=head;
+        while(--k && curr){
+            curr=curr->next;
+        }
+        return curr;
+    }
+    ListNode* reverse(ListNode* head, ListNode* tail){
         ListNode* prev=NULL;
-        ListNode* curr=left;
-        ListNode* next=NULL;
-        ListNode* stop=right->next;
+        ListNode* target=tail->next;
+        ListNode* curr=head;
 
-        while(curr!=stop){
-            next=curr->next;
+        while(curr!=target){
+            ListNode* next=curr->next;
             curr->next=prev;
             prev=curr;
             curr=next;
         }
         return prev;
-
-    }
-    ListNode* findR(ListNode* st,int k){
-        k--;
-        ListNode* temp=st;
-        while(k-- && temp){
-            temp=temp->next;
-        }
-        return temp;
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
-        if(k==1||!head||!head->next) return head;
+        ListNode* prev=NULL;
+        ListNode* ansHead=head;
 
-        ListNode* l=head;
-        ListNode* r=findR(l,k);
-        ListNode* before=NULL;
-        ListNode* after=NULL;
-        ListNode* start=NULL;
-        ListNode* newH=NULL;
-
-        while(l && r){
-            after=r->next;
-            start=l;
-            ListNode* revH=reverse(l,r);
-            if(before) before->next=revH;
-            else newH=revH;
-            before=start;
-            start->next=after;
-            l=after;
-            r=findR(l,k);
+        ListNode* curr=head;
+        while(curr){
+            ListNode* h=curr;
+            ListNode* t=findKNode(h,k);
+            if(t==NULL) break;
+            ListNode* next=t->next;
+            ListNode* revH=reverse(h,t);
+            h->next=next;
+            if(prev){
+                prev->next=revH;
+            }
+            else {
+                ansHead=revH;
+            }
+            prev=h;
+            curr=next;
         }
-        return newH;
+        return ansHead;
     }
 };
