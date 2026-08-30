@@ -14,27 +14,22 @@ public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         map<int,map<int,multiset<int>>>mp;
 
-        queue<tuple<int,int,TreeNode*>>q;
-        //{row,col,node}
+        queue<tuple<TreeNode*,int,int>>q;
+        q.push({root,0,0});
 
-        q.push({0,0,root});
         while(!q.empty()){
-            auto [row,col,node]=q.front();
+            auto [node,hd,vd]=q.front();
             q.pop();
-
-            mp[col][row].insert(node->val);
-            if(node->left) q.push({row+1,col-1,node->left});
-            if(node->right) q.push({row+1,col+1,node->right});
+            mp[hd][vd].insert(node->val);
+            if(node->left) q.push({node->left,hd-1,vd+1});
+            if(node->right) q.push({node->right,hd+1,vd+1});
         }
 
         vector<vector<int>>ans;
-
-        for(auto cols:mp){
+        for(auto it1:mp){
             vector<int>temp;
-            for(auto it:cols.second){
-                for(int x:it.second){
-                    temp.push_back(x);
-                }
+            for(auto it2:it1.second){
+                for(auto ele:it2.second) temp.push_back(ele);
             }
             ans.push_back(temp);
         }
