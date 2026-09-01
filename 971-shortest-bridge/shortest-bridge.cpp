@@ -38,7 +38,6 @@ public:
                 if (newGrid[i][j] == 1)
                     q.push({i, j});
             }
-            cout << endl;
         }
         int ans = 0;
         while (!q.empty()) {
