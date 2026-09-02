@@ -1,18 +1,16 @@
 class Solution {
 public:
     vector<vector<int>>dp;
-    int f(int i,vector<int>& nums, int target){
+    int f(int i,vector<int>& nums,int sum){
         if(i<0){
-            if(target==0) return 1;
-            return 0;
+            return sum==0;
         }
-
-        if(dp[i][target]!=-1) return dp[i][target];
-
-        int np=f(i-1,nums,target);
-        int p=0;
-        if(target>=nums[i]) p=f(i-1,nums,target-nums[i]);
-        return dp[i][target]= p+np;
+        
+        if(dp[i][sum]!=-1) return dp[i][sum];
+        int np=f(i-1,nums,sum);
+        int p=false;
+        if(sum>=nums[i]) p=f(i-1,nums,sum-nums[i]);
+        return dp[i][sum]= p+np;
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         int sum=accumulate(nums.begin(),nums.end(),0);
