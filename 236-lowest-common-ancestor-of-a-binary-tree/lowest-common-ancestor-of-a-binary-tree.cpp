@@ -14,14 +14,16 @@ public:
         if(ans) return 2;
         if(!root) return 0;
 
-        int curr=root==p||root==q;
-
+        int curr=0;
+        if(root->val==p->val||root->val==q->val) curr++;
         int l=helper(root->left,p,q);
         int r=helper(root->right,p,q);
-
-        int cnt=curr+l+r;
-        if(cnt==2 && ans==NULL) ans=root;
-        return cnt;
+        int tot=curr+l+r;
+        if(tot==2 &&!ans){
+            ans=root;
+            return 2;
+        }
+        return tot;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         helper(root,p,q);
