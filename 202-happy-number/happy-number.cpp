@@ -11,10 +11,15 @@ public:
     }
     bool isHappy(int n) {
         set<int>st;
-        while(n!=1){
-            if(st.count(n)) return false;
-            st.insert(n);
-            n=fun(n);
+        int slow=n;
+        int fast=n;
+        while(true){
+            slow=fun(slow);
+            fast=fun(fast);
+            fast=fun(fast);
+
+            if(slow==1) return true;
+            if(fast==slow) return false;
         }
         return true;
     }
