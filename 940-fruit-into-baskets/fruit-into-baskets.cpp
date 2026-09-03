@@ -1,27 +1,20 @@
 class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
-        int n=fruits.size();
-        map<int,int> mp;
-
         int l=0;
-        int r=0;
-        int unq_cnt=0;
-        int res=0;
+        int n=fruits.size();
+        unordered_map<int,int>hash;
+        int cnt=0;
+        int ans=0;
+        for(int r=0;r<n;r++){
+            if(hash[fruits[r]]++==0) cnt++;
 
-        while(r<n){
-            if(mp[fruits[r]]==0) unq_cnt++;
-            mp[fruits[r]]++;
-
-            while(unq_cnt>2){
-                mp[fruits[l]]--;
-                if(mp[fruits[l]]==0) unq_cnt--;
+            while(cnt>2){
+                if(--hash[fruits[l]]==0) cnt--;
                 l++;
             }
-
-            res=max(res,r-l+1);
-            r++;
+            ans=max(ans,r-l+1);
         }
-        return res;
+        return ans;
     }
 };
