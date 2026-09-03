@@ -8,7 +8,6 @@ public:
             v.push_back({capital[i], profits[i]});
         }
         sort(v.begin(), v.end());
-        //{profit,cap,idx}
         priority_queue<int> pq;
         int idx = 0;
         while (idx < n && v[idx][0] <= w) {
