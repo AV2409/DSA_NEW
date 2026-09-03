@@ -1,31 +1,30 @@
 class Solution {
 public:
     int n;
-    vector<vector<vector<int>>> dp;
-    int f(int i,int idx,vector<vector<int>>& piles, int k){
-        if(k==0) return 0;
-        if(i==n) return 0;
-        if (dp[i][idx][k] != -1)
-            return dp[i][idx][k];
+    vector<vector<int>> dp;
 
-        int np=f(i+1,0,piles,k);
-        int p=0;
-        if(idx<piles[i].size()){
-            p=piles[i][idx]+f(i,idx+1,piles,k-1);
+    int f(int i, int k, vector<vector<int>>& piles) {
+        if (i == n || k == 0)
+            return 0;
+
+        if (dp[i][k] != -1)
+            return dp[i][k];
+
+        int ans = f(i + 1, k, piles);  // take 0 from this pile
+        int sum = 0;
+        for (int j = 0; j < piles[i].size() && j < k; j++) {
+            sum += piles[i][j];
+            ans = max(ans,sum + f(i+1,k-j-1,piles));
         }
-        return dp[i][idx][k] = max(p,np);
+
+        return dp[i][k] = ans;
     }
+
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
-        n=piles.size();
+        n = piles.size();
 
-        int maxPileSize = 0;
-        for (auto &pile : piles)
-            maxPileSize = max(maxPileSize, (int)pile.size());
+        dp.assign(n, vector<int>(k + 1, -1));
 
-        dp.assign(n, vector<vector<int>>(
-            maxPileSize + 1,
-            vector<int>(k + 1, -1)
-        ));
-        return f(0,0,piles,k);
+        return f(0, k, piles);
     }
 };
