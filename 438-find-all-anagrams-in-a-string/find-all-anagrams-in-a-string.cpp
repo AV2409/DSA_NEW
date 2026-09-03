@@ -1,33 +1,34 @@
 class Solution {
 public:
-    bool check(vector<int>&need,vector<int>&have){
+    bool check(vector<int>&needed,vector<int>&have){
         for(int i=0;i<26;i++){
-            if(need[i]!=have[i]) return false;
+            if(have[i]!=needed[i]) return false;
         }
         return true;
     }
     vector<int> findAnagrams(string s, string p) {
-        vector<int>need(26);
+        vector<int>needed(26);
         vector<int>have(26);
-        if(p.size() > s.size()) return {};
-        for(char c:p) need[c-'a']++;
-        int k=p.size();
+        int n1=s.size();
+        int n2=p.size();
+        if(n2>n1) return {};
 
-        for(int i=0;i<k;i++){
+        for(int i=0;i<n2;i++){
+            needed[p[i]-'a']++;
+        }
+
+        for(int i=0;i<n2;i++){
             have[s[i]-'a']++;
         }
-        int idx=0;
         vector<int>ans;
-        if(check(need,have)) ans.push_back(0);
 
-        int j=k;
-        int n=s.size();
-        while(j<n){
-            have[s[j]-'a']++;
-            have[s[idx]-'a']--;
-            idx++;
-            if(check(need,have)) ans.push_back(idx);
-            j++;
+        if(check(have,needed)) ans.push_back(0);
+        for(int i=n2;i<n1;i++){
+            have[s[i]-'a']++;
+            have[s[i-n2]-'a']--;
+            if(check(have,needed)){
+                ans.push_back(i-n2+1);
+            }
         }
         return ans;
     }
