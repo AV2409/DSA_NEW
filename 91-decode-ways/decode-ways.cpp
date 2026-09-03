@@ -1,29 +1,33 @@
 class Solution {
 public:
-    int n;
     vector<int>dp;
     int f(int i,string &s){
-        if(i==n) return 1;
-        if(s[i]=='0') return 0;
+        if(i<0) return 1;
         if(dp[i]!=-1) return dp[i];
-        char ch=s[i];
-        int ans=0;
-        if(ch=='1'){
-            ans+=f(i+1,s);
-            if(i+2<=n) ans+=f(i+2,s);
+        if(s[i]=='0'){
+            if(i-1>=0 && (s[i-1]=='1'||s[i-1]=='2')) return dp[i] = f(i-2,s);
+            return dp[i]= 0;
         }
-        else if(ch=='2'){
-            ans+=f(i+1,s);
-            if(i+2<=n && s[i+1]>='0' && s[i+1]<='6') ans+=f(i+2,s);
+
+        if(s[i]>='1' && s[i]<='6'){
+            int op1=f(i-1,s);
+            int op2=0;
+            if(i-1>=0 && (s[i-1]=='1'||s[i-1]=='2')) op2=f(i-2,s);
+            return dp[i]= op1+op2;
         }
-        else{
-            ans+=f(i+1,s);
+
+        if(s[i]>='7' && s[i]<='9'){
+            int op1=f(i-1,s);
+            int op2=0;
+            if(i-1>=0 && s[i-1]=='1') op2=f(i-2,s);
+            return dp[i]= op1+op2;
         }
-        return dp[i]= ans;
+        return dp[i]= 0;
+
     }
     int numDecodings(string s) {
-        n=s.size();
+        int n=s.size();
         dp.assign(n,-1);
-        return f(0,s);
+        return f(n-1,s);
     }
 };
