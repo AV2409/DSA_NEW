@@ -1,30 +1,28 @@
 class Solution {
 public:
-    static bool comp(vector<int>& a, vector<int>& b) { return a[0] < b[0]; }
-    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
-        vector<vector<int>>tasks;
+    int findMaximizedCapital(int k, int w, vector<int>& profits,
+                             vector<int>& capital) {
+        vector<vector<int>> v;
         int n = profits.size();
-        for(int i=0;i<n;i++){
-            tasks.push_back({capital[i],profits[i]});
+        for (int i = 0; i < n; i++) {
+            v.push_back({capital[i], profits[i]});
         }
-        
-        sort(tasks.begin(), tasks.end(), comp);
+        sort(v.begin(), v.end());
+        //{profit,cap,idx}
+        priority_queue<tuple<int, int, int>> pq;
         int idx = 0;
-        priority_queue<int>pq;
-
-        while (idx < n && tasks[idx][0] <= w) {
-            pq.push(tasks[idx][1]);
+        while (idx < n && v[idx][0] <= w) {
+            pq.push({v[idx][1], v[idx][0], idx});
             idx++;
         }
-        int ans=w;
-        while (!pq.empty() && k>0) {
-            auto pro = pq.top();
+        int ans = w;
+        while (k-- && !pq.empty()) {
+            auto [pro, cap, i] = pq.top();
             pq.pop();
-            k--;
-            ans+=pro;
-            w+=pro;
-            while (idx < n && tasks[idx][0] <= w) {
-                pq.push(tasks[idx][1]);
+            ans += pro;
+
+            while (idx < n && v[idx][0] <= ans) {
+                pq.push({v[idx][1], v[idx][0], idx});
                 idx++;
             }
         }
