@@ -7,18 +7,16 @@ public:
         int cols=heights[0].size();
         vector<vector<int>>dist(rows,vector<int>(cols,1e9));
         dist[0][0]=0;
-
-        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>>pq;
+        
+        priority_queue<tuple<int,int,int>,vector<tuple<int,int,int>>,greater<tuple<int,int,int>>>pq;
         pq.push({0,0,0});
         
         while(!pq.empty()){
-            auto it=pq.top();
+            auto [eff,x,y]=pq.top();
             pq.pop();
-            int eff=it[0];
-            int x=it[1];
-            int y=it[2];
-            if(x==rows-1 && y==cols-1) return dist[rows-1][cols-1];
+            
             if(eff>dist[x][y]) continue;
+
             for(int dir=0;dir<4;dir++){
                 int nx=x+dx[dir];
                 int ny=y+dy[dir];
