@@ -9,20 +9,20 @@ public:
         }
         sort(v.begin(), v.end());
         //{profit,cap,idx}
-        priority_queue<tuple<int, int, int>> pq;
+        priority_queue<int> pq;
         int idx = 0;
         while (idx < n && v[idx][0] <= w) {
-            pq.push({v[idx][1], v[idx][0], idx});
+            pq.push(v[idx][1]);
             idx++;
         }
         int ans = w;
         while (k-- && !pq.empty()) {
-            auto [pro, cap, i] = pq.top();
+            int pro = pq.top();
             pq.pop();
             ans += pro;
 
             while (idx < n && v[idx][0] <= ans) {
-                pq.push({v[idx][1], v[idx][0], idx});
+                pq.push(v[idx][1]);
                 idx++;
             }
         }
