@@ -1,33 +1,39 @@
 class Solution {
 public:
-    static bool comp(vector<int>& a, vector<int>& b) { return a[0] < b[0]; }
+    // static bool comp(vector<int>& a, vector<int>& b) { return a[0] < b[0]; }
     vector<int> getOrder(vector<vector<int>>& tasks) {
-        int i = 0;
         int n = tasks.size();
-        for (auto& t : tasks) {
-            t.push_back(i);
+        vector<int> ans;
+        long long timer = INT_MAX;
+        int i=0;
+        for (auto& v : tasks) {
+            v.push_back(i);
             i++;
+            timer = min(timer, 1LL*v[0]);
         }
-        sort(tasks.begin(), tasks.end(), comp);
+        sort(tasks.begin(), tasks.end());
+        //{bt,i}
+        priority_queue<tuple<int, int>,vector<tuple<int, int>>,greater<tuple<int, int>>> pq;
         int idx = 0;
-        long long timer = tasks[0][0];
-        priority_queue<pair<int, int>, vector<pair<int, int>>,
-                       greater<pair<int, int>>>
-            pq;
-
         while (idx < n && tasks[idx][0] <= timer) {
             pq.push({tasks[idx][1], tasks[idx][2]});
             idx++;
         }
-        vector<int>ans;
-        while (!pq.empty()) {
-            auto it = pq.top();
+
+        while (ans.size() != n) {
+            if (pq.empty()) {
+                timer = tasks[idx][0];
+                while (idx < n && tasks[idx][0] <= timer) {
+                    pq.push({tasks[idx][1], tasks[idx][2]});
+                    idx++;
+                }
+                continue;
+            }
+            auto [bt, i] = pq.top();
+            ans.push_back(i);
             pq.pop();
-            int proTime = it.first;
-            int ii = it.second;
-            ans.push_back(ii);
-            timer += proTime;
-            if(idx<n && pq.empty()) timer=max(timer,1LL*tasks[idx][0]);
+            timer += bt;
+
             while (idx < n && tasks[idx][0] <= timer) {
                 pq.push({tasks[idx][1], tasks[idx][2]});
                 idx++;
