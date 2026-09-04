@@ -1,43 +1,46 @@
 class Solution {
-public:
-    vector<int>cols;
-    int N;
-    vector<vector<string>>ans;
-
-    bool isPossible(int row,int col){
-        int ss=cols.size();
-        for(int r=0;r<ss;r++){
-            int c=cols[r];
-            if(c==col) return false;
-
-            if(abs(row-r)==abs(col-c)) return false;
+private:
+    bool isPossible(int row, int col) {
+        int ss = cols.size();
+        for (int r = 0; r < ss; r++) {
+            int c = cols[r];
+            if (c == col || abs(r - row) == abs(c - col))
+                return false;
         }
         return true;
     }
-    void storeAns(){
-        vector<string>str(N,string(N,'.'));
-        for(int r=0;r<N;r++){
+
+    void updateAns(){
+        vector<string>temp(N,string(N,'.'));
+        int ss=cols.size();
+        for(int r=0;r<ss;r++){
             int c=cols[r];
-            str[r][c]='Q';
+            temp[r][c]='Q';
         }
-        ans.push_back(str);
+        ans.push_back(temp);
     }
-    void solve(int row){
-        if(row==N){
-            storeAns();
+
+public:
+    vector<vector<string>> ans;
+    vector<int> cols;
+    int N;
+
+    void solve(int row) {
+        if (row == N) {
+            updateAns();
             return;
         }
 
-        for(int col=0;col<N;col++){
-            if(isPossible(row,col)){
+        for (int col = 0; col < N; col++) {
+            if (isPossible(row, col)) {
                 cols.push_back(col);
-                solve(row+1);
+                solve(row + 1);
                 cols.pop_back();
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
-        N=n;
+        N = n;
         solve(0);
         return ans;
     }
