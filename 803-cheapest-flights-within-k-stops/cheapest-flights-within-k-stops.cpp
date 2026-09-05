@@ -23,7 +23,7 @@ public:
 
             if (d > dist[node][stops])
                 continue;
-            if (stops == k + 1)
+            if (stops == k+1)
                 continue;
 
             for (auto [nei, wt] : adj[node]) {
