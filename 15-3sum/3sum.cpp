@@ -4,23 +4,23 @@ public:
         sort(nums.begin(),nums.end());
         int n=nums.size();
         vector<vector<int>>ans;
-        for(int i=0;i<n;i++){ 
-            int l=i+1;
-            int r=n-1;
-            while(l<r){
-                
-                int sum=nums[i]+nums[l]+nums[r];
+        for(int k=0;k<n;k++){
+            int i=k+1;
+            int j=n-1;
+            while(i<j){
+                int sum=nums[k]+nums[i]+nums[j];
                 if(sum==0){
-                    ans.push_back({nums[i],nums[l],nums[r]});
-                    l++;
-                    r--;
-                    while(l<r && nums[l]==nums[l-1]) l++;
-                    while(l<r && nums[r+1]==nums[r]) r--;
+                    ans.push_back({nums[k],nums[i],nums[j]});
+                    i++;
+                    j--;
+                    while(i<j && nums[i]==nums[i-1]) i++;
+                    while(i<j && nums[j]==nums[j+1]) j--;
                 }
-                else if(sum>0) r--;
-                else if(sum<0) l++;
+                else if(sum<0) i++;
+                else j--;
             }
-            while (i < n-1 && nums[i] == nums[i + 1]) i++;
+            while(k+1<n && nums[k]==nums[k+1]) k++;
+
         }
         return ans;
     }
