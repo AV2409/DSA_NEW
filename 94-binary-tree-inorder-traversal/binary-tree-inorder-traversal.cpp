@@ -12,32 +12,32 @@
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        TreeNode* curr=root;
         vector<int>ans;
-
+        TreeNode* curr=root;
         while(curr){
-            if(!curr->left){
+            TreeNode* left=curr->left;
+            
+            if(!left){
                 ans.push_back(curr->val);
                 curr=curr->right;
                 continue;
             }
-            //find left's rightmost child
-            TreeNode* temp=curr->left;
-            TreeNode* prev=curr;
+
+            //find right most guy
+            TreeNode* prev=NULL;
+            TreeNode* temp=left;
             while(temp && temp!=curr){
                 prev=temp;
                 temp=temp->right;
             }
-            //connection making or connection deletion
-            //{prev is last and temp is either curr or null}
 
-            if(temp==NULL){
+            if(!temp){
                 prev->right=curr;
                 curr=curr->left;
             }
             else if(temp==curr){
-                prev->right=NULL;
                 ans.push_back(curr->val);
+                prev->right=NULL;
                 curr=curr->right;
             }
         }
