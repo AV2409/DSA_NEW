@@ -32,15 +32,11 @@ public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
         vector<vector<string>>ans;
         int n=accounts.size();
-        unordered_map<int,string>names;
-
         unordered_map<string,int>par;
 
         DSU dsu(n);
         for(int i=0;i<n;i++){
             int nn=accounts[i].size();
-            names[i]=accounts[i][0];
-
             for(int j=1;j<nn;j++){
                 string mail=accounts[i][j];
                 if(par.count(mail)){
@@ -61,7 +57,7 @@ public:
         for(auto it:res){
             vector<string>temp;
             int idx=it.first;
-            temp.push_back(names[idx]);
+            temp.push_back(accounts[idx][0]);
             for(auto x:it.second) temp.push_back(x);
             ans.push_back(temp);
         }
