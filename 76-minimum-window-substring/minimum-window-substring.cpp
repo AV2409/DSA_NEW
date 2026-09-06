@@ -1,10 +1,18 @@
 class Solution {
 public:
+    bool check(vector<int>&needed,vector<int>&have){
+        for(int i=0;i<256;i++){
+            if(needed[i]>have[i]) return false;
+        }
+        return true;
+    }
     string minWindow(string s, string t) {
-        vector<int>hash(256,0);
+        vector<int>have(256,0);
+        vector<int>needed(256,0);
         int cnt1=0;
         for(char c:t){
-            if(hash[c]++==0) cnt1++;
+            // if(hash[c]++==0) cnt1++;
+            needed[c]++;
         }
 
         int n=s.size();
@@ -14,13 +22,15 @@ public:
         int cnt2=0;
         for(int r=0;r<n;r++){
             char ch=s[r];
-            if(--hash[ch]==0) cnt2++;
-            while(cnt1==cnt2){
+            // if(--hash[ch]==0) cnt2++;
+            have[ch]++;
+            while(check(needed,have)){
                 if(r-l+1<len){
                     len=r-l+1;
                     st=l;
                 }
-                if(++hash[s[l]]>0) cnt2--;
+                // if(++hash[s[l]]>0) cnt2--;
+                have[s[l]]--;
                 l++;
             }
         }
