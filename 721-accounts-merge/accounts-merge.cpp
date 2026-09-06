@@ -11,14 +11,14 @@ public:
         }
     }
 
-    int findPar(int u){
+    int find(int u){
         if(par[u]==u) return u;
-        return par[u]=findPar(par[u]);
+        return par[u]=find(par[u]);
     }
 
     void unite(int u,int v){
-        int pu=findPar(u);
-        int pv=findPar(v);
+        int pu=find(u);
+        int pv=find(v);
         if(pu==pv) return;
         if(size[pu]<size[pv]) swap(pu,pv);
 
@@ -30,40 +30,40 @@ public:
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        vector<vector<string>>ans;
         int n=accounts.size();
-        vector<string>names(n);
-        unordered_map<string,int>mp;
-        DSU dsu(n);
+        unordered_map<int,string>names;
 
+        unordered_map<string,int>par;
+
+        DSU dsu(n);
         for(int i=0;i<n;i++){
-            int ss=accounts[i].size();
+            int nn=accounts[i].size();
             names[i]=accounts[i][0];
 
-            for(int j=1;j<ss;j++){
+            for(int j=1;j<nn;j++){
                 string mail=accounts[i][j];
-                if(mp.count(mail)){
-                    dsu.unite(i,mp[mail]);
+                if(par.count(mail)){
+                    dsu.unite(i,par[mail]);
                 }
-                else mp[mail]=i;
+                par[mail]=i;
             }
         }
-
-        vector<set<string>>temp(n);
-        for(auto it:mp){
-            int idx=it.second;
+        unordered_map<int,set<string>>res;
+        for(auto it:par){
             string mail=it.first;
+            int i=it.second;
 
-            idx=dsu.findPar(idx);
-            temp[idx].insert(mail);
+            int p=dsu.find(i);
+            res[p].insert(mail);
         }
-        vector<vector<string>>ans;
-        for(int i=0;i<n;i++){
-            vector<string>tt;
-            if(temp[i].size()>0) {
-                tt.push_back(names[i]);
-                for(auto mail:temp[i]) tt.push_back(mail);
-                ans.push_back(tt);
-            }
+
+        for(auto it:res){
+            vector<string>temp;
+            int idx=it.first;
+            temp.push_back(names[idx]);
+            for(auto x:it.second) temp.push_back(x);
+            ans.push_back(temp);
         }
         return ans;
     }
