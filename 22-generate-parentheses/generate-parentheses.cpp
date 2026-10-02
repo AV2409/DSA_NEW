@@ -8,19 +8,13 @@ public:
             return;
         }
 
-        if (op >= cl) {
+        if (op) {
             list += '(';
             f(op - 1, cl);
             list.pop_back();
         }
 
-        else {
-            if (op) {
-                list += '(';
-                f(op - 1, cl);
-                list.pop_back();
-            }
-
+        if(cl && cl>op) {
             list += ')';
             f(op, cl-1);
             list.pop_back();
