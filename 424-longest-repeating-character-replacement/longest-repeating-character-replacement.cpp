@@ -9,10 +9,12 @@ public:
         for(int r=0;r<n;r++){
             hash[s[r]-'A']++;
             maxi=*max_element(hash.begin(),hash.end());
+
             while(r-l+1-maxi>k){
                 hash[s[l]-'A']--;
                 l++;
-                maxi=*max_element(hash.begin(),hash.end());
+
+                maxi=*max_element(hash.begin(),hash.end()); 
             }
             ans=max(ans,r-l+1);
         }
