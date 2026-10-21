@@ -6,35 +6,37 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    void check(TreeNode* root, int targetSum, int& sum, vector<int>& temp,
-               vector<vector<int>>& ans) {
-        if (root == NULL)
-            return;
-        sum += root->val;
-        temp.push_back(root->val);
-        if (!root->left && !root->right) {
-            if (sum == targetSum) {
-                ans.push_back(temp);
+    void helper(TreeNode* root, int targetSum,vector<int>&path,vector<vector<int>>&ans){
+        int val=root->val;
+        path.push_back(root->val);
+        targetSum-=val;
+        if(root->left==NULL && root->right==NULL){
+            if(targetSum==0) {
+                ans.push_back(path);
+                path.pop_back();
+                return;
             }
-        } else {
-            check(root->left, targetSum, sum, temp, ans);
-            check(root->right, targetSum, sum, temp, ans);
         }
 
-        sum -= root->val;
-        temp.pop_back();
+        if(root->left){
+            helper(root->left,targetSum,path,ans);
+        }
+        if(root->right){
+            helper(root->right,targetSum,path,ans);
+        }
+        targetSum+=val;
+        path.pop_back();
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<int> temp;
-        vector<vector<int>> ans;
-        int sum = 0;
-        check(root, targetSum, sum, temp, ans);
+        vector<int>path;
+        vector<vector<int>>ans;
+        if(!root) return ans;
+        helper(root,targetSum,path,ans);
         return ans;
     }
 };
