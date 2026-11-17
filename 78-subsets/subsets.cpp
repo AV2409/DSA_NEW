@@ -3,21 +3,22 @@ public:
     int n;
     vector<int> list;
     vector<vector<int>> ans;
-    void solve(int i,vector<int>&nums) {
-        if(i==n){
+    void helper(int i,vector<int>& nums){
+        if(i<0){
             ans.push_back(list);
             return;
         }
-
+        //notpick
+        helper(i-1,nums);
+        //pick
         list.push_back(nums[i]);
-        solve(i+1,nums);
+        helper(i-1,nums);
         list.pop_back();
-
-        solve(i+1,nums);
+        
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-        n=nums.size();
-        solve(0,nums);
+        int n=nums.size();
+        helper(n-1,nums);
         return ans;
     }
 };
